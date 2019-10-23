@@ -1,0 +1,24 @@
+<section class="gallery_part">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-xl-5">
+        <div class="section_tittle text-center">
+          <h4>Our Gallery</h4>
+          <h2>Recent Playground Photos</h2>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="gallery_part_item">
+          <div class="grid">
+            <div class="grid-sizer"></div>
+            <div *ngFor="let photo of galleryPhotos">
+              <app-single-gallery-photo [photo]="photo"></app-single-gallery-photo>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

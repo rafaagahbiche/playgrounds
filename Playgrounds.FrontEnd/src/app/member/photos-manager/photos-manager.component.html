@@ -1,0 +1,8 @@
+<div class="container">
+    <div class="row mt-5 text-center" *ngIf="memberPhotos">
+        <h3>Upload photos to your library</h3>
+        <hr />
+    </div>
+    <app-photo-editor [memberPhotos]="memberPhotos"></app-photo-editor>
+    <app-photos [memberPhotos]="memberPhotos"></app-photos>
+</div>

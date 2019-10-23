@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-sm-4 offset-sm-4 text-center">
+      <ngx-spinner [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium">
+        <p style="font-size: 20px; color: white">Signing in...</p>
+      </ngx-spinner>
+      <form #loginForm="ngForm" (ngSubmit)="login()" class="justify-content-center">
+        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <div class="form-group">
+          <label for="inputLoginName" class="sr-only">User Name or Email address</label>
+          <input type="text" id="inputLoginName" class="form-control" placeholder="User Name or Email address"
+            [(ngModel)]="model.loginname" name="loginname" required autofocus="">
+        </div>
+        <div class="form-group">
+          <label for="inputPassword" class="sr-only">Password</label>
+          <input type="password" id="inputPassword" class="form-control" [(ngModel)]="model.password" name="password"
+            placeholder="Password" required>
+        </div>
+        <div class="form-group text-center">
+          <button [disabled]="!loginForm.valid" class="btn btn-success" type="submit">Sign in</button>
+          <button class="btn btn-default" type="submit" [routerLink]="['/home']">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

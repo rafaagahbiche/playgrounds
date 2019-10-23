@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-sm-4 offset-sm-4">
+      <form [formGroup]="registerForm" (ngSubmit)="register()" class="justify-content-center">
+        <div class="form-group">
+          <input type="email" class="form-control"
+            [ngClass]="{'is-invalid': registerForm.get('emailaddress').errors && registerForm.get('emailaddress').touched}"
+            formControlName="emailaddress" placeholder="Email address">
+          <div class="invalid-feedback">Email is required.</div>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control"
+            [ngClass]="{'is-invalid': registerForm.get('loginname').errors && registerForm.get('loginname').touched}"
+            formControlName="loginname" placeholder="User Name">
+          <div class="invalid-feedback">Username is required.</div>
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control"
+            [ngClass]="{'is-invalid': registerForm.get('password').errors && registerForm.get('password').touched}"
+            formControlName="password" placeholder="Password">
+          <div class="invalid-feedback"
+            *ngIf="registerForm.get('password').hasError('required') && registerForm.get('password').touched">Password
+            is required.
+          </div>
+          <div class="invalid-feedback"
+            *ngIf="registerForm.get('password').hasError('minlength') && registerForm.get('password').touched">Password
+            must be at least 4 characters.
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control"
+            [ngClass]="{'is-invalid': registerForm.hasError('mismatch') && registerForm.get('confirmPassword').touched }"
+            formControlName="confirmPassword" placeholder="Confirm Password">
+          <div class="invalid-feedback"
+            *ngIf="registerForm.hasError('mismatch') && registerForm.get('confirmPassword').touched">Passwords must
+            match.
+          </div>
+        </div>
+        <div class="form-group text-center">
+          <button class="btn btn-success" type="submit" [disabled]="!registerForm.valid">Register</button>
+          <button class="btn btn-default" type="submit" [routerLink]="['/home']">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

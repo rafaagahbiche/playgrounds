@@ -1,0 +1,31 @@
+/**************** gallery_part css start ****************/
+@import 'abstracts/mixins';
+@import 'abstracts/variables';
+
+.gallery_part{
+    padding-top: 130px;
+    @media #{$small_mobile}{
+        padding-top: 70px;
+    }
+    @media #{$large_mobile}{
+         padding-top: 70px;
+    }
+    @media #{$tab_device}{
+         padding-top: 70px;
+    }
+    @media #{$medium_device}{
+         padding-top: 70px;
+    }
+    .container-fluid{
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    /* clearfix */
+    .grid:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+  }
+    
