@@ -33,7 +33,6 @@ namespace PlaygroundsGallery.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetRecentPhotos(int count)
         {
-            // jkfdgsjk
             var photos = await _frontManager.GetRecentPhotos(count);
             return Ok(photos);
         }
