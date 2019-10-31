@@ -27,6 +27,22 @@ namespace PlaygroundsGallery.API
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureDevelopmentServices(IServiceCollection services)
+        {
+            services.AddDbContext<GalleryContext>(
+                options => options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+            ConfigureServices(services);
+        }
+
+        public void ConfigureProductionServices(IServiceCollection services)
+        {
+            services.AddDbContext<GalleryContext>(
+                options => options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+            ConfigureServices(services);
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
             var cloudinaryAccount = Configuration.GetSection("CloudinarySettings").Get<CloudinarySettings>();
@@ -90,7 +106,14 @@ namespace PlaygroundsGallery.API
             app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
-            app.UseMvc();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+            app.UseMvc(routes => {
+                routes.MapSpaFallbackRoute(
+                    name: "spafallback",
+                    defaults: new  { controller = "Fallback", action = "Index"}
+                );
+            });
         }
     }
 }

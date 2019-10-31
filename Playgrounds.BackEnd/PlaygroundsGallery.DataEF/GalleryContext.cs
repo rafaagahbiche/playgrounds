@@ -20,6 +20,11 @@ namespace PlaygroundsGallery.DataEF
             return base.SaveChangesAsync();
         }
 
+		public void CurrentDatabaseMigrate()
+		{
+			base.Database.Migrate();
+		}
+
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
 		{
 			base.OnModelCreating(modelBuilder);

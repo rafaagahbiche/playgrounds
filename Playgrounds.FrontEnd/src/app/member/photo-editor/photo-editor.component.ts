@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FileUploader, FileItem } from 'ng2-file-upload';
+import { FileUploader } from 'ng2-file-upload';
 import { Photo } from '../../_models/Photo';
 import { PhotosService } from 'src/app/_services/photos.service';
 import { AuthService } from 'src/app/_services/auth.service';

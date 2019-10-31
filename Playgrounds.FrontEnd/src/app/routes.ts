@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
 export const appRoutes: Routes = [
+    {path: '', component: HomeComponent},
     { path: 'home', component: HomeComponent},
     { path: 'login', component: LoginComponent},
     { path: 'register', component: RegisterComponent},
@@ -17,5 +18,5 @@ export const appRoutes: Routes = [
             { path: 'member/photos-manager', component: PhotosManagerComponent}
         ]
     },
-    { path: '**', redirectTo: 'home', pathMatch: 'full'}
+    { path: '**', redirectTo: '', pathMatch: 'full'}
 ];
