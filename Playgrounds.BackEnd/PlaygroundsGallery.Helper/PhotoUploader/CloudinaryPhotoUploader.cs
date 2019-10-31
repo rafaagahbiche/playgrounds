@@ -33,7 +33,7 @@ namespace PlaygroundsGallery.Helper
 				var uploadParams = new ImageUploadParams()
 				{
 					File = new FileDescription(file.Name, stream)
-                    // ,Transformation = new Transformation().Width(500).Height(500).Crop("fill").Gravity("face")
+                    //,Transformation = new Transformation().Width(500).Height(500).Crop("fill").Gravity("face")
 				};
                 
                 CreateCloudinaryAcount();
@@ -43,7 +43,7 @@ namespace PlaygroundsGallery.Helper
                     if (uploadResult != null) 
                     {
                         uploadedPhotoToReturn.PublicId = uploadResult.PublicId;
-                        uploadedPhotoToReturn.Uri = uploadResult.Uri;
+                        uploadedPhotoToReturn.Uri = uploadResult.SecureUri;
                         uploadedPhotoToReturn.UploadSucceeded = true;
                     }
                 }
