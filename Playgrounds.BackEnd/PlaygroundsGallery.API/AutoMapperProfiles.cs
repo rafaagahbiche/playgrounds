@@ -8,7 +8,7 @@ namespace PlaygroundsGallery.API
     {
         public AutoMapperProfiles()
         {
-            CreateMap<Photo, PhotoToReturnDto>();
+            CreateMap<Photo, PhotoToReturnDto>().ReverseMap();
             CreateMap<Photo, PhotoForCreationDto>().ReverseMap();
             CreateMap<PhotoForCreationDto, PhotoToReturnDto>();
             CreateMap<Member, MemberDto>();

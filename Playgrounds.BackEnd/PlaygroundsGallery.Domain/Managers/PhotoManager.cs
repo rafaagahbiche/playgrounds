@@ -10,14 +10,16 @@ namespace PlaygroundsGallery.Domain.Managers
 {
     public partial class FrontManager : IFrontManager
     {
-		private bool UploadPhotoToPhotoLibrary(PhotoForCreationDto photoForCreationDto)
+		private bool UploadPhotoToPhotoLibrary(
+			PhotoToReturnDto photoToReturnDto,
+			PhotoForCreationDto photoForCreationDto)
 		{
 			var uploadedPhotoToReturn = _photoUploader.UploadPhoto(photoForCreationDto.File);
 			if (uploadedPhotoToReturn.UploadSucceeded)
 			{
-				photoForCreationDto.Url = uploadedPhotoToReturn?.Uri?.ToString();
-				photoForCreationDto.PublicId = uploadedPhotoToReturn?.PublicId;
-				photoForCreationDto.UploadDate = DateTime.Now;
+				photoToReturnDto.Url = uploadedPhotoToReturn?.Uri?.ToString();
+				photoToReturnDto.PublicId = uploadedPhotoToReturn?.PublicId;
+				photoToReturnDto.UploadDate = DateTime.Now;
 			}
 
 			return uploadedPhotoToReturn.UploadSucceeded;
@@ -29,17 +31,18 @@ namespace PlaygroundsGallery.Domain.Managers
 			{
 				throw new PhotoUploadFileEmptyException();
 			}
+			var photoToReturnDto = _mapper.Map<PhotoToReturnDto>(photoForCreationDto);
 
-			var uploadSucceeded = UploadPhotoToPhotoLibrary(photoForCreationDto);
+			var uploadSucceeded = UploadPhotoToPhotoLibrary(photoToReturnDto, photoForCreationDto);
 			if (uploadSucceeded == false)
 			{
 				throw new PhotoUploadToLibraryException();
 			}
 			
-			var photoToAdd = _mapper.Map<Photo>(photoForCreationDto);
+			var photoToAdd = _mapper.Map<Photo>(photoToReturnDto);
 			await _photoRepository.Add(photoToAdd);
 
-			return _mapper.Map<PhotoToReturnDto>(photoForCreationDto);
+			return photoToReturnDto;
         }
 
 		public async Task<IEnumerable<PhotoToReturnDto>> GetRecentPhotos(int count)
