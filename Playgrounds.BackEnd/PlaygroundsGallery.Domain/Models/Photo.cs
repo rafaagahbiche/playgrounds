@@ -9,6 +9,7 @@ namespace PlaygroundsGallery.Domain.Models
 		public DateTime UploadDate { get; set; }
 		public string Description { get; set; }
 		public int MemberId { get; set; }
+		public bool Deleted { get; set; } = false;
 		public virtual Member Member { get; set; }
 	}
 }

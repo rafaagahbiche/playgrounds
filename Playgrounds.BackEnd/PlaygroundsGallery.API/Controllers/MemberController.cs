@@ -5,6 +5,8 @@ using PlaygroundsGallery.Domain.Managers;
 using PlaygroundsGallery.API.Filters;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using PlaygroundsGallery.Helper.Exceptions;
+using System;
 
 namespace PlaygroundsGallery.API.Controllers
 {
@@ -47,6 +49,33 @@ namespace PlaygroundsGallery.API.Controllers
             photo.MemberId = int.Parse(memberIdStr);
             var photoToReturnDto = await _frontManager.UploadPhoto(photo);
             return CreatedAtRoute("GetPhoto", new {controller ="Photo", id = photoToReturnDto.Id}, photoToReturnDto);
+        }
+
+        [Authorize]
+        [Route("photos/{publicId}")]
+        [HttpDelete]
+        public async Task<IActionResult> DeletePhoto(string publicId)
+        {
+            try
+            {
+                var succeeded = await _frontManager.DeletePhoto(publicId, false);
+                if (succeeded)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (PhotoNotFoundException ex)
+            {
+                return NotFound(ex);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
     }
 }

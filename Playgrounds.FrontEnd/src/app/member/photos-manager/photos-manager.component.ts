@@ -17,6 +17,7 @@ export class PhotosManagerComponent implements OnInit {
   ngOnInit() {
     this.getPhoto();
   }
+
   getPhoto() {
     this.photosService.getMemberPhotos(this.authService.getMemberToken()).subscribe(response => {
       this.memberPhotos = response;

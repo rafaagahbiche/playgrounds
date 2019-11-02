@@ -20,6 +20,15 @@ namespace PlaygroundsGallery.Helper.Exceptions
         }
     }
 
+    public class PhotoNotFoundException : Exception
+    {
+        public PhotoNotFoundException(string publicId)
+            : base($"A photo with publicId: {publicId} was not found.")
+        {
+
+        }
+    }
+
     public class CloudinaryAccountException : Exception
     {
         public CloudinaryAccountException()

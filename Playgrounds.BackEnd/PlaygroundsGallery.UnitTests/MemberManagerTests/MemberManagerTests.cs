@@ -23,37 +23,9 @@ namespace Tests
         {
             _frontManagerSetter = new FrontManagerSetter();
             MockMemberRepository = new Mock<IMemberRepository>();
-            Console.WriteLine("init members");
-            SetupRepositoryWithData(MockMemberRepository, PlaygroundTestContext.Members);
+            PlaygroundTestContext.SetupRepositoryWithData<Member>(MockMemberRepository.As<IRepository<Member>>(), PlaygroundTestContext.Members);
             _frontManagerSetter.InitFrontManager(MockMemberRepository, null);
         }
-
-        private void SetupRepositoryWithData(
-            Mock<IMemberRepository> mockRepository, 
-            ICollection<Member> dataContainer)  
-		{
-			var queryableDataContainer = dataContainer.AsQueryable();
-            mockRepository?.Setup(e => e.Add(It.IsAny<Member>())).ReturnsAsync((Member e) =>
-            {
-                dataContainer.Add(e);
-                return true;
-            });
-
-            mockRepository?.Setup(e => e.SingleOrDefault(
-                It.IsAny<Expression<Func<Member, bool>>>(), 
-                It.IsAny<Expression<Func<Member, object>>[]>()))
-                    .ReturnsAsync((Expression<Func<Member, bool>> query, Expression<Func<Member, object>>[] includes) =>
-                        {
-                            return queryableDataContainer.SingleOrDefault(query);
-                        });
-            
-            mockRepository?.Setup(e => e.AnyAsync(
-                It.IsAny<Expression<Func<Member, bool>>>()))
-                    .ReturnsAsync((Expression<Func<Member, bool>> query) =>
-                        {
-                            return queryableDataContainer.Any(query);
-                        });
-		}
 
         [Test]
         public void Login_WrongPassword_MemberLoginExceptionThrown()

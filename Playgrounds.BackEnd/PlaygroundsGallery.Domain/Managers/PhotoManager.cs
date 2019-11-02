@@ -31,8 +31,8 @@ namespace PlaygroundsGallery.Domain.Managers
 			{
 				throw new PhotoUploadFileEmptyException();
 			}
+			
 			var photoToReturnDto = _mapper.Map<PhotoToReturnDto>(photoForCreationDto);
-
 			var uploadSucceeded = UploadPhotoToPhotoLibrary(photoToReturnDto, photoForCreationDto);
 			if (uploadSucceeded == false)
 			{
@@ -47,7 +47,10 @@ namespace PlaygroundsGallery.Domain.Managers
 
 		public async Task<IEnumerable<PhotoToReturnDto>> GetRecentPhotos(int count)
 		{
-			var photos = await _photoRepository.Find(orderBy: q => q.OrderByDescending(p => p.UploadDate), take: count);
+			var photos = await _photoRepository.Find(
+				predicate: p => p.Deleted == false, 
+				orderBy: q => q.OrderByDescending(p => p.UploadDate), 
+				take: count);
 			return _mapper.Map<IEnumerable<PhotoToReturnDto>>(photos);
 		}
 
@@ -55,6 +58,38 @@ namespace PlaygroundsGallery.Domain.Managers
 			=> _mapper.Map<PhotoToReturnDto>(await _photoRepository.Get(id));
 
         public async Task<IEnumerable<PhotoToReturnDto>> GetPhotosByMemberId(int id) 
-			=> _mapper.Map<IEnumerable<PhotoToReturnDto>>(await _photoRepository.Find(p => p.MemberId == id));
+			=> _mapper.Map<IEnumerable<PhotoToReturnDto>>(await _photoRepository.Find(p => p.Deleted == false && p.MemberId == id));
+
+		public async Task<bool> DeletePhoto(string publicId, bool physically)
+		{
+			var deletionSucceeded = false;
+			if (!string.IsNullOrEmpty(publicId))
+			{
+				Photo photoToDelete = null;
+				try
+				{
+					photoToDelete = await _photoRepository.SingleOrDefault(p => p.PublicId == publicId);
+				}
+				catch
+				{
+					throw new PhotoNotFoundException(publicId);
+				}
+				if (photoToDelete != null)
+				{
+					photoToDelete.Deleted = true;
+					deletionSucceeded = await _photoRepository.Update(photoToDelete);
+					if (physically) 
+					{
+						deletionSucceeded = await _photoRepository.Remove(photoToDelete) && _photoUploader.DeletePhoto(publicId);
+					}					
+				}
+				else 
+				{
+					throw new PhotoNotFoundException(publicId);
+				}
+			}
+			
+			return deletionSucceeded;
+		}
     }
 }

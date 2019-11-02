@@ -6,6 +6,6 @@ namespace PlaygroundsGallery.Helper
     {
         IAccountSettings UploaderAccount { get; set; }
         UploadedPhotoToReturn UploadPhoto(IFormFile file);
-        bool DeletePhoto();
+        bool DeletePhoto(string publicId);
     }
 }

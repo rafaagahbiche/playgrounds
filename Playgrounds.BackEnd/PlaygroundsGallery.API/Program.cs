@@ -11,6 +11,8 @@ namespace PlaygroundsGallery.API
     {
         public static void Main(string[] args)
         {
+            try
+            {
             var host = CreateWebHostBuilder(args).Build();
             
             // Uncomment to create new database
@@ -29,7 +31,11 @@ namespace PlaygroundsGallery.API
             //     }
             // }
 
-            host.Run();
+                host.Run();
+            }
+            catch (Exception)
+            {
+            }    
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

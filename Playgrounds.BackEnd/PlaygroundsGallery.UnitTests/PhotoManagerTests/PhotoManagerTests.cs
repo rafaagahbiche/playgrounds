@@ -1,24 +1,34 @@
 using NUnit.Framework;
 using Moq;
 using PlaygroundsGallery.Helper;
+using PlaygroundsGallery.Domain.Repositories;
+using PlaygroundsGallery.Domain.Models;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace Tests
 {
     public class PhotoManagerTests
     {
-        private Mock<IPhotoUploader> photoUploader;
-        
+         internal Mock<IPhotoRepository> MockPhotoRepository { get; set; }
+        private FrontManagerSetter _frontManagerSetter;
+
         [SetUp]
         public void Setup()
         {
-            photoUploader = new Mock<IPhotoUploader>();
-            // photoUploader.SetupSet(x => x.UploadPhoto())
+            _frontManagerSetter = new FrontManagerSetter();
+            MockPhotoRepository = new Mock<IPhotoRepository>();
+            PlaygroundTestContext.SetupRepositoryWithData<Photo>(MockPhotoRepository.As<IRepository<Photo>>(), PlaygroundTestContext.Photos);
+            _frontManagerSetter.InitFrontManager(null, MockPhotoRepository);
         }
 
         [Test]
-        public void UploadPhoto_SendEmptyFile_Success()
+        public async Task DeletePhoto_ExistingPublicId_Success()
         {
-            Assert.Pass();
+            var deletionSucceeded = await _frontManagerSetter.MockFrontManager.DeletePhoto("mmmm", false);
+            var deletedPhoto = PlaygroundTestContext.Photos.Where(x => x.PublicId == "mmmm");
+            Assert.IsTrue(deletionSucceeded);
+            Assert.IsTrue(deletedPhoto.FirstOrDefault().Deleted);
         }
     }
 }

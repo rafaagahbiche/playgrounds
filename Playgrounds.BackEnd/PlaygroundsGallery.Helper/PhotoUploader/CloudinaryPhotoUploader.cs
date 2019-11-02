@@ -14,10 +14,6 @@ namespace PlaygroundsGallery.Helper
         public CloudinaryPhotoUploader(IAccountSettings uploaderAccount)
         {
             UploaderAccount = uploaderAccount;
-        }
-
-        private void CreateCloudinaryAcount()
-        {
             _cloudinaryAccount = new Cloudinary(
                 new Account(
                     UploaderAccount.Name,
@@ -36,7 +32,6 @@ namespace PlaygroundsGallery.Helper
                     //,Transformation = new Transformation().Width(500).Height(500).Crop("fill").Gravity("face")
 				};
                 
-                CreateCloudinaryAcount();
                 if (_cloudinaryAccount != null)
     			{	
                     var uploadResult = _cloudinaryAccount.Upload(uploadParams);
@@ -52,9 +47,16 @@ namespace PlaygroundsGallery.Helper
 			return uploadedPhotoToReturn;        
         }
 
-        public bool DeletePhoto()
+        public bool DeletePhoto(string publicId)
         {
-            return false;
+            var deletionSucceeded = false;
+            if (_cloudinaryAccount != null)
+            {	
+                var deleteResult = _cloudinaryAccount.DeleteResources(new string[] {publicId});
+                deletionSucceeded = deleteResult.Deleted.ContainsValue("deleted");
+            }
+
+            return deletionSucceeded;
         }
     }
 

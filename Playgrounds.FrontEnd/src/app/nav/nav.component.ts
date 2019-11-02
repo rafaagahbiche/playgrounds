@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class NavComponent implements OnInit {
   loggedInUserName: string;
-  isLoggedIn: boolean;
+  isLoggedIn = false;
 
   constructor(
     private authService: AuthService,

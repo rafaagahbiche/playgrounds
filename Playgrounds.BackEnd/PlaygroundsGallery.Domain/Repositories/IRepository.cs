@@ -18,7 +18,7 @@ namespace PlaygroundsGallery.Domain.Repositories
 
 		Task<TEntity> Get(int id);
 
-		void Remove(TEntity entry);
+		Task<bool> Remove(TEntity entry);
 
 		Task<IEnumerable<TEntity>> Find(
 			Expression<Func<TEntity, bool>> predicate = null,

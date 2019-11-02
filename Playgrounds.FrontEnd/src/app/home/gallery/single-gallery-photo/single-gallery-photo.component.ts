@@ -16,7 +16,8 @@ export class SingleGalleryPhotoComponent implements OnInit {
     this.photoUrl = this.photo.url;
     this.photoModel = {
       id: this.photo.id,
-      url: this.photo.url
+      url: this.photo.url,
+      publicId: this.photo.publicId
     };
   }
 

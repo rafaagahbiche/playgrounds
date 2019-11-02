@@ -1,12 +1,8 @@
-using System.Security.Claims;
+using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using PlaygroundsGallery.API.Filters;
-using PlaygroundsGallery.Domain;
-using PlaygroundsGallery.Domain.DTOs;
 using PlaygroundsGallery.Domain.Managers;
+using PlaygroundsGallery.Helper.Exceptions;
 
 namespace PlaygroundsGallery.API.Controllers
 {

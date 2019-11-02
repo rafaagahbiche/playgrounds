@@ -16,12 +16,12 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     const token = localStorage.getItem('token');
-    if (token) {
+    if (this.authService.loggedIn()) {
       this.authService.setLoggedInStatus(true);
       this.authService.decodedToken = this.jwtHelper.decodeToken(token);
       this.authService.changeMemberName(this.authService.decodedToken.unique_name);
     } else {
-      this.authService.setLoggedInStatus(false);
+      this.authService.logout();
     }
   }
 }

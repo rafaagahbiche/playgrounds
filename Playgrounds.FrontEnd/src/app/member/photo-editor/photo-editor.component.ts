@@ -31,7 +31,8 @@ export class PhotoEditorComponent implements OnInit {
         const res: Photo = JSON.parse(response);
         const photo = {
           id: res.id,
-          url: res.url
+          url: res.url,
+          publicId: res.publicId
         };
         this.memberPhotos.push(photo);
       }

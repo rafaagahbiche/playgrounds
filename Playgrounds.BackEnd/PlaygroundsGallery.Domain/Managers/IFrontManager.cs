@@ -7,6 +7,7 @@ namespace PlaygroundsGallery.Domain.Managers
     public interface IFrontManager
     {
         Task<PhotoToReturnDto> UploadPhoto(PhotoForCreationDto photoForCreationDto);
+        Task<bool> DeletePhoto(string publicId, bool physically);
         Task<PhotoToReturnDto> GetPhoto(int id);
         Task<IEnumerable<PhotoToReturnDto>> GetPhotosByMemberId(int id);
         Task<IEnumerable<PhotoToReturnDto>> GetRecentPhotos(int count);

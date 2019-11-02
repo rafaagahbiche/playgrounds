@@ -32,6 +32,13 @@ namespace PlaygroundsGallery.DataEF.Repositories
 			return await MainDbContext.SaveChangesAsync() > 0;
 		}
 
+		public async Task<bool> Remove(TEntity entry) 
+		{
+			EntityDbSet.Remove(entry);
+			return await MainDbContext.SaveChangesAsync() > 0;
+		} 
+
+
         public async Task<IEnumerable<TEntity>> GetAll() => await EntityDbSet.ToListAsync();
 
         public async Task<TEntity> Get(int id) => await EntityDbSet.FindAsync(id);
@@ -91,7 +98,5 @@ namespace PlaygroundsGallery.DataEF.Repositories
 		}
 
         public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate) => await EntityDbSet.AnyAsync(predicate);
-		
-        void IRepository<TEntity>.Remove(TEntity entry) => EntityDbSet.Remove(entry);
     }
 }
