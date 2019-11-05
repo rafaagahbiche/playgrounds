@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class RegisterComponent implements OnInit {
   member: Member;
   registerForm: FormGroup;
+  errorsAfterSubmitting: string;
 
   constructor(private authService: AuthService, private router: Router) { }
 
@@ -36,7 +37,7 @@ export class RegisterComponent implements OnInit {
           this.router.navigate(['/member/photos-manager']);
         });
       }, error => {
-          console.log(error);
+        this.errorsAfterSubmitting = error;
       });
     }
   }

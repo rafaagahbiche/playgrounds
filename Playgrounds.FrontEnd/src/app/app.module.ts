@@ -22,6 +22,7 @@ import { PhotosManagerComponent } from './member/photos-manager/photos-manager.c
 import { environment } from 'src/environments/environment';
 import { appRoutes } from './routes';
 import { FooterComponent } from './footer/footer.component';
+import { ErrorInterceptorProvider } from './_services/error.interceptor';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -60,7 +61,8 @@ export function tokenGetter() {
    ],
    providers: [
       AuthService,
-      PhotosService
+      PhotosService,
+      ErrorInterceptorProvider
    ],
    bootstrap: [
       AppComponent

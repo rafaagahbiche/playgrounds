@@ -13,23 +13,23 @@ namespace PlaygroundsGallery.API
         {
             try
             {
-            var host = CreateWebHostBuilder(args).Build();
-            
-            // Uncomment to create new database
-            // using (var scope = host.Services.CreateScope())
-            // {
-            //     var services = scope.ServiceProvider;
-            //     try
-            //     {
-            //         var context = services.GetRequiredService<IGalleryContext>();
-            //         context.CurrentDatabaseMigrate();
-            //     }
-            //     catch (Exception ex)
-            //     {
-            //         var logger = services.GetRequiredService<ILogger<Program>>();
-            //         logger.LogError(ex, "An error occuried during Migration");
-            //     }
-            // }
+                var host = CreateWebHostBuilder(args).Build();
+                
+                // Uncomment to create new database
+                using (var scope = host.Services.CreateScope())
+                {
+                    var services = scope.ServiceProvider;
+                    try
+                    {
+                        var context = services.GetRequiredService<IGalleryContext>();
+                        context.CurrentDatabaseMigrate();
+                    }
+                    catch (Exception ex)
+                    {
+                        var logger = services.GetRequiredService<ILogger<Program>>();
+                        logger.LogError(ex, "An error occuried during Migration");
+                    }
+                }
 
                 host.Run();
             }

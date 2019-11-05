@@ -47,8 +47,23 @@ namespace PlaygroundsGallery.API.Controllers
         {
             var memberIdStr = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             photo.MemberId = int.Parse(memberIdStr);
-            var photoToReturnDto = await _frontManager.UploadPhoto(photo);
-            return CreatedAtRoute("GetPhoto", new {controller ="Photo", id = photoToReturnDto.Id}, photoToReturnDto);
+            try
+            {
+                var photoToReturnDto = await _frontManager.UploadPhoto(photo);
+                return CreatedAtRoute("GetPhoto", new {controller ="Photo", id = photoToReturnDto.Id}, photoToReturnDto);
+            }
+            catch (PhotoUploadFileEmptyException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (PhotoUploadToLibraryException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500); 
+            }
         }
 
         [Authorize]
@@ -70,11 +85,11 @@ namespace PlaygroundsGallery.API.Controllers
             }
             catch (PhotoNotFoundException ex)
             {
-                return NotFound(ex);
+                return NotFound(ex.Message);
             }
             catch (Exception)
             {
-                return BadRequest();
+                return StatusCode(500);
             }
         }
     }

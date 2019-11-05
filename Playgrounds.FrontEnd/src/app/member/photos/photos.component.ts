@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/_services/auth.service';
 })
 export class PhotosComponent implements OnInit {
   @Input() memberPhotos: Photo[];
+  errorWhileDeletingPhoto: string;
 
   constructor(private photosService: PhotosService, private authService: AuthService) { }
 
@@ -22,7 +23,7 @@ export class PhotosComponent implements OnInit {
       this.memberPhotos.splice(photoToDeleteIndex, 1);
     },
     error => {
-      console.log('error when deleting');
+      this.errorWhileDeletingPhoto = error;
     });
   }
 }

@@ -10,6 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class LoginComponent implements OnInit {
   model: any = {};
+  errorsAfterSubmitting: string;
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -26,7 +27,7 @@ export class LoginComponent implements OnInit {
     },
      error => {
       this.spinner.hide();
-      console.log(error);
+      this.errorsAfterSubmitting = error;
     }, () => {
       this.router.navigate(['/member/photos-manager']);
     });

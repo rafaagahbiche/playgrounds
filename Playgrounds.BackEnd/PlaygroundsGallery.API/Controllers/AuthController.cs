@@ -36,11 +36,11 @@ namespace PlaygroundsGallery.API.Controllers
             }
             catch(MemberCreationException ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
             catch(Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
 

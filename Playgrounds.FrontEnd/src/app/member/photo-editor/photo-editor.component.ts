@@ -38,7 +38,4 @@ export class PhotoEditorComponent implements OnInit {
       }
     };
   }
-
-  deletePhoto(id: number) {
-  }
 }

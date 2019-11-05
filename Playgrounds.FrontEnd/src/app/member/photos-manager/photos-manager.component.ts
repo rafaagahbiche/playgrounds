@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/_services/auth.service';
 })
 export class PhotosManagerComponent implements OnInit {
   memberPhotos: any;
-
+  errorWhenRetreivingPhotos: string;
   constructor(
     private photosService: PhotosService,
     private authService: AuthService) { }
@@ -23,7 +23,7 @@ export class PhotosManagerComponent implements OnInit {
       this.memberPhotos = response;
     },
     error => {
-      console.log(error);
+      this.errorWhenRetreivingPhotos = error;
     });
   }
 }
