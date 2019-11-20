@@ -29,19 +29,19 @@ namespace Tests
                 {
                     PublicId = "mmmm",
                     MemberId = 1,
-                    UploadDate = DateTime.UtcNow
+                    Created = DateTime.UtcNow
                 },
                 new Photo()
                 {
                     PublicId = "aaaaa",
                     MemberId = 1,
-                    UploadDate = DateTime.UtcNow
+                    Created = DateTime.UtcNow
                 },
                 new Photo()
                 {
                     PublicId = "yyyyy",
                     MemberId = 1,
-                    UploadDate = DateTime.UtcNow
+                    Created = DateTime.UtcNow
                 }
             };
         }

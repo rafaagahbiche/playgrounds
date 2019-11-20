@@ -10,6 +10,7 @@ namespace PlaygroundsGallery.DataEF.Configuration
         {
             builder.HasKey(p => p.Id);
             builder.HasOne(p => p.Member).WithMany(m => m.Photos).HasForeignKey(p => p.MemberId);
+            builder.HasOne(p => p.Playground).WithMany(p => p.Photos).HasForeignKey(p => p.PlaygroundId);
         }
     }
 }

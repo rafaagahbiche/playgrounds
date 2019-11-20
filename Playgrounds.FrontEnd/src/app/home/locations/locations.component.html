@@ -1,0 +1,31 @@
+<section class="blog_part section_padding">
+  <div class="container">
+      <div class="row justify-content-center">
+          <div class="col-xl-5">
+              <div class="section_tittle text-center">
+                  <h4>Play Basketball</h4>
+                  <h2>Playgrounds in Barcelona</h2>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-sm-6 col-lg-4 col-xl-6" *ngFor="let playground of playgrounds">
+              <div class="single-home-blog">
+                  <div class="card">
+                      <img src="{{playground.mainPhotoUrl}}" class="card-img-top" alt="blog">
+                      <div class="card-body text-center">
+                          <!-- <span class="dot">12 march, 2019</span> -->
+                          <a [routerLink]="['/playground/', playground.id]" >
+                            <h5 class="card-title">{{playground.address}}</h5>
+                        </a>
+                          <ul>
+                              <li> <span class="ti-layers"></span>10 players are going today</li>
+                              <li> <span class="ti-comments"></span>2 Comments</li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
