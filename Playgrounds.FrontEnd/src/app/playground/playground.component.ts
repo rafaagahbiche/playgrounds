@@ -34,7 +34,7 @@ export class PlaygroundComponent implements OnInit {
 
   checkInMemberToPlayground() {
     if (this.checkInForm.valid) {
-      var checkInModel = Object.assign({}, this.checkInForm.value);
+      const checkInModel = Object.assign({}, this.checkInForm.value);
       checkInModel.playgroundId = this.playground.id;
       checkInModel.memberId = 2;
       this.playgroundsService.checkInToPlayground(checkInModel).subscribe(response => {

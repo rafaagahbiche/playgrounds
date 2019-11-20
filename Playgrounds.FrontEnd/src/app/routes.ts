@@ -8,6 +8,8 @@ import { PlaygroundComponent } from './playground/playground.component';
 import { PlaygroundDetailResolver } from './_resolvers/playground-detail.resolver';
 import { LocationsComponent } from './home/locations/locations.component';
 import { PlaygroundListResolver } from './_resolvers/playground-list.resolver';
+import { PhotoEditorComponent } from './member/photo-editor/photo-editor.component';
+import { PhotoEditorResolver } from './_resolvers/photo-editor.resolver';
 
 export const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -21,7 +23,8 @@ export const appRoutes: Routes = [
         runGuardsAndResolvers: 'always',
         canActivate: [AuthGuard],
         children: [
-            { path: 'member/photos-manager', component: PhotosManagerComponent}
+            { path: 'member/photos-manager', component: PhotosManagerComponent},
+            { path: 'member/photo-editor/:id', component: PhotoEditorComponent, resolve: {photo: PhotoEditorResolver}}
         ]
     },
     { path: '**', redirectTo: '', pathMatch: 'full'}

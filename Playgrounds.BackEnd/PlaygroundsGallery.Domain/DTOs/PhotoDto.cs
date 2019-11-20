@@ -2,7 +2,7 @@
 
 namespace PlaygroundsGallery.Domain.DTOs
 {
-    public class PhotoToReturnDto
+    public class PhotoDto
     {
 				public int Id { get; set; }
         public string Url { get; set; }
@@ -11,5 +11,7 @@ namespace PlaygroundsGallery.Domain.DTOs
 
         public string PublicId { get; set; }
 				public int MemberId { get; set; }
+
+        public int PlaygroundId { get; set; }
     }
 }

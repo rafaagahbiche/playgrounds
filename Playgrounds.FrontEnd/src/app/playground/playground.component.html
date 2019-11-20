@@ -1,91 +1,103 @@
 <section class="blog_area">
-  <div class="container">
-    <div class="row mb-5">
-      <div><h1>{{playground.address}}</h1></div>
-    </div>
-      <div class="row">
-          <div class="col-lg-8 mb-5 mb-lg-0">
-              <div class="blog_left_sidebar">
-                  <article class="blog_item">
-                    <div class="blog_item_img">
-                      <img class="card-img rounded-0" src="{{playground.mainPhotoUrl}}" alt="">
-                    </div>
-                    <div class="blog_details">
-                        <a class="d-inline-block" href="single-blog.html">
-                            <h2>Google inks pact for new 35-storey office</h2>
-                        </a>
-                        <p>That dominion stars lights dominion divide years for fourth have don't stars is that he earth it first without heaven in place seed it second morning saying.</p>
-                        <ul class="blog-info-link">
-                          <li><a href="#"><i class="far fa-user"></i> Travel, Lifestyle</a></li>
-                          <li><a href="#"><i class="far fa-comments"></i> 03 Comments</a></li>
-                        </ul>
-                    </div>
-                  </article>
-              </div>
-          </div>
-          <div class="col-lg-4">
-              <div class="blog_right_sidebar">
-                  <aside class="single_sidebar_widget search_widget">
-                      <form [formGroup]="checkInForm" (ngSubmit)="checkInMemberToPlayground()" class="justify-content-center">
-                        <div class="form-group">
-                          <div class="input-group mb-3 align-center">
-                            <input type="text" 
-                                formControlName="checkInDate"
-                                bsDatepicker 
-                                [bsConfig]="bsConfig"
-                                class="form-control" 
-                                placeholder="When are you going?" 
-                                onfocus="this.placeholder = ''" 
-                                onblur="this.placeholder = 'When are you going?'">
-                            <div class="input-group-append">
-                              <button class="btn" type="button"><i class="ti-search"></i></button>
-                            </div>
-                          </div>
+    <div class="container">
+        <div class="row mb-5">
+            <div>
+                <h1>{{ playground.address }}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 mb-5 mb-lg-0">
+                <div class="blog_left_sidebar">
+                    <article class="blog_item">
+                        <div class="blog_item_img">
+                            <img class="card-img rounded-0" src="{{ playground.mainPhotoUrl }}" alt="" />
                         </div>
-                        <button class="button rounded-0 primary-bg text-white w-100" type="submit"  [disabled]="!checkInForm.valid">I am going</button>
-                      </form>
-                  </aside>
-                  <aside class="single_sidebar_widget popular_post_widget">
-                      <h3 class="widget_title">People playing here</h3>
-                      <div class="media post_item">
-                          <img src="img/post/post_1.png" alt="post">
-                          <div class="media-body">
-                              <a href="single-blog.html">
-                                  <h3>From life was you fish...</h3>
-                              </a>
-                              <p>January 12, 2019</p>
-                          </div>
-                      </div>
-                      <div class="media post_item">
-                          <img src="img/post/post_2.png" alt="post">                              
-                          <div class="media-body">
-                              <a href="single-blog.html">
-                                  <h3>The Amazing Hubble</h3>
-                              </a>
-                              <p>02 Hours ago</p>
-                          </div>
-                      </div>
-                      <div class="media post_item">
-                          <img src="img/post/post_3.png" alt="post">                              
-                          <div class="media-body">
-                              <a href="single-blog.html">
-                                  <h3>Astronomy Or Astrology</h3>
-                              </a>
-                              <p>03 Hours ago</p>
-                          </div>
-                      </div>
-                      <div class="media post_item">
-                          <img src="img/post/post_4.png" alt="post">
-                          <div class="media-body">
-                              <a href="single-blog.html">
-                                  <h3>Asteroids telescope</h3>
-                              </a>
-                              <p>01 Hours ago</p>
-                          </div>
-                      </div>
-                  </aside>
-              </div>
-          </div>
-      </div>
-  </div>
+                        <div class="blog_details">
+                            <a class="d-inline-block" href="single-blog.html">
+                                <h2>Google inks pact for new 35-storey office</h2>
+                            </a>
+                            <p>
+                                That dominion stars lights dominion divide years for fourth have
+                                don't stars is that he earth it first without heaven in place
+                                seed it second morning saying.
+                            </p>
+                            <ul class="blog-info-link">
+                                <li>
+                                    <a href="#"><i class="far fa-user"></i> Travel, Lifestyle</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="far fa-comments"></i> 03 Comments</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="blog_right_sidebar">
+                    <aside class="single_sidebar_widget search_widget">
+                        <form [formGroup]="checkInForm" (ngSubmit)="checkInMemberToPlayground()"
+                            class="justify-content-center">
+                            <div class="form-group">
+                                <div class="input-group mb-3 align-center">
+                                    <input type="text" formControlName="checkInDate" bsDatepicker [bsConfig]="bsConfig"
+                                        class="form-control" placeholder="When are you going?"
+                                        onfocus="this.placeholder = ''"
+                                        onblur="this.placeholder = 'When are you going?'" />
+                                    <div class="input-group-append">
+                                        <button class="btn" type="button">
+                                            <i class="ti-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn button rounded-0 primary-bg text-white w-100" type="submit"
+                                [disabled]="!checkInForm.valid">
+                                I am going
+                            </button>
+                        </form>
+                    </aside>
+                    <aside class="single_sidebar_widget popular_post_widget">
+                        <h3 class="widget_title">People playing here</h3>
+                        <div class="media post_item">
+                            <img src="img/post/post_1.png" alt="post" />
+                            <div class="media-body">
+                                <a href="single-blog.html">
+                                    <h3>From life was you fish...</h3>
+                                </a>
+                                <p>January 12, 2019</p>
+                            </div>
+                        </div>
+                        <div class="media post_item">
+                            <img src="img/post/post_2.png" alt="post" />
+                            <div class="media-body">
+                                <a href="single-blog.html">
+                                    <h3>The Amazing Hubble</h3>
+                                </a>
+                                <p>02 Hours ago</p>
+                            </div>
+                        </div>
+                        <div class="media post_item">
+                            <img src="img/post/post_3.png" alt="post" />
+                            <div class="media-body">
+                                <a href="single-blog.html">
+                                    <h3>Astronomy Or Astrology</h3>
+                                </a>
+                                <p>03 Hours ago</p>
+                            </div>
+                        </div>
+                        <div class="media post_item">
+                            <img src="img/post/post_4.png" alt="post" />
+                            <div class="media-body">
+                                <a href="single-blog.html">
+                                    <h3>Asteroids telescope</h3>
+                                </a>
+                                <p>01 Hours ago</p>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>

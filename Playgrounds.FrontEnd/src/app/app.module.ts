@@ -14,22 +14,29 @@ import { NavComponent } from './nav/nav.component';
 import { AuthService } from './_services/auth.service';
 import { PhotosService } from './_services/photos.service';
 import { PlaygroundsService } from './_services/playgrounds.service';
+
 import { HomeComponent } from './home/home.component';
-import { GalleryComponent } from './home/gallery/gallery.component';
-import { LocationsComponent } from './home/locations/locations.component';
-import { SingleGalleryPhotoComponent } from './home/gallery/single-gallery-photo/single-gallery-photo.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+
+import { PlaygroundComponent } from './playground/playground.component';
+import { LocationsComponent } from './home/locations/locations.component';
+
+import { GalleryComponent } from './home/gallery/gallery.component';
+import { SingleGalleryPhotoComponent } from './home/gallery/single-gallery-photo/single-gallery-photo.component';
 import { PhotosComponent } from './member/photos/photos.component';
-import { PhotoEditorComponent } from './member/photo-editor/photo-editor.component';
+import { PhotoUploaderComponent } from './member/photo-uploader/photo-uploader.component';
 import { PhotosManagerComponent } from './member/photos-manager/photos-manager.component';
+import { PhotoEditorComponent } from './member/photo-editor/photo-editor.component';
+
+
 import { environment } from 'src/environments/environment';
 import { appRoutes } from './routes';
 import { FooterComponent } from './footer/footer.component';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
-import { PlaygroundComponent } from './playground/playground.component';
 import { PlaygroundDetailResolver } from './_resolvers/playground-detail.resolver';
 import { PlaygroundListResolver } from './_resolvers/playground-list.resolver';
+import { PhotoEditorResolver } from './_resolvers/photo-editor.resolver';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -46,8 +53,9 @@ export function tokenGetter() {
       LocationsComponent,
       SingleGalleryPhotoComponent,
       RegisterComponent,
-      PhotoEditorComponent,
+      PhotoUploaderComponent,
       PhotosManagerComponent,
+      PhotoEditorComponent,
       FooterComponent,
       PlaygroundComponent
    ],
@@ -76,6 +84,7 @@ export function tokenGetter() {
       PlaygroundsService,
       PlaygroundDetailResolver,
       PlaygroundListResolver,
+      PhotoEditorResolver,
       ErrorInterceptorProvider
    ],
    bootstrap: [

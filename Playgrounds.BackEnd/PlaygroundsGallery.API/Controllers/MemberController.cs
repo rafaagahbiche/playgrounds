@@ -92,5 +92,29 @@ namespace PlaygroundsGallery.API.Controllers
                 return StatusCode(500);
             }
         }
+
+        [Authorize]
+        [Route("photos/update")]
+        [HttpPost]
+        public async Task<IActionResult> UpdatePhoto(PhotoDto photoToUpdateDto)
+        {
+            PhotoDto photo = null;
+            var memberIdStr = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            photoToUpdateDto.MemberId = int.Parse(memberIdStr);
+            try
+            {
+                photo = await _frontManager.UpdatePhoto(photoToUpdateDto);
+            }
+            catch (PhotoUpdateException ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+            return Ok(photo);
+        }
     }
 }

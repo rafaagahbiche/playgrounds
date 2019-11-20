@@ -11,7 +11,7 @@ namespace PlaygroundsGallery.Domain.Managers
     public partial class FrontManager : IFrontManager
     {
 		private bool UploadPhotoToPhotoLibrary(
-			PhotoToReturnDto photoToReturnDto,
+			PhotoDto photoToReturnDto,
 			PhotoForCreationDto photoForCreationDto)
 		{
 			var uploadedPhotoToReturn = _photoUploader.UploadPhoto(photoForCreationDto.File);
@@ -24,14 +24,14 @@ namespace PlaygroundsGallery.Domain.Managers
 			return uploadedPhotoToReturn.UploadSucceeded;
 		}        
 		
-		public async Task<PhotoToReturnDto> UploadPhoto(PhotoForCreationDto photoForCreationDto)
+		public async Task<PhotoDto> UploadPhoto(PhotoForCreationDto photoForCreationDto)
         {
 			if (photoForCreationDto.File == null || photoForCreationDto.File.Length < 1)
 			{
 				throw new PhotoUploadFileEmptyException();
 			}
 			
-			var photoToReturnDto = _mapper.Map<PhotoToReturnDto>(photoForCreationDto);
+			var photoToReturnDto = _mapper.Map<PhotoDto>(photoForCreationDto);
 			var uploadSucceeded = UploadPhotoToPhotoLibrary(photoToReturnDto, photoForCreationDto);
 			if (uploadSucceeded == false)
 			{
@@ -44,20 +44,33 @@ namespace PlaygroundsGallery.Domain.Managers
 			return photoToReturnDto;
         }
 
-		public async Task<IEnumerable<PhotoToReturnDto>> GetRecentPhotos(int count)
+		public async Task<PhotoDto> UpdatePhoto(PhotoDto photoToUpdateDto)
+		{
+			var photoToUpdate = _mapper.Map<Photo>(photoToUpdateDto);
+			if (await _photoRepository.Update(photoToUpdate))
+			{
+				return _mapper.Map<PhotoDto>(photoToUpdate);
+			}
+			else
+			{
+				throw new PhotoUpdateException();
+			}
+		}
+
+		public async Task<IEnumerable<PhotoDto>> GetRecentPhotos(int count)
 		{
 			var photos = await _photoRepository.Find(
 				predicate: p => p.Deleted == false, 
 				orderBy: q => q.OrderByDescending(p => p.Created), 
 				take: count);
-			return _mapper.Map<IEnumerable<PhotoToReturnDto>>(photos);
+			return _mapper.Map<IEnumerable<PhotoDto>>(photos);
 		}
 
-        public async Task<PhotoToReturnDto> GetPhoto(int id) 
-			=> _mapper.Map<PhotoToReturnDto>(await _photoRepository.Get(id));
+        public async Task<PhotoDto> GetPhoto(int id) 
+			=> _mapper.Map<PhotoDto>(await _photoRepository.Get(id));
 
-        public async Task<IEnumerable<PhotoToReturnDto>> GetPhotosByMemberId(int id) 
-			=> _mapper.Map<IEnumerable<PhotoToReturnDto>>(await _photoRepository.Find(p => p.Deleted == false && p.MemberId == id));
+        public async Task<IEnumerable<PhotoDto>> GetPhotosByMemberId(int id) 
+			=> _mapper.Map<IEnumerable<PhotoDto>>(await _photoRepository.Find(p => p.Deleted == false && p.MemberId == id));
 
 		public async Task<bool> DeletePhoto(string publicId, bool physically)
 		{

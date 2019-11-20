@@ -20,6 +20,15 @@ namespace PlaygroundsGallery.Helper.Exceptions
         }
     }
 
+    public class PhotoUpdateException : Exception
+    {
+        public PhotoUpdateException()
+            : base($"An error has occurred while updating your photo.")
+        {
+
+        }
+    }
+
     public class PhotoNotFoundException : Exception
     {
         public PhotoNotFoundException(string publicId)

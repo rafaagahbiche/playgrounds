@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { FileUploader } from 'ng2-file-upload';
+import { Photo } from '../_models/Photo';
 
 @Injectable({
   providedIn: 'root'
@@ -32,8 +33,16 @@ export class PhotosService {
     return this.http.get(this.photoApiUrl + '/recent?count=' + count);
   }
 
-  deltePhoto(publicId: string, token: any) {
+  getPhoto(id) {
+    return this.http.get(this.photoApiUrl + '/' + id);
+  }
+
+  deletePhoto(publicId: string, token: any) {
       return this.http.delete(this.memberPhotosApiUrl + '/' + publicId, this.getHttpOptions(token));
+  }
+
+  updatePhoto(photo: Photo, token: any) {
+    return this.http.post(this.memberPhotosApiUrl + '/update', photo, this.getHttpOptions(token));
   }
 
   private getHttpOptions(token: any) {

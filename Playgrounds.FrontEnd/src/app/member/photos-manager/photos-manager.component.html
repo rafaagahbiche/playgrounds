@@ -1,11 +1,11 @@
 <div class="container">
-    <div class="row mt-5 text-center" *ngIf="memberPhotos">
+    <div class="row mt-5 text-center">
         <h3>Upload photos to your library</h3>
         <hr />
     </div>
-    <div class="row mt-5 text-center">
+    <div *ngIf="errorWhenRetreivingPhotos" class="row mt-5 text-center">
         {{errorWhenRetreivingPhotos}}
     </div>
-    <app-photo-editor [memberPhotos]="memberPhotos"></app-photo-editor>
+    <app-photo-uploader [memberPhotos]="memberPhotos"></app-photo-uploader>
     <app-photos [memberPhotos]="memberPhotos"></app-photos>
 </div>

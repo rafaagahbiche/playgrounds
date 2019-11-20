@@ -11,6 +11,8 @@ import { AuthService } from 'src/app/_services/auth.service';
 export class PhotosComponent implements OnInit {
   @Input() memberPhotos: Photo[];
   errorWhileDeletingPhoto: string;
+  errorWhileUpdatingPhoto: string;
+  editMode = false;
 
   constructor(private photosService: PhotosService, private authService: AuthService) { }
 
@@ -18,7 +20,7 @@ export class PhotosComponent implements OnInit {
   }
 
   deletePhoto(publicId: string) {
-    this.photosService.deltePhoto(publicId, this.authService.getMemberToken()).subscribe(() => {
+    this.photosService.deletePhoto(publicId, this.authService.getMemberToken()).subscribe(() => {
       const photoToDeleteIndex = this.memberPhotos.findIndex(p => p.publicId === publicId);
       this.memberPhotos.splice(photoToDeleteIndex, 1);
     },
