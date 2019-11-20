@@ -36,7 +36,7 @@ export class PhotosService {
       return this.http.delete(this.memberPhotosApiUrl + '/' + publicId, this.getHttpOptions(token));
   }
 
-  getHttpOptions(token: any) {
+  private getHttpOptions(token: any) {
     if (token !== null) {
       const httpOptions = {
         headers: new HttpHeaders({

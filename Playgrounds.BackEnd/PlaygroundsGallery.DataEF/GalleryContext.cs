@@ -14,6 +14,10 @@ namespace PlaygroundsGallery.DataEF
 
 		public DbSet<Member> Members { get; set; }
 		public DbSet<Photo> Photos { get; set; }
+		public DbSet<Playground> Playgrounds { get; set; }
+		public DbSet<Location> Locations { get; set; }
+		public DbSet<CheckIn> CheckIns { get; set; }
+		
 
         public Task<int> SaveChangesAsync()
         {
@@ -30,6 +34,9 @@ namespace PlaygroundsGallery.DataEF
 			base.OnModelCreating(modelBuilder);
 			modelBuilder.ApplyConfiguration(new MemberConfiguration());
 			modelBuilder.ApplyConfiguration(new PhotoConfiguration());
+			modelBuilder.ApplyConfiguration(new LocationConfiguration());
+			modelBuilder.ApplyConfiguration(new PlaygroundConfiguration());
+			modelBuilder.ApplyConfiguration(new CheckInConfiguration());
 		}
     }
 }

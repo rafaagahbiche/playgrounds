@@ -21,8 +21,11 @@ namespace PlaygroundsGallery.API
                     var services = scope.ServiceProvider;
                     try
                     {
-                        var context = services.GetRequiredService<IGalleryContext>();
+                        var context = services.GetRequiredService<GalleryContext>();
                         context.CurrentDatabaseMigrate();
+                        Seed.SeedLocations(context);
+                        Seed.SeedPlaygrounds(context);
+                        Seed.SaveSeeds(context);
                     }
                     catch (Exception ex)
                     {

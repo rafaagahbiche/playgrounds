@@ -22,13 +22,15 @@ namespace PlaygroundsGallery.DataEF.Repositories
 
 		public async Task<bool> Add(TEntity entry)
 		{
+			entry.Created = DateTime.UtcNow;
 			await EntityDbSet.AddAsync(entry);
 			return await MainDbContext.SaveChangesAsync() > 0;
 		}
 
-		public async Task<bool> Update(TEntity entity)
+		public async Task<bool> Update(TEntity entry)
 		{
-			EntityDbSet.Update(entity);
+			entry.Updated = DateTime.UtcNow;
+			EntityDbSet.Update(entry);
 			return await MainDbContext.SaveChangesAsync() > 0;
 		}
 

@@ -19,7 +19,6 @@ namespace PlaygroundsGallery.Domain.Managers
 			{
 				photoToReturnDto.Url = uploadedPhotoToReturn?.Uri?.ToString();
 				photoToReturnDto.PublicId = uploadedPhotoToReturn?.PublicId;
-				photoToReturnDto.UploadDate = DateTime.Now;
 			}
 
 			return uploadedPhotoToReturn.UploadSucceeded;
@@ -49,7 +48,7 @@ namespace PlaygroundsGallery.Domain.Managers
 		{
 			var photos = await _photoRepository.Find(
 				predicate: p => p.Deleted == false, 
-				orderBy: q => q.OrderByDescending(p => p.UploadDate), 
+				orderBy: q => q.OrderByDescending(p => p.Created), 
 				take: count);
 			return _mapper.Map<IEnumerable<PhotoToReturnDto>>(photos);
 		}

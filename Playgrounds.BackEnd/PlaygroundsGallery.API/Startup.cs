@@ -51,11 +51,6 @@ namespace PlaygroundsGallery.API
             var cloudinaryAccount = Configuration.GetSection("CloudinarySettings").Get<CloudinarySettings>();
             var tokenSecretKey = Configuration.GetSection("AppSettings:Token").Value;
             
-            services.AddDbContext<GalleryContext>(
-                options => options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-
-            // services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddAutoMapper(typeof(Startup));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddScoped<IAccountSettings, CloudinarySettings>();
@@ -64,9 +59,13 @@ namespace PlaygroundsGallery.API
             services.AddScoped<ITokenManager, TokenCreator>(_ => new TokenCreator(tokenSecretKey));
             services.AddScoped<IRepository<Photo>, Repository<Photo>>();
             services.AddScoped<IRepository<Member>, Repository<Member>>();
+            services.AddScoped<IRepository<Playground>, Repository<Playground>>();
+            services.AddScoped<IRepository<Location>, Repository<Location>>();
+            services.AddScoped<IRepository<CheckIn>, Repository<CheckIn>>();
             services.AddScoped<IPhotoRepository, PhotoRepository>();
             services.AddScoped<IMemberRepository, MemberRepository>();
             services.AddScoped<IPasswordManager, PasswordManager>();
+            services.AddScoped<IPlaygroundManager, PlaygroundManager>();
             services.AddScoped<IFrontManager, FrontManager>();
             services.AddScoped<IGalleryContext, GalleryContext>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
