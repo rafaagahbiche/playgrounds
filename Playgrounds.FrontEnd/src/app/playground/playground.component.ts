@@ -26,7 +26,7 @@ export class PlaygroundComponent implements OnInit {
     this.checkInForm = new FormGroup({
       checkInDate: new FormControl('', Validators.required)
     });
-    
+
     this.bsConfig = {
       containerClass: 'theme-red'
     };

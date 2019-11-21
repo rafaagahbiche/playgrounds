@@ -2,6 +2,11 @@
 @import 'abstracts/variables';
 
 .main_menu {
+	.profile-img {
+		max-height: 40px;
+		display: inline;
+		border: solid 2px white;
+	}
 	.sub_header_social_icon{
 		@media #{$small_mobile}{
 			float: none !important;
