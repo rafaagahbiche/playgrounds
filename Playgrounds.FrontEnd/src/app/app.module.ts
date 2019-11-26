@@ -5,10 +5,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
 import { RouterModule } from '@angular/router';
-import { BsDatepickerModule } from 'ngx-bootstrap';
+import { BsDatepickerModule, TimepickerModule } from 'ngx-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { FileUploadModule } from 'ng2-file-upload';
-
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+ 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { AuthService } from './_services/auth.service';
@@ -67,7 +68,9 @@ export function tokenGetter() {
       ReactiveFormsModule,
       NgxSpinnerModule,
       FileUploadModule,
+      AutocompleteLibModule,
       BsDatepickerModule.forRoot(),
+      TimepickerModule.forRoot(),
       RouterModule.forRoot(appRoutes),
       JwtModule.forRoot({
          config:

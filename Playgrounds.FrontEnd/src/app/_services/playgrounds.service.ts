@@ -9,29 +9,34 @@ import { CheckIn } from '../_models/CheckIn';
 export class PlaygroundsService {
 
   constructor(private http: HttpClient) { }
-  playgroundApiUrl = environment.apiUrl + 'playgrounds';
-  locationApiUrl = environment.apiUrl + 'locations';
+  playgroundApiUrl = environment.apiUrl + 'playgrounds/';
+  locationApiUrl = environment.apiUrl + 'locations/';
 
   getAllLoacations() {
     return this.http.get(this.locationApiUrl);
   }
 
   getPlaygroundsByLocationId(locationId: number) {
-    return this.http.get(this.playgroundApiUrl + '/location/' + locationId);
+    return this.http.get(this.playgroundApiUrl + 'location/' + locationId);
   }
 
   getPlaygroundById(playgroundId: number) {
-    return this.http.get(this.playgroundApiUrl + '/' + playgroundId);
+    return this.http.get(this.playgroundApiUrl + playgroundId);
   }
 
-  checkInToPlayground(checkinModel: CheckIn) {
-    // if (token !== null) {
-    //   const httpOptions = {
-    //     headers: new HttpHeaders({
-    //       'Authorization': 'Bearer ' + token
-    //     })
-    //   };
+  getCheckInsAtPlayground(playgroundId: number) {
+    return this.http.get(this.playgroundApiUrl + playgroundId + '/checkins');
+  }
 
-      return this.http.post(this.playgroundApiUrl + '/checkin', checkinModel);
+  checkInToPlayground(checkinModel: CheckIn, token: any) {
+    if (token !== null) {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Authorization': 'Bearer ' + token
+        })
+      };
+
+      return this.http.post(this.playgroundApiUrl + 'checkin', checkinModel, httpOptions);
     }
+  }
 }

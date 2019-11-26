@@ -1,5 +1,8 @@
 using System;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PlaygroundsGallery.Domain.DTOs;
 using PlaygroundsGallery.Domain.Managers;
@@ -16,13 +19,6 @@ namespace PlaygroundsGallery.API.Controllers
         {
             this._manager = manager;
         }
-
-        // [HttpGet]
-        // public async Task<IActionResult> GetLocations()
-        // {
-        //     var locations = await _manager.GetAllLocations();
-        //     return Ok(locations);
-        // }
 
         [Route("location/{locationId}")] 
         [HttpGet]
@@ -45,6 +41,7 @@ namespace PlaygroundsGallery.API.Controllers
             return await _manager.GetCheckInById(checkInId);
         }
 
+        [Authorize]
         [Route("checkin")]
         [HttpPost]
         public async Task<IActionResult> CheckIn(CheckInForCreationDto checkInForCreation)
@@ -55,8 +52,32 @@ namespace PlaygroundsGallery.API.Controllers
                 {
                     return BadRequest();
                 }
-
+                
+                var memberIdStr = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                checkInForCreation.MemberId = int.Parse(memberIdStr);
                 return StatusCode(201,  await this._manager.CheckInToPlayground(checkInForCreation));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("{playgroundId}/checkins")]
+        public async Task<IActionResult> CheckInsAtPlayground(int playgroundId)
+        {
+            try
+            {
+                var allCheckIns = await this._manager.GetCheckInsByPlaygroundId(playgroundId);
+                if (allCheckIns != null && allCheckIns.Any())
+                {
+                    return Ok(allCheckIns);
+                }
+                else
+                {
+                    return StatusCode(204);
+                }
             }
             catch (Exception ex)
             {

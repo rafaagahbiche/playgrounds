@@ -55,7 +55,14 @@ namespace PlaygroundsGallery.Domain.Managers
 
         public async Task<CheckInDto> GetCheckInById(int checkInId) 
             => _mapper.Map<CheckInDto>(await _checkInRepository.Get(checkInId));        
-            
+        
+        public async Task<IEnumerable<CheckInDto>> GetCheckInsByPlaygroundId(int playgroundId)
+        {
+            return _mapper.Map<IEnumerable<CheckInDto>>(await _checkInRepository.Find(
+                predicate: c => c.PlaygroundId == playgroundId, 
+                includeProperties: new Expression<Func<CheckIn, object>>[] {(c => c.Member), (c => c.Playground)}));
+        }
+
         public async Task<PlaygroundDto> GetPlaygroundById(int playgroundId) 
         {
             var playground = await _playgroundRepository.SingleOrDefault(predicate: p => p.Id == playgroundId, 

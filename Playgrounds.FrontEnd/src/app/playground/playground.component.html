@@ -35,18 +35,37 @@
             </div>
             <div class="col-lg-4">
                 <div class="blog_right_sidebar">
-                    <aside class="single_sidebar_widget search_widget">
-                        <form [formGroup]="checkInForm" (ngSubmit)="checkInMemberToPlayground()"
+                    <aside class="single_sidebar_widget search_widget" *ngIf="isLoggedIn">
+                        <form *ngIf="!isCheckedIn" [formGroup]="checkInForm" (ngSubmit)="checkInMemberToPlayground()"
                             class="justify-content-center">
-                            <div class="form-group">
-                                <div class="input-group mb-3 align-center">
-                                    <input type="text" formControlName="checkInDate" bsDatepicker [bsConfig]="bsConfig"
+                            <div class="form-group row">
+                                <div class="input-group col-sm-7 pr-1">
+                                    <input 
+                                        type="text" 
+                                        formControlName="checkInDate" 
+                                        bsDatepicker 
+                                        #dp="bsDatepicker"
+                                        [bsConfig]="bsConfig"
                                         class="form-control" placeholder="When are you going?"
                                         onfocus="this.placeholder = ''"
                                         onblur="this.placeholder = 'When are you going?'" />
-                                    <div class="input-group-append">
+                                    <div class="input-group-append icon-right">
+                                        <button class="btn" type="button" (click)="dp.toggle()">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="input-group col-sm-5 pl-1">
+                                    <timepicker 
+                                        class="timepicker-custom-style" 
+                                        formControlName="checkInTime" 
+                                        [showSpinners]=false 
+                                        [showMeridian]=false 
+                                        [minuteStep]="15">
+                                    </timepicker>
+                                    <div class="input-group-append icon-right">
                                         <button class="btn" type="button">
-                                            <i class="ti-search"></i>
+                                            <i class="fa fa-clock-o"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -56,43 +75,20 @@
                                 I am going
                             </button>
                         </form>
+                        <div class="row" *ngIf="isCheckedIn">
+                            <div class="col-sm-8"><strong>You are going: {{checkInModel.checkInDate | date: 'short'}}</strong></div>
+                            <div class="col-sm-4"><button class="btn btn-secondary btn-sm" (click)="isCheckedIn = false">Cancel</button></div>
+                        </div>
                     </aside>
                     <aside class="single_sidebar_widget popular_post_widget">
                         <h3 class="widget_title">People playing here</h3>
-                        <div class="media post_item">
-                            <img src="img/post/post_1.png" alt="post" />
+                        <div *ngFor="let memberCheckedIn of checkInsAtPlayground" class="media post_item">
+                            <img class="profile-img rounded-circle" src="../../assets/user.png" alt="">
                             <div class="media-body">
                                 <a href="single-blog.html">
-                                    <h3>From life was you fish...</h3>
+                                    <h3>{{memberCheckedIn.memberLoginName}}</h3>
                                 </a>
-                                <p>January 12, 2019</p>
-                            </div>
-                        </div>
-                        <div class="media post_item">
-                            <img src="img/post/post_2.png" alt="post" />
-                            <div class="media-body">
-                                <a href="single-blog.html">
-                                    <h3>The Amazing Hubble</h3>
-                                </a>
-                                <p>02 Hours ago</p>
-                            </div>
-                        </div>
-                        <div class="media post_item">
-                            <img src="img/post/post_3.png" alt="post" />
-                            <div class="media-body">
-                                <a href="single-blog.html">
-                                    <h3>Astronomy Or Astrology</h3>
-                                </a>
-                                <p>03 Hours ago</p>
-                            </div>
-                        </div>
-                        <div class="media post_item">
-                            <img src="img/post/post_4.png" alt="post" />
-                            <div class="media-body">
-                                <a href="single-blog.html">
-                                    <h3>Asteroids telescope</h3>
-                                </a>
-                                <p>01 Hours ago</p>
+                                <p>{{memberCheckedIn.checkInDate | date:'short'}}</p>
                             </div>
                         </div>
                     </aside>
