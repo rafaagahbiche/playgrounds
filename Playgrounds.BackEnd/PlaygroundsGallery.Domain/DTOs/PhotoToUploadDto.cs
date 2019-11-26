@@ -2,7 +2,7 @@
 
 namespace PlaygroundsGallery.Domain.DTOs
 {
-    public class PhotoForCreationDto
+    public class PhotoToUploadDto
     {
         public string Description { get; set; }
 				public int MemberId { get; set; }

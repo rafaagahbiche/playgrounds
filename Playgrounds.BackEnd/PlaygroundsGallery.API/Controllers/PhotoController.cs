@@ -10,7 +10,6 @@ namespace PlaygroundsGallery.API.Controllers
     [ApiController]
     public class PhotoController: ControllerBase
     {
-
         private readonly IFrontManager _frontManager;
 
         public PhotoController(IFrontManager frontManager)

@@ -7,18 +7,10 @@ import { Photo } from 'src/app/_models/Photo';
   styleUrls: ['./single-gallery-photo.component.scss']
 })
 export class SingleGalleryPhotoComponent implements OnInit {
-  @Input() photo: any;
-  photoModel: Photo;
-  photoUrl: string;
+  @Input() photo: Photo;
   constructor() { }
 
   ngOnInit() {
-    this.photoUrl = this.photo.url;
-    this.photoModel = {
-      id: this.photo.id,
-      url: this.photo.url,
-      publicId: this.photo.publicId
-    };
   }
 
 }

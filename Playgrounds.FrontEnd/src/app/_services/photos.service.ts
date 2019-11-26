@@ -42,7 +42,7 @@ export class PhotosService {
   }
 
   updatePhoto(photo: Photo, token: any) {
-    return this.http.post(this.memberPhotosApiUrl + '/update', photo, this.getHttpOptions(token));
+    return this.http.put(this.memberPhotosApiUrl + '/update', photo, this.getHttpOptions(token));
   }
 
   private getHttpOptions(token: any) {

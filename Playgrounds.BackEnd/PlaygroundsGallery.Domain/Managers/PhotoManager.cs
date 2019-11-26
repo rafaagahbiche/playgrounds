@@ -5,46 +5,47 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace PlaygroundsGallery.Domain.Managers
 {
     public partial class FrontManager : IFrontManager
     {
 		private bool UploadPhotoToPhotoLibrary(
-			PhotoDto photoToReturnDto,
-			PhotoForCreationDto photoForCreationDto)
+			PhotoToInsertDto photoToInsertDto,
+			PhotoToUploadDto photoToUploadDto)
 		{
-			var uploadedPhotoToReturn = _photoUploader.UploadPhoto(photoForCreationDto.File);
+			var uploadedPhotoToReturn = _photoUploader.UploadPhoto(photoToUploadDto.File);
 			if (uploadedPhotoToReturn.UploadSucceeded)
 			{
-				photoToReturnDto.Url = uploadedPhotoToReturn?.Uri?.ToString();
-				photoToReturnDto.PublicId = uploadedPhotoToReturn?.PublicId;
+				photoToInsertDto.Url = uploadedPhotoToReturn?.Uri?.ToString();
+				photoToInsertDto.PublicId = uploadedPhotoToReturn?.PublicId;
 			}
 
 			return uploadedPhotoToReturn.UploadSucceeded;
 		}        
 		
-		public async Task<PhotoDto> UploadPhoto(PhotoForCreationDto photoForCreationDto)
+		public async Task<PhotoInsertedDto> UploadPhoto(PhotoToUploadDto photoToUploadDto)
         {
-			if (photoForCreationDto.File == null || photoForCreationDto.File.Length < 1)
+			if (photoToUploadDto.File == null || photoToUploadDto.File.Length < 1)
 			{
 				throw new PhotoUploadFileEmptyException();
 			}
 			
-			var photoToReturnDto = _mapper.Map<PhotoDto>(photoForCreationDto);
-			var uploadSucceeded = UploadPhotoToPhotoLibrary(photoToReturnDto, photoForCreationDto);
+			var photoToInsertDto = _mapper.Map<PhotoToInsertDto>(photoToUploadDto);
+			var uploadSucceeded = UploadPhotoToPhotoLibrary(photoToInsertDto, photoToUploadDto);
 			if (uploadSucceeded == false)
 			{
 				throw new PhotoUploadToLibraryException();
 			}
 			
-			var photoToAdd = _mapper.Map<Photo>(photoToReturnDto);
+			var photoToAdd = _mapper.Map<Photo>(photoToInsertDto);
 			await _photoRepository.Add(photoToAdd);
 
-			return photoToReturnDto;
+			return _mapper.Map<PhotoInsertedDto>(photoToAdd);
         }
 
-		public async Task<PhotoDto> UpdatePhoto(PhotoDto photoToUpdateDto)
+		public async Task<PhotoDto> UpdatePhoto(PhotoToUpdateDto photoToUpdateDto)
 		{
 			var photoToUpdate = _mapper.Map<Photo>(photoToUpdateDto);
 			if (await _photoRepository.Update(photoToUpdate))
@@ -62,13 +63,20 @@ namespace PlaygroundsGallery.Domain.Managers
 			var photos = await _photoRepository.Find(
 				predicate: p => p.Deleted == false, 
 				orderBy: q => q.OrderByDescending(p => p.Created), 
+				includeProperties: new Expression<Func<Photo, object>>[] { (p => p.Playground), (p => p.Playground.Location)},
 				take: count);
 			return _mapper.Map<IEnumerable<PhotoDto>>(photos);
 		}
 
         public async Task<PhotoDto> GetPhoto(int id) 
-			=> _mapper.Map<PhotoDto>(await _photoRepository.Get(id));
-
+		{
+			var photo = (await _photoRepository.SingleOrDefault(
+				predicate: p => p.Id == id, 
+				includeProperties: new Expression<Func<Photo, object>>[] { (p => p.Playground), (p => p.Playground.Location)}
+			));
+			
+			return _mapper.Map<PhotoDto>(photo);
+		}
         public async Task<IEnumerable<PhotoDto>> GetPhotosByMemberId(int id) 
 			=> _mapper.Map<IEnumerable<PhotoDto>>(await _photoRepository.Find(p => p.Deleted == false && p.MemberId == id));
 

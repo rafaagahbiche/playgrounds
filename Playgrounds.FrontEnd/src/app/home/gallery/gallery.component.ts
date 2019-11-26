@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PhotosService } from 'src/app/_services/photos.service';
+import { Photo } from 'src/app/_models/Photo';
 
 @Component({
   selector: 'app-gallery',
@@ -7,7 +8,7 @@ import { PhotosService } from 'src/app/_services/photos.service';
   styleUrls: ['./gallery.component.scss']
 })
 export class GalleryComponent implements OnInit {
-  galleryPhotos: any;
+  galleryPhotos: Photo[];
 
   constructor(private photosService: PhotosService) { }
 
@@ -16,9 +17,9 @@ export class GalleryComponent implements OnInit {
   }
 
   getPhotos() {
-    this.photosService.getRecentPhotos(5).subscribe(response => {
-      if (response) {
-        this.galleryPhotos = response;
+    this.photosService.getRecentPhotos(5).subscribe((photos: Photo[]) => {
+      if (photos) {
+        this.galleryPhotos = photos;
       }
     });
   }

@@ -9,10 +9,14 @@ namespace PlaygroundsGallery.API
     {
         public AutoMapperProfiles()
         {
-            CreateMap<Photo, PhotoDto>().ReverseMap();
-            CreateMap<Photo, PhotoForCreationDto>().ReverseMap();
-            CreateMap<PhotoForCreationDto, PhotoDto>();
-
+            CreateMap<Photo, PhotoDto>()
+            .ForMember(p => p.PlaygroundLocationStr, o => o.MapFrom(p => $"{p.Playground.Location.City}, {p.Playground.Location.Country}"))
+            .ReverseMap();
+            CreateMap<Photo, PhotoToUpdateDto>().ReverseMap();
+            CreateMap<PhotoToInsertDto, Photo>();
+            CreateMap<PhotoToUploadDto, PhotoToInsertDto>();
+            CreateMap<Photo, PhotoInsertedDto>();
+            
             CreateMap<Member, MemberDto>();
             CreateMap<Member, MemberToLoginDto>().ReverseMap();
             

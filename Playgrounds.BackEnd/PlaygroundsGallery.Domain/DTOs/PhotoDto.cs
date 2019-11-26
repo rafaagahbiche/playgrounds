@@ -2,16 +2,10 @@
 
 namespace PlaygroundsGallery.Domain.DTOs
 {
-    public class PhotoDto
+    public class PhotoDto: PhotoToUpdateDto
     {
-				public int Id { get; set; }
-        public string Url { get; set; }
-        public string Description { get; set; }
-    		public DateTime Created { get; set; }
-
-        public string PublicId { get; set; }
-				public int MemberId { get; set; }
-
-        public int PlaygroundId { get; set; }
+        public string PlaygroundAddress { get; set; }
+        public int PlaygroundLocationId { get; set; }
+        public string PlaygroundLocationStr { get; set; }
     }
 }

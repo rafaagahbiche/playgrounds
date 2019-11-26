@@ -6,8 +6,8 @@ namespace PlaygroundsGallery.Domain.Managers
 {
     public interface IFrontManager
     {
-        Task<PhotoDto> UploadPhoto(PhotoForCreationDto photoForCreationDto);
-        Task<PhotoDto> UpdatePhoto(PhotoDto photoToUpdateDto);
+        Task<PhotoInsertedDto> UploadPhoto(PhotoToUploadDto photoToUploadDto);
+        Task<PhotoDto> UpdatePhoto(PhotoToUpdateDto photoToUpdateDto);
         Task<bool> DeletePhoto(string publicId, bool physically);
         Task<PhotoDto> GetPhoto(int id);
         Task<IEnumerable<PhotoDto>> GetPhotosByMemberId(int id);

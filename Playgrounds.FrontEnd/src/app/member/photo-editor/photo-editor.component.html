@@ -2,10 +2,40 @@
   <div class="row mt-5">
     <div class="col-sm-8 offset-sm-2 text-center">
       <img src={{memberPhoto.url}} />
-      <form [formGroup]="updatePhotoForm" (ngSubmit)="updatePhoto()" class="justify-content-center">
-        <div class="form-group mt-3">
+      <form [formGroup]="updatePhotoForm" (ngSubmit)="updatePhoto()" class="row justify-content-center">
+        <div class="col-sm-12 form-group mt-3">
           <textarea formControlName="description" class="form-control">{{memberPhoto.description}}</textarea>
         </div>
+        
+          <div class="col-sm-6 text-left">
+            <ng-autocomplete
+              [data]="locations" 
+              [initialValue]="locationsInitialValue"
+              [searchKeyword]="locationsKeyword" 
+              [placeHolder]="locationPlaceholder"
+              [itemTemplate]="locationsTemplateStatic"
+              (inputCleared)='onLocationCleared()'
+              (selected)='setPlaygroundsByLocation($event)'>
+            </ng-autocomplete>
+            <ng-template #locationsTemplateStatic let-item>
+                <a [innerHTML]="item.name"></a>
+            </ng-template>
+          </div>
+          <div class="col-sm-6 text-left">
+            <ng-autocomplete #ngPlaygroundsAutoComplete
+              [disabled]="playgroundsNotYetLoaded"
+              [initialValue]="playgroundsInitialValue"
+              [data]="playgrounds" 
+              [searchKeyword]="playgroundsKeyword" 
+              [placeHolder]="playgroundPlaceholder"
+              [itemTemplate]="playgroundsTemplateStatic"
+              (selected)='setPlaygroundId($event)'>
+            </ng-autocomplete>
+            <ng-template #playgroundsTemplateStatic let-item>
+                <a [innerHTML]="item.name"></a>
+            </ng-template>
+          </div>
+     
         <div class="invalid-feedback d-block mt-3 mb-3">{{errorWhileUpdatingPhoto}}</div>
         <div class="form-group text-center">
           <button class="btn btn-success btn-sm mr-2" type="submit">Save</button>

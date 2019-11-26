@@ -43,14 +43,15 @@ namespace PlaygroundsGallery.API.Controllers
         [Authorize]
         [Route("photos/upload")]
         [HttpPost]
-        public async Task<IActionResult> Upload([FromForm]PhotoForCreationDto photo)
+        public async Task<IActionResult> Upload([FromForm]PhotoToUploadDto photo)
         {
             var memberIdStr = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             photo.MemberId = int.Parse(memberIdStr);
             try
             {
-                var photoToReturnDto = await _frontManager.UploadPhoto(photo);
-                return CreatedAtRoute("GetPhoto", new {controller ="Photo", id = photoToReturnDto.Id}, photoToReturnDto);
+                var uploadedPhoto = await _frontManager.UploadPhoto(photo);
+                return Ok(uploadedPhoto);
+                // return CreatedAtRoute("GetPhoto", new {controller ="Photo", id = photoToReturnDto.Id}, photoToReturnDto);
             }
             catch (PhotoUploadFileEmptyException ex)
             {
@@ -95,8 +96,8 @@ namespace PlaygroundsGallery.API.Controllers
 
         [Authorize]
         [Route("photos/update")]
-        [HttpPost]
-        public async Task<IActionResult> UpdatePhoto(PhotoDto photoToUpdateDto)
+        [HttpPut]
+        public async Task<IActionResult> UpdatePhoto(PhotoToUpdateDto photoToUpdateDto)
         {
             PhotoDto photo = null;
             var memberIdStr = User.FindFirst(ClaimTypes.NameIdentifier).Value;
