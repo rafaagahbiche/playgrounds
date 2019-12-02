@@ -1,34 +1,29 @@
-<section class="blog_area">
+<section class="breadcrumb breadcrumb_bg" [ngStyle]="{'background-image': 'url(' + playground.mainPhotoUrl + '), linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5))'}">
     <div class="container">
-        <div class="row mb-5">
-            <div>
-                <h1>{{ playground.address }}</h1>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb_iner">
+                    <div class="breadcrumb_iner_item">
+                        <h1>{{ playground.address }}</h1>
+                        <p>{{playground.locationStr}}</p>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
+</section>
+<section class="blog_area section_padding">
+    <div class="container">
         <div class="row">
             <div class="col-lg-8 mb-5 mb-lg-0">
                 <div class="blog_left_sidebar">
                     <article class="blog_item">
-                        <div class="blog_item_img">
-                            <img class="card-img rounded-0" src="{{ playground.mainPhotoUrl }}" alt="" />
-                        </div>
                         <div class="blog_details">
-                            <a class="d-inline-block" href="single-blog.html">
-                                <h2>Google inks pact for new 35-storey office</h2>
-                            </a>
-                            <p>
-                                That dominion stars lights dominion divide years for fourth have
-                                don't stars is that he earth it first without heaven in place
-                                seed it second morning saying.
-                            </p>
-                            <ul class="blog-info-link">
-                                <li>
-                                    <a href="#"><i class="far fa-user"></i> Travel, Lifestyle</a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="far fa-comments"></i> 03 Comments</a>
-                                </li>
-                            </ul>
+                            <app-players-checkins 
+                                    [playgroundCheckIns]="checkInsAtPlayground"
+                                    [fourMostRecentCheckIns]="fourMostRecentCheckIns"
+                                    [numberOfCheckIns]="numberOfCheckIns"
+                                    [moreThanFourCheckIns]="moreThanFourCheckIns"></app-players-checkins>
                         </div>
                     </article>
                 </div>
@@ -83,7 +78,7 @@
                     <aside class="single_sidebar_widget popular_post_widget">
                         <h3 class="widget_title">People playing here</h3>
                         <div *ngFor="let memberCheckedIn of checkInsAtPlayground" class="media post_item">
-                            <img class="profile-img rounded-circle" src="../../assets/user.png" alt="">
+                            <img class="profile-img rounded-circle" src="{{memberCheckedIn.memberProfilePictureUrl}}" alt="">
                             <div class="media-body">
                                 <a href="single-blog.html">
                                     <h3>{{memberCheckedIn.memberLoginName}}</h3>

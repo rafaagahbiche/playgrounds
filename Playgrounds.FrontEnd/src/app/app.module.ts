@@ -21,6 +21,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
 import { PlaygroundComponent } from './playground/playground.component';
+import { PlayersCheckinsComponent } from './playground/timeline/players-checkins/players-checkins.component';
 import { LocationsComponent } from './home/locations/locations.component';
 
 import { GalleryComponent } from './home/gallery/gallery.component';
@@ -58,7 +59,8 @@ export function tokenGetter() {
       PhotosManagerComponent,
       PhotoEditorComponent,
       FooterComponent,
-      PlaygroundComponent
+      PlaygroundComponent,
+      PlayersCheckinsComponent
    ],
    imports: [
       BrowserModule,

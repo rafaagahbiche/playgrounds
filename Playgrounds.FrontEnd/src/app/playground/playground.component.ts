@@ -5,7 +5,7 @@ import { AuthService } from '../_services/auth.service';
 import { BsDatepickerConfig  } from 'ngx-bootstrap';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { CheckIn } from '../_models/CheckIn';
+import { CheckIn, CheckInToDisplay } from '../_models/CheckIn';
 
 @Component({
   selector: 'app-playground',
@@ -20,8 +20,11 @@ export class PlaygroundComponent implements OnInit {
   checkInForm: FormGroup;
   isCheckedIn = false;
   checkInModel: CheckIn;
-  checkInsAtPlayground: CheckIn[];
-  isLoggedIn = false;
+  checkInsAtPlayground: CheckInToDisplay[];
+  fourMostRecentCheckIns: CheckInToDisplay[];
+  moreThanFourCheckIns = false;
+  numberOfCheckIns: number;
+  isLoggedIn: boolean;
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -46,8 +49,18 @@ export class PlaygroundComponent implements OnInit {
   }
 
   getCheckIns() {
-    this.playgroundsService.getCheckInsAtPlayground(this.playground.id).subscribe((checkInsAtPlayground: CheckIn[]) => {
-      this.checkInsAtPlayground = checkInsAtPlayground;
+    this.playgroundsService.getCheckInsAtPlayground(this.playground.id).subscribe((checkInsAtPlayground: CheckInToDisplay[]) => {
+      if (checkInsAtPlayground !== undefined) {
+        this.checkInsAtPlayground = checkInsAtPlayground;
+        this.numberOfCheckIns = this.checkInsAtPlayground.length;
+        if (this.numberOfCheckIns > 4) {
+          this.moreThanFourCheckIns = true;
+          this.fourMostRecentCheckIns = new Array();
+          for (let i = 0; i < 4; i++) {
+            this.fourMostRecentCheckIns.push(this.checkInsAtPlayground[i]);
+          }
+        }
+      }
     });
   }
 
