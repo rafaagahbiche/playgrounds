@@ -25,6 +25,7 @@ namespace PlaygroundsGallery.API
                         context.CurrentDatabaseMigrate();
                         Seed.SeedLocations(context);
                         Seed.SeedPlaygrounds(context);
+                        Seed.SeedProfilePictures(context);
                         Seed.SaveSeeds(context);
                     }
                     catch (Exception ex)

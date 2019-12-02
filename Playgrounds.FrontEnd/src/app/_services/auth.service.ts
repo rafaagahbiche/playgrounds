@@ -14,9 +14,11 @@ export class AuthService {
   jwtHelper = new JwtHelperService();
   decodedToken: any;
   memberName = new BehaviorSubject<string>('');
-  isLoggedIn = new BehaviorSubject<boolean>(this.jwtHelper.isTokenExpired(this.getMemberToken()));
   currentMemberName = this.memberName.asObservable();
+  isLoggedIn = new BehaviorSubject<boolean>(this.jwtHelper.isTokenExpired(this.getMemberToken()));
   currentLoggedInStatus = this.isLoggedIn.asObservable();
+  photoUrl = new BehaviorSubject<string>('../../assets/user.png');
+  currentPhotoUrl = this.photoUrl.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -28,6 +30,10 @@ export class AuthService {
     this.isLoggedIn.next(status);
   }
 
+  changeMemberPhoto(photoUrl: string) {
+    this.photoUrl.next(photoUrl);
+  }
+
   login(model: any) {
     return this.http.post(this.baseUrl + 'login', model).pipe(map((response: any) => {
         const user = response;
@@ -36,6 +42,7 @@ export class AuthService {
           this.decodedToken = this.jwtHelper.decodeToken(user.token);
           this.changeMemberName(this.decodedToken.unique_name);
           this.setLoggedInStatus(true);
+          this.changeMemberPhoto(user.profilePictureUrl);
         }
       }
     ));

@@ -5,3 +5,11 @@ export interface CheckIn {
     memberLoginName?: string;
     playgroundAddress?: string;
 }
+
+export interface CheckInToDisplay {
+    id: number;
+    checkInDate: Date;
+    memberLoginName?: string;
+    memberProfilePictureUrl?: string;
+    playgroundAddress?: string;
+}

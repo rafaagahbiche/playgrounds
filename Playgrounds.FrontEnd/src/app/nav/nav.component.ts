@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class NavComponent implements OnInit {
   loggedInUserName: string;
   isLoggedIn = false;
+  photoUrl: string;
 
   constructor(
     private authService: AuthService,
@@ -18,6 +19,7 @@ export class NavComponent implements OnInit {
   ngOnInit(): void {
     this.authService.currentMemberName.subscribe(memberName => this.loggedInUserName =  memberName);
     this.authService.currentLoggedInStatus.subscribe(isLoggedIn => this.isLoggedIn = isLoggedIn);
+    this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
   }
 
   logout() {

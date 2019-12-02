@@ -5,4 +5,5 @@ export interface Member {
     emailadress: string;
     password: string;
     photos?: Photo[];
+    profilePictureUrl?: string;
 }

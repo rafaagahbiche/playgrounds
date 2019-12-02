@@ -17,6 +17,7 @@ namespace PlaygroundsGallery.DataEF
 		public DbSet<Playground> Playgrounds { get; set; }
 		public DbSet<Location> Locations { get; set; }
 		public DbSet<CheckIn> CheckIns { get; set; }
+		public DbSet<ProfilePicture> ProfilePictures { get; set; }
 		
 
         public Task<int> SaveChangesAsync()

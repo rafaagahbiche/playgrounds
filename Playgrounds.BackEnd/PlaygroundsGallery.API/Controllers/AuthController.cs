@@ -49,12 +49,10 @@ namespace PlaygroundsGallery.API.Controllers
         {
             try
             {
-                var token = await _frontManager.Login(memberToLoginDto);
-                if (!string.IsNullOrEmpty(token))
+                var loggedInMember = await _frontManager.Login(memberToLoginDto);
+                if (loggedInMember != null)
                 {
-                    return Ok(new {
-                        token = token
-                    });
+                    return Ok(loggedInMember);
                 }
                 else
                 {

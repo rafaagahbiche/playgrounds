@@ -118,6 +118,33 @@ namespace PlaygroundsGallery.DataEF
             }
         }
 
+        public static void SeedProfilePictures(GalleryContext context)
+        {
+            if (!context.ProfilePictures.Any())
+            {
+                context.Add(new ProfilePicture 
+                {
+                    MemberId = 2,
+                    Url = "https://randomuser.me/api/portraits/men/76.jpg"
+                });
+                context.Add(new ProfilePicture 
+                {
+                    MemberId = 1012,
+                    Url = "https://randomuser.me/api/portraits/men/14.jpg"
+                });
+                context.Add(new ProfilePicture 
+                {
+                    MemberId = 1019,
+                    Url = "https://randomuser.me/api/portraits/men/4.jpg"
+                });
+                context.Add(new ProfilePicture 
+                {
+                    MemberId = 1029,
+                    Url = "https://randomuser.me/api/portraits/women/49.jpg"
+                });
+            }
+        }
+
         public static void SaveSeeds(GalleryContext context)
         {
             context.SaveChanges();

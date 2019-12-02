@@ -8,15 +8,17 @@ namespace PlaygroundsGallery.Domain.Managers
 {
     public partial class FrontManager : IFrontManager
     {
-        public async Task<string> Login(MemberToLoginDto memberToLoginDto)
+        public async Task<MemberLoggedInDto> Login(MemberToLoginDto memberToLoginDto)
         {
             Member memberEntity = null;
             var userName = !string.IsNullOrEmpty(memberToLoginDto.LoginName) ? memberToLoginDto.LoginName : memberToLoginDto.EmailAddress;
             try 
             {
                 memberEntity = await _memberRepository.SingleOrDefault(
+                    predicate:
                     m => ((!string.IsNullOrEmpty(m.LoginName) && m.LoginName.Equals(userName, StringComparison.CurrentCultureIgnoreCase))
-                        || (!string.IsNullOrEmpty(m.EmailAddress) && m.EmailAddress.Equals(userName, StringComparison.CurrentCultureIgnoreCase))));
+                        || (!string.IsNullOrEmpty(m.EmailAddress) && m.EmailAddress.Equals(userName, StringComparison.CurrentCultureIgnoreCase))),
+                    includeProperties: m => m.ProfilePictures);
             }
             catch (Exception)
             {
@@ -34,7 +36,9 @@ namespace PlaygroundsGallery.Domain.Managers
 				throw new MemberLoginException();
 			}
             
-            return _tokenManager.CreateToken(memberEntity.Id, memberEntity.LoginName);
+            MemberLoggedInDto memberLoggedInDto = _mapper.Map<MemberLoggedInDto>(memberEntity);
+            memberLoggedInDto.Token = _tokenManager.CreateToken(memberEntity.Id, memberEntity.LoginName);
+            return memberLoggedInDto;
         }
 
         public async Task<bool> MemberExists(string loginName, string emailAddress)

@@ -15,17 +15,20 @@ namespace PlaygroundsGallery.Domain.Managers
         private readonly IRepository<Playground> _playgroundRepository;
 		private readonly IRepository<Location> _locationRepository;
 		private readonly IRepository<CheckIn> _checkInRepository;
+		// private readonly IRepository<ProfilePicture> _profilePictureRepository;
 		private readonly IMapper _mapper;
 
         public PlaygroundManager(
             IRepository<Playground> playgroundRepository,
             IRepository<Location> locationRepository,
             IRepository<CheckIn> checkInRepository,
+            // IRepository<ProfilePicture> profilePictureRepository,
             IMapper mapper)
         {
             this._playgroundRepository = playgroundRepository;
             this._locationRepository = locationRepository;
             this._checkInRepository = checkInRepository;
+            // this._profilePictureRepository = profilePictureRepository;
             this._mapper = mapper;
         }
         public async Task<IEnumerable<LocationDto>> GetAllLocations()
@@ -60,13 +63,19 @@ namespace PlaygroundsGallery.Domain.Managers
         {
             return _mapper.Map<IEnumerable<CheckInDto>>(await _checkInRepository.Find(
                 predicate: c => c.PlaygroundId == playgroundId, 
-                includeProperties: new Expression<Func<CheckIn, object>>[] {(c => c.Member), (c => c.Playground)}));
+                includeProperties: new Expression<Func<CheckIn, object>>[] 
+                                    {
+                                        (c => c.Member), 
+                                        (c => c.Member.ProfilePictures), 
+                                        (c => c.Playground)
+                                    }));
         }
 
         public async Task<PlaygroundDto> GetPlaygroundById(int playgroundId) 
         {
-            var playground = await _playgroundRepository.SingleOrDefault(predicate: p => p.Id == playgroundId, 
-                        includeProperties: new Expression<Func<Playground, object>>[]{ (p => p.Location), (p => p.Photos) });
+            var playground = await _playgroundRepository.SingleOrDefault(
+                                        predicate: p => p.Id == playgroundId, 
+                                        includeProperties: new Expression<Func<Playground, object>>[]{ (p => p.Location), (p => p.Photos) });
             return _mapper.Map<PlaygroundDto>(playground);
         }
     }

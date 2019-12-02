@@ -12,7 +12,7 @@ namespace PlaygroundsGallery.Domain.Managers
         Task<PhotoDto> GetPhoto(int id);
         Task<IEnumerable<PhotoDto>> GetPhotosByMemberId(int id);
         Task<IEnumerable<PhotoDto>> GetRecentPhotos(int count);
-        Task<string> Login(MemberToLoginDto memberToLoginDto);
+        Task<MemberLoggedInDto> Login(MemberToLoginDto memberToLoginDto);
         Task<MemberDto> Register(MemberToLoginDto memberToLoginDto);
         Task<MemberDto> GetMember(int id);
     }
