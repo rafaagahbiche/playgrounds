@@ -42,7 +42,6 @@ a {
   @include transform_time(0.5s);
   &:hover,
   :hover {
-    color: $btn_bg;
     text-decoration: none;
     @include transform_time(0.5s);
   }

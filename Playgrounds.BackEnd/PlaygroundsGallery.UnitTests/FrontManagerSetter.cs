@@ -32,7 +32,10 @@ namespace Tests
 
         private void SetUpMocks()
         {
-            this._mockTokenManager.Setup(t => t.CreateToken(It.IsAny<int>(), It.IsAny<string>())).Returns("new token");
+            this._mockTokenManager.Setup(t => t.CreateToken(
+                It.IsAny<int>(), 
+                It.IsAny<string>(), 
+                It.IsAny<string>())).Returns("new token");
             this._mockPasswordManager.Setup(p => p.VerifyPasswordHash(It.IsAny<string>(), It.IsAny<byte[]>(), It.IsAny<byte[]>())).Returns(true);
             this._mockPasswordManager.Setup(p => p.SetPasswordHashAndSalt(It.IsAny<string>())).Verifiable();
             this._mockMapper.Setup(m => m.Map<MemberToLoginDto>(It.IsAny<Member>())).Returns((Member m) => {

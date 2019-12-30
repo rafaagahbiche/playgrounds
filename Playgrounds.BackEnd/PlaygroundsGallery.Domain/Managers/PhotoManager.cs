@@ -79,7 +79,22 @@ namespace PlaygroundsGallery.Domain.Managers
 		}
         public async Task<IEnumerable<PhotoDto>> GetPhotosByMemberId(int id) 
 			=> _mapper.Map<IEnumerable<PhotoDto>>(await _photoRepository.Find(p => p.Deleted == false && p.MemberId == id));
+		
+		public async Task<IEnumerable<PhotoDto>> GetPhotosByPlayground(int playgroundId)
+			=> _mapper.Map<IEnumerable<PhotoDto>>(await _photoRepository.Find(p => p.Deleted == false && p.PlaygroundId == playgroundId));
 
+		public async Task<IEnumerable<PhotoAsPostDto>> GetPhotosAsPostByPlayground(int playgroundId)
+		{
+			return _mapper.Map<IEnumerable<PhotoAsPostDto>>(await _photoRepository.Find(
+				predicate: p => p.Deleted == false && p.PlaygroundId == playgroundId && p.Member != null,
+				orderBy: q => q.OrderByDescending(p => p.Created), 
+				includeProperties: new Expression<Func<Photo, object>>[] { 
+						(p => p.Member), 
+						(p => p.Member.ProfilePictures ) 
+					})
+				);
+		}
+			
 		public async Task<bool> DeletePhoto(string publicId, bool physically)
 		{
 			var deletionSucceeded = false;

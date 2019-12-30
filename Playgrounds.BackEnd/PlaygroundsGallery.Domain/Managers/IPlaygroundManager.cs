@@ -9,9 +9,9 @@ namespace PlaygroundsGallery.Domain.Managers
     {
          Task<IEnumerable<LocationDto>> GetAllLocations();
          Task<IEnumerable<PlaygroundDto>> GetAllPlaygroundsByLocation(int locationId);
-         Task<CheckInDto> CheckInToPlayground(CheckInForCreationDto checkInForCreation);
-         Task<CheckInDto> GetCheckInById(int checkInId);
-         Task<IEnumerable<CheckInDto>> GetCheckInsByPlaygroundId(int playgroundId);
+         Task<CheckinDto> CheckInToPlayground(CheckInForCreationDto checkInForCreation);
+         Task<CheckinDto> GetCheckInById(int checkInId);
+         Task<IEnumerable<CheckinDto>> GetCheckInsByPlaygroundId(int playgroundId);
          Task<PlaygroundDto> GetPlaygroundById(int playgroundId);
     }
 }

@@ -1,0 +1,19 @@
+<div class="post-additional-info float-left text-center w-100 mb-3">
+  <tabset>
+    <tab heading="Checkin to Playground" id="tab1">
+      <app-checkin-form 
+        [userName]="userName" 
+        [userPhotoUrl]="userPhotoUrl"
+        [playgroundId]="playgroundId">
+      </app-checkin-form>
+    </tab>
+    <tab heading="Share" id="tab2">
+      <app-share-form 
+        [mainPosts]="mainPosts" 
+        [userName]="userName" 
+        [userPhotoUrl]="userPhotoUrl"
+        [playgroundId]="playgroundId">
+      </app-share-form>
+    </tab>
+  </tabset>
+</div>

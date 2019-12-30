@@ -1,0 +1,75 @@
+@import '../../timeline.component.scss';
+.author-thumb {
+    border: 2px solid #fff;
+    border-radius: 100%;
+    height: 38px;
+    overflow: hidden;
+    position: absolute;
+    left: 15px;
+    top: 20px;
+    width: 38px;
+    z-index: 1;
+}
+
+.share-form {
+    position: relative;
+    textarea {
+        min-height: 160px;
+        border-radius: 0;
+        border: none;
+        padding: 1.5rem 1.1rem .2rem;
+        padding-left: 70px;
+        resize: none;
+    }
+}
+
+.share-form textarea:focus {
+    border: none;
+    box-shadow: none;
+}
+
+.share-submit {
+    background: white;
+    border: 1px solid #e6ecf5;
+    .upload-photo {
+        color: #888da8;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 1.5rem;
+        position: relative;
+        input {
+            cursor: pointer;
+            display: inline-block;
+            opacity: 0;
+            left: 0;
+            position: absolute;
+            width: 25px;
+        }
+    }
+    .share-button {
+        display: inline-block;
+        text-align: right;
+    }
+}
+
+.label-floating.with-icon {
+    border-left: 1px solid #e6ecf5;
+    // border-right: 1px solid #e6ecf5;
+    margin-bottom: 0;
+    position: relative;
+}
+
+.control-label {
+    color: #888da8;
+    font-size: 14px;
+    left: 70px;
+    pointer-events: none;
+    position: absolute;
+    top: 18px;
+    transition: 0.3s ease all;
+}
+
+.focused {
+    top: 16px;
+    font-size: 11px;;
+}

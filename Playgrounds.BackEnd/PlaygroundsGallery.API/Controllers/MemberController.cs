@@ -50,6 +50,9 @@ namespace PlaygroundsGallery.API.Controllers
             try
             {
                 var uploadedPhoto = await _frontManager.UploadPhoto(photo);
+                // var fakePhoto = new PhotoInsertedDto(){
+                //     Url = "https://res.cloudinary.com/diqh90gj2/image/upload/v1571775627/t6xbkdpcqm35unsiesev.png"
+                // };
                 return Ok(uploadedPhoto);
                 // return CreatedAtRoute("GetPhoto", new {controller ="Photo", id = photoToReturnDto.Id}, photoToReturnDto);
             }

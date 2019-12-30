@@ -6,6 +6,7 @@ namespace PlaygroundsGallery.Domain.DTOs
     {
         public string Description { get; set; }
 				public int MemberId { get; set; }
+        public int? PlaygroundId { get; set; }
         public IFormFile File { get; set; }
     }
 }

@@ -5,11 +5,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
 import { RouterModule } from '@angular/router';
-import { BsDatepickerModule, TimepickerModule } from 'ngx-bootstrap';
+import { BsDatepickerModule, TimepickerModule, TabsModule } from 'ngx-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { FileUploadModule } from 'ng2-file-upload';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
- 
+
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { AuthService } from './_services/auth.service';
@@ -20,8 +20,9 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
-import { PlaygroundComponent } from './playground/playground.component';
-import { PlayersCheckinsComponent } from './playground/timeline/players-checkins/players-checkins.component';
+// import { PlaygroundComponent } from './playground/playground.component';
+// import { PlayersCheckinsComponent } from './playground/timeline/players-checkins/players-checkins.component';
+// import { PhotosGalleryComponent } from './playground/photos/photos-gallery/photos-gallery.component';
 import { LocationsComponent } from './home/locations/locations.component';
 
 import { GalleryComponent } from './home/gallery/gallery.component';
@@ -58,9 +59,10 @@ export function tokenGetter() {
       PhotoUploaderComponent,
       PhotosManagerComponent,
       PhotoEditorComponent,
-      FooterComponent,
-      PlaygroundComponent,
-      PlayersCheckinsComponent
+      FooterComponent
+      // PlaygroundComponent,
+      // PlayersCheckinsComponent,
+      // PhotosGalleryComponent
    ],
    imports: [
       BrowserModule,
@@ -73,6 +75,7 @@ export function tokenGetter() {
       AutocompleteLibModule,
       BsDatepickerModule.forRoot(),
       TimepickerModule.forRoot(),
+      TabsModule.forRoot(),
       RouterModule.forRoot(appRoutes),
       JwtModule.forRoot({
          config:

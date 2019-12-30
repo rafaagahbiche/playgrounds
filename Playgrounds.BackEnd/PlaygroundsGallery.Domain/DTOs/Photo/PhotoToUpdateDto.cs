@@ -6,6 +6,5 @@ namespace PlaygroundsGallery.Domain.DTOs
     {
         public int Id { get; set; }
     	public DateTime Created { get; set; }
-        public int? PlaygroundId { get; set; }
     }
 }

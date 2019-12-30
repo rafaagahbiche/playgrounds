@@ -1,0 +1,80 @@
+img {
+    vertical-align: unset;
+    max-width: 100%;
+    height: auto;
+    display: inline-block;
+}
+
+.loading-ball {
+    width: 50%;
+}
+
+.post-additional-info {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    background: #edf2f6;
+    display: block;
+    .post-add-icon {
+        fill: #c2c5d9;
+        color: #c2c5d9;
+    }
+    a {
+        cursor: pointer;
+    }
+    a.horizental .friends-harmonic {
+        li {
+            width: auto;
+            transition: 0.7s ease-in-out;
+            .checkin-picture {
+                margin-left: -12px;
+            }
+            .checkin-detail {
+                display: none;
+            }
+        }
+    }
+
+    .friends-harmonic {
+        li {
+            background: white;
+            border: 1px solid #e6ecf5;
+            box-sizing: border-box;
+            display: inline-block;
+            margin: auto;
+            width: 95%;
+            .checkin-picture {
+                border: 2px solid #fff;
+                border-radius: 100%;
+                display: block;
+                float: left;
+                height: 38px;
+                overflow: hidden;
+                width: 38px;
+            }
+            .checkin-detail {
+                display: block;
+                float: left;
+            }
+        }
+        li.more-checkin {
+            display: inline-block;
+        }
+    }
+    .names-people-likes strong {
+        font-size: 14px;
+        color: #515365;
+        font-weight: 700;
+    }
+}
+
+.ui-block {
+    border-radius: 5px;
+    border: 1px solid #e6ecf5;
+}
+
+.inline-items > * {
+    display: inline-block;
+    vertical-align: middle;
+}
+  

@@ -1,0 +1,28 @@
+@import 'abstracts/mixins', 'abstracts/variables', 'components/elements';
+.window-popup {
+    max-width: calc(100% - 40px);
+}
+.update-header-photo {
+    width: 770px;
+    .modal-body {
+        padding: 0;
+    }
+}
+
+.upload-photo-item {
+    display: inline-block;
+    vertical-align: middle;
+    width: 49%;
+    padding: 50px;
+    text-align: center;
+    fill: #c2c5d9;
+    border-left: 1px solid #e6ecf5;
+}
+
+.icon-close {
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    text-shadow: 0 1px 0 #fff;
+    top: 10px;
+}

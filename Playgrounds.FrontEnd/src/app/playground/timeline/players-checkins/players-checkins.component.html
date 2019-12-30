@@ -1,29 +1,12 @@
-<div class="post-additional-info inline-items">
-  <a (click)="showCheckinsDetails = !showCheckinsDetails" style="--calculatedHeight: 150px" [ngClass]="{'vertical-display': showCheckinsDetails}">
-    <ul class="friends-harmonic" *ngIf="moreThanFourCheckIns; else lessThanFourCheckIns">
-      <li *ngFor="let checkIn of fourMostRecentCheckIns">
-          <img src="{{ checkIn.memberProfilePictureUrl }}" alt="friend">
-      </li>
-    </ul>
-    <ng-template #lessThanFourCheckIns>
-      <ul class="friends-harmonic">
-        <li *ngFor="let checkIn of playgroundCheckIns">
-            <img src="{{ checkIn.memberProfilePictureUrl }}" alt="friend">
-        </li>
-      </ul>
-    </ng-template>
-  </a>
-  
-  <div class="names-people-likes ml-3">
-    <a href="#">Jenny</a>, <a href="#">Robert</a> and
-    <br>{{numberOfCheckIns}} are playing today
-  </div>
-  <div class="comments-shared">
-    <!-- <a href="#" class="post-add-icon inline-items">
-      <span>1</span>
-    </a>
-    <a href="#" class="post-add-icon inline-items">
-      <span>16</span>
-    </a> -->
-  </div>
+<div class="post-additional-info post-additional-info-more inline-items float-left text-center w-100">
+<div class="text-center mt-2 p-2 d-block"><h3>Today!</h3></div>
+  <ul class="friends-harmonic float-left w-100">
+    <li *ngFor="let checkIn of playgroundCheckIns; index as i" class="p-3 mb-1">
+      <a (click)="showCheckinsDetails = !showCheckinsDetails">
+        <div class="checkin-picture"><img src="{{ checkIn.memberProfilePictureUrl }}" alt="{{checkIn.memberLoginName}}"></div>
+        <div class="checkin-detail names-people-likes ml-2 mt-2"><strong>{{checkIn.memberLoginName}}</strong> is going: {{checkIn.checkInDate | date: 'short'}}</div>
+      </a>
+    </li>
+  </ul>
+<div class="comments-shared"></div>
 </div>

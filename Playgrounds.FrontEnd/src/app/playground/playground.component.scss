@@ -3,49 +3,82 @@
 @import 'abstracts/mixins', 'abstracts/variables', 'components/elements';
 @import '../../../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css';
 
-.breadcrumb{
-	position: relative;
-	z-index: 1;
-  text-align: left;
-  background-repeat: no-repeat;
-  background-size: cover;
-  margin-bottom: 0px;
-	.breadcrumb_iner{
-		height: 600px;
-		width: 100%;
-		display: table;
-		.breadcrumb_iner_item{
-			display: table-cell;
-			vertical-align: middle;
-			h1{
-				// color: $black_color;
-				font-size: 42px;
-				font-weight: 700;
-				color: #484848;
-				@media #{$small_mobile}{
-					font-size: 35px;
-				}
-				@media #{$large_mobile}{
-					font-size: 35px;
-				}
-				@media #{$tab_device}{
-					font-size: 40px;
-				}
-				@media #{$medium_device}{
-				
-				}
-			}
-			p{
-					font-size: 15px;
-					color: 8a8a8a;
-			}
-			span{
-					margin: 0px 5px;
-					font-size: 12px;
-			}
-		}
-	}
+.ui-block {
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid #e6ecf5;
+  margin-bottom: 15px;
 }
+
+.inline-items > * {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.profile-section {
+  position: relative;
+  padding: 38px 0;
+  z-index: 3;
+}
+.top-header-author {
+  background-color: white;
+  position: absolute;
+  left: 50%;
+  max-width: 300px;
+  -webkit-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+  top: 35px;
+  text-align: center;
+  z-index: 4;
+  h1 {
+    font-size: 42px;
+    font-weight: 700;
+    color: #484848;
+    @media #{$small_mobile}{
+      font-size: 35px;
+    }
+    @media #{$large_mobile}{
+      font-size: 35px;
+    }
+    @media #{$tab_device}{
+      font-size: 40px;
+    }
+    @media #{$medium_device}{
+    
+    }
+  }
+  p {
+      font-size: 15px;
+      color: 8a8a8a;
+  }
+  span {
+      margin: 0px 5px;
+      font-size: 12px;
+  }
+}
+.profile-menu {
+  margin-bottom: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+  li {
+    div, a {
+      font-size: 14px;
+      font-weight: 700;
+      color: #9a9fbf;
+      display: block;
+    }
+    a.active {
+      color: #515365;
+    }
+  }
+}
+
 .latest-blog-area {
   .area-heading {
     margin-bottom: 70px;
@@ -60,26 +93,7 @@ button[disabled] {
   max-height: 40px;
 }
 
-::ng-deep .timepicker-custom-style
-{ 
-  .bs-timepicker-field {
-      padding-left: 5px !important;
-      padding-right: 5px !important;
-      width: 40px !important;
-  }
-}
 
-::ng-deep .theme-red {
-  .bs-datepicker-container {
-    padding: 0 !important;
-    .bs-datepicker-head {
-      background-color: #fff;
-    }
-    .bs-datepicker-head * {
-      color: #000;
-    }
-  }
-}
 .single-blog {
   overflow: hidden;
   margin-bottom: 30px;
@@ -240,13 +254,7 @@ button[disabled] {
 
 /* Latest Blog Area css
 ============================================================================================ */
-.latest_blog_area {
-}
-.latest_blog_inner {
-}
 .l_blog_item {
-  .l_blog_img {
-  }
   .l_blog_text {
     .date {
       margin-top: 24px;

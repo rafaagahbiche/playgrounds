@@ -1,0 +1,50 @@
+<div class="share-form">
+  <div *ngIf="errorText?.length">
+    <span>Something went wrong while uploading the photo.</span>
+    <span>{{errorText}}</span>
+  </div>
+  <ngx-spinner [fullScreen]="false" type="html" size="small">
+      <img class="loading-ball" src="../../../../../assets/ball-loading.gif">
+  </ngx-spinner>
+  <div>
+    <div class="author-thumb">
+      <img src="{{ userPhotoUrl }}">
+    </div>
+    <div class="form-group with-icon label-floating is-empty">
+      <label class="control-label" [ngClass]="shareSectionFocused ? 'focused' : ''">
+        {{postDescriptionText === '' ? descriptionPlaceholderText : ''}}
+      </label>
+      <textarea class="form-control" 
+        name="description"
+        [(ngModel)]="postDescriptionText"
+        (keyup)="onPosteDescriptionValueChanged()"
+        (focus)="shareSectionFocused = true" 
+        (blur)="shareSectionFocused = false">
+      </textarea>
+    </div>
+    <div class="text-right p-3 share-submit">
+      <div *ngIf="!photoUploader?.queue?.length" class="fa fa-camera upload-photo float-left">
+        <input type="file" 
+          #photoToUpload
+          name="photo" 
+          id="upload-photo" 
+          ng2FileSelect 
+          [uploader]="photoUploader">
+      </div>
+      <div *ngIf="photoUploader?.queue?.length" class="float-left">
+        <div *ngFor="let item of photoUploader.queue">
+          <span class="mr-3">{{ item?.file?.name }}</span>
+          <i class="fa fa-close" (click)="clearPhotoToPost()"></i>
+        </div>
+      </div>
+      <div class="share-button">
+        <button class="btn btn-primary btn-sm" 
+          [disabled]="!canBePosted" 
+          (click)="sharePostToPlayground()" 
+          type="submit">Share Content
+        </button>
+      <p>{{photoToUpload}}</p>
+      </div>
+    </div>
+  </div>
+</div>

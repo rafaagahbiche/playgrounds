@@ -10,40 +10,11 @@ import { Photo } from '../_models/Photo';
 
 export class PhotosService {
 
+  private memberPhotosApiUrl = environment.apiUrl + 'member/photos';
+  private photoApiUrl = environment.apiUrl + 'photos';
+  private postApiUrl = environment.apiUrl + 'posts';
+
   constructor(private http: HttpClient) { }
-  memberApiUrl = environment.apiUrl + 'member';
-  memberPhotosApiUrl = environment.apiUrl + 'member/photos';
-  photoApiUrl = environment.apiUrl + 'photos';
-
-  getMemberPhotos(token: any) {
-    if (token !== null) {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          'Authorization': 'Bearer ' + token
-        })
-      };
-
-      return this.http.get(this.memberPhotosApiUrl, httpOptions);
-    }
-
-    return null;
-  }
-
-  getRecentPhotos(count) {
-    return this.http.get(this.photoApiUrl + '/recent?count=' + count);
-  }
-
-  getPhoto(id) {
-    return this.http.get(this.photoApiUrl + '/' + id);
-  }
-
-  deletePhoto(publicId: string, token: any) {
-      return this.http.delete(this.memberPhotosApiUrl + '/' + publicId, this.getHttpOptions(token));
-  }
-
-  updatePhoto(photo: Photo, token: any) {
-    return this.http.put(this.memberPhotosApiUrl + '/update', photo, this.getHttpOptions(token));
-  }
 
   private getHttpOptions(token: any) {
     if (token !== null) {
@@ -57,7 +28,45 @@ export class PhotosService {
     }
   }
 
-  createFileUploader(token) {
+  public getMemberPhotos(token: any) {
+    if (token !== null) {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Authorization': 'Bearer ' + token
+        })
+      };
+
+      return this.http.get(this.memberPhotosApiUrl, httpOptions);
+    }
+
+    return null;
+  }
+
+  public getRecentPhotos(count: number) {
+    return this.http.get(this.photoApiUrl + '/recent?count=' + count);
+  }
+
+  public getPlaygroundPhotos(playgroundId: number) {
+    return this.http.get(this.photoApiUrl + '/playground/' + playgroundId);
+  }
+
+  public getPlaygroundPosts(playgroundId: number) {
+    return this.http.get(this.postApiUrl + '/playground/' + playgroundId);
+  }
+
+  public getPhoto(id: number) {
+    return this.http.get(this.photoApiUrl + '/' + id);
+  }
+
+  public deletePhoto(publicId: string, token: any) {
+      return this.http.delete(this.memberPhotosApiUrl + '/' + publicId, this.getHttpOptions(token));
+  }
+
+  public updatePhoto(photo: Photo, token: any) {
+    return this.http.put(this.memberPhotosApiUrl + '/update', photo, this.getHttpOptions(token));
+  }
+
+  public createFileUploader(token: any) {
     return new FileUploader({
       url: this.memberPhotosApiUrl + '/upload/',
       authToken: 'Bearer ' + token,

@@ -36,7 +36,7 @@ namespace PlaygroundsGallery.API.Controllers
         }
 
         [HttpGet]
-        public async Task<CheckInDto> GetCheckIn(int checkInId)
+        public async Task<CheckinDto> GetCheckIn(int checkInId)
         {
             return await _manager.GetCheckInById(checkInId);
         }

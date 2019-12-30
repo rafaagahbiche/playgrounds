@@ -10,3 +10,8 @@ export interface Photo {
     description?: string;
     created?: Date;
 }
+
+export interface PhotoToUpload {
+    playgroundId?: number;
+    description?: string;
+}

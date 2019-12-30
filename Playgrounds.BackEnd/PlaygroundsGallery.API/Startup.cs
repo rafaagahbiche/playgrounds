@@ -65,6 +65,7 @@ namespace PlaygroundsGallery.API
             services.AddScoped<IPhotoRepository, PhotoRepository>();
             services.AddScoped<IMemberRepository, MemberRepository>();
             services.AddScoped<IPasswordManager, PasswordManager>();
+            services.AddScoped<IPostManager, PostManager>();
             services.AddScoped<IPlaygroundManager, PlaygroundManager>();
             services.AddScoped<IFrontManager, FrontManager>();
             services.AddScoped<IGalleryContext, GalleryContext>();

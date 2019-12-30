@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CheckInToDisplay } from 'src/app/_models/CheckIn';
+import { ActivatedRoute } from '@angular/router';
+import { PlaygroundsService } from 'src/app/_services/playgrounds.service';
 
 @Component({
   selector: 'app-players-checkins',
@@ -7,14 +9,24 @@ import { CheckInToDisplay } from 'src/app/_models/CheckIn';
   styleUrls: ['./players-checkins.component.scss']
 })
 export class PlayersCheckinsComponent implements OnInit {
-  @Input() playgroundCheckIns: CheckInToDisplay[];
-  @Input() fourMostRecentCheckIns: CheckInToDisplay[];
-  @Input() numberOfCheckIns: number;
-  @Input() moreThanFourCheckIns: boolean;
+  playgroundId: number;
+  playgroundCheckIns: CheckInToDisplay[];
+  numberOfCheckIns: number;
   showCheckinsDetails = false;
 
-  constructor() { }
+  constructor(private playgroundsService: PlaygroundsService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.playgroundId = this.route.snapshot.parent.params.id;
+    this.getCheckIns();
+  }
+
+  private getCheckIns() {
+    this.playgroundsService.getCheckInsAtPlayground(this.playgroundId).subscribe((checkInsAtPlayground: CheckInToDisplay[]) => {
+      if (checkInsAtPlayground !== undefined) {
+        this.playgroundCheckIns = checkInsAtPlayground;
+        this.numberOfCheckIns = this.playgroundCheckIns.length;
+      }
+    });
   }
 }

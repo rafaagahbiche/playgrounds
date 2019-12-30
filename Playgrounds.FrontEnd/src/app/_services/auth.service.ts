@@ -10,28 +10,27 @@ import { Member } from '../_models/Member';
   providedIn: 'root'
 })
 export class AuthService {
-  baseUrl = environment.apiUrl + 'auth/';
-  jwtHelper = new JwtHelperService();
-  decodedToken: any;
-  memberName = new BehaviorSubject<string>('');
+  private baseUrl = environment.apiUrl + 'auth/';
+  private jwtHelper = new JwtHelperService();
+  private memberName = new BehaviorSubject<string>('');
   currentMemberName = this.memberName.asObservable();
-  isLoggedIn = new BehaviorSubject<boolean>(this.jwtHelper.isTokenExpired(this.getMemberToken()));
-  currentLoggedInStatus = this.isLoggedIn.asObservable();
-  photoUrl = new BehaviorSubject<string>('../../assets/user.png');
-  currentPhotoUrl = this.photoUrl.asObservable();
+  private loggedInStatus = new BehaviorSubject<boolean>(this.jwtHelper.isTokenExpired(this.getMemberToken()));
+  currentLoggedInStatus = this.loggedInStatus.asObservable();
+  private memberPhotoUrl = new BehaviorSubject<string>(environment.defaultProfilePicture);
+  currentMemberPhotoUrl = this.memberPhotoUrl.asObservable();
 
   constructor(private http: HttpClient) { }
 
-  changeMemberName(memberName: string) {
-    this.memberName.next(memberName);
+  setUserPropertiesFromMyDecodedToken() {
+    const myToken = this.getMemberToken();
+    const myDecodedToken = this.jwtHelper.decodeToken(myToken);
+    this.changeMemberName(myDecodedToken.unique_name);
+    this.changeMemberPhoto(myDecodedToken.profilePictureUrl);
+    this.setLoggedInStatus(true);
   }
 
-  setLoggedInStatus(status: boolean) {
-    this.isLoggedIn.next(status);
-  }
-
-  changeMemberPhoto(photoUrl: string) {
-    this.photoUrl.next(photoUrl);
+  register(member: Member) {
+    return this.http.post(this.baseUrl + 'register', member);
   }
 
   login(model: any) {
@@ -39,10 +38,7 @@ export class AuthService {
         const user = response;
         if (user) {
           localStorage.setItem('token', user.token);
-          this.decodedToken = this.jwtHelper.decodeToken(user.token);
-          this.changeMemberName(this.decodedToken.unique_name);
-          this.setLoggedInStatus(true);
-          this.changeMemberPhoto(user.profilePictureUrl);
+          this.setUserPropertiesFromMyDecodedToken();
         }
       }
     ));
@@ -50,21 +46,33 @@ export class AuthService {
 
   logout() {
     this.setLoggedInStatus(false);
-    localStorage.removeItem('token');
-    this.decodedToken = null;
     this.changeMemberName('');
+    this.changeMemberPhoto('');
+    localStorage.removeItem('token');
   }
 
   getMemberToken() {
     return localStorage.getItem('token');
   }
 
-  register(member: Member) {
-    return this.http.post(this.baseUrl + 'register', member);
+  isLoggedIn() {
+    const token = this.getMemberToken();
+    return !this.jwtHelper.isTokenExpired(token);
   }
 
-  loggedIn() {
-    const token = localStorage.getItem('token');
-    return !this.jwtHelper.isTokenExpired(token);
+  private setLoggedInStatus(status: boolean) {
+    this.loggedInStatus.next(status);
+  }
+
+  private changeMemberName(memberName: string) {
+    this.memberName.next(memberName);
+  }
+
+  private changeMemberPhoto(photoUrl: string) {
+    if (photoUrl !== null && photoUrl !== undefined && photoUrl !== '') {
+      this.memberPhotoUrl.next(photoUrl);
+    } else {
+      this.memberPhotoUrl.next(environment.defaultProfilePicture);
+    }
   }
 }

@@ -1,94 +1,47 @@
-<section class="breadcrumb breadcrumb_bg" [ngStyle]="{'background-image': 'url(' + playground.mainPhotoUrl + '), linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5))'}">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="breadcrumb_iner">
-                    <div class="breadcrumb_iner_item">
-                        <h1>{{ playground.address }}</h1>
-                        <p>{{playground.locationStr}}</p>
-                    </div>
-                </div>
+<section class="blog_area breadcrumb_bg">
+  <div class="container">
+    <div class="row">
+      <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="ui-block">
+          <div class="top-header">
+            <div class="top-header-thumb">
+                <img src="{{playground.mainPhotoUrl}}" class="d-block w-100">
             </div>
+            <div class="top-header-author pl-3 pr-3">
+              <h1>{{ playground.address }}</h1>
+              <p>{{ playground.locationStr }}</p>
+            </div>
+            <div class="profile-section">
+              <div class="row">
+                <div class="col col-lg-12 col-md-12 col-sm-12 col-12">
+                  <ul class="profile-menu">
+                    <li>
+                      <a [routerLink]="'timeline'" routerLinkActive="active">Timeline</a>
+                    </li>
+                    <li>
+                      <a href="05-ProfilePage-About.html">About</a>
+                    </li>
+                    <li>
+                      <a href="06-ProfilePage.html">Players</a>
+                    </li>
+                    <li>
+                      <a [routerLink]="'photos'" routerLinkActive="active">Photos</a>
+                    </li>
+                    <li>
+                      <a href="09-ProfilePage-Videos.html">Videos</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</section>
-<section class="blog_area section_padding">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mb-5 mb-lg-0">
-                <div class="blog_left_sidebar">
-                    <article class="blog_item">
-                        <div class="blog_details">
-                            <app-players-checkins 
-                                    [playgroundCheckIns]="checkInsAtPlayground"
-                                    [fourMostRecentCheckIns]="fourMostRecentCheckIns"
-                                    [numberOfCheckIns]="numberOfCheckIns"
-                                    [moreThanFourCheckIns]="moreThanFourCheckIns"></app-players-checkins>
-                        </div>
-                    </article>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="blog_right_sidebar">
-                    <aside class="single_sidebar_widget search_widget" *ngIf="isLoggedIn">
-                        <form *ngIf="!isCheckedIn" [formGroup]="checkInForm" (ngSubmit)="checkInMemberToPlayground()"
-                            class="justify-content-center">
-                            <div class="form-group row">
-                                <div class="input-group col-sm-7 pr-1">
-                                    <input 
-                                        type="text" 
-                                        formControlName="checkInDate" 
-                                        bsDatepicker 
-                                        #dp="bsDatepicker"
-                                        [bsConfig]="bsConfig"
-                                        class="form-control" placeholder="When are you going?"
-                                        onfocus="this.placeholder = ''"
-                                        onblur="this.placeholder = 'When are you going?'" />
-                                    <div class="input-group-append icon-right">
-                                        <button class="btn" type="button" (click)="dp.toggle()">
-                                            <i class="fa fa-calendar"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="input-group col-sm-5 pl-1">
-                                    <timepicker 
-                                        class="timepicker-custom-style" 
-                                        formControlName="checkInTime" 
-                                        [showSpinners]=false 
-                                        [showMeridian]=false 
-                                        [minuteStep]="15">
-                                    </timepicker>
-                                    <div class="input-group-append icon-right">
-                                        <button class="btn" type="button">
-                                            <i class="fa fa-clock-o"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="btn button rounded-0 primary-bg text-white w-100" type="submit"
-                                [disabled]="!checkInForm.valid">
-                                I am going
-                            </button>
-                        </form>
-                        <div class="row" *ngIf="isCheckedIn">
-                            <div class="col-sm-8"><strong>You are going: {{checkInModel.checkInDate | date: 'short'}}</strong></div>
-                            <div class="col-sm-4"><button class="btn btn-secondary btn-sm" (click)="isCheckedIn = false">Cancel</button></div>
-                        </div>
-                    </aside>
-                    <aside class="single_sidebar_widget popular_post_widget">
-                        <h3 class="widget_title">People playing here</h3>
-                        <div *ngFor="let memberCheckedIn of checkInsAtPlayground" class="media post_item">
-                            <img class="profile-img rounded-circle" src="{{memberCheckedIn.memberProfilePictureUrl}}" alt="">
-                            <div class="media-body">
-                                <a href="single-blog.html">
-                                    <h3>{{memberCheckedIn.memberLoginName}}</h3>
-                                </a>
-                                <p>{{memberCheckedIn.checkInDate | date:'short'}}</p>
-                            </div>
-                        </div>
-                    </aside>
-                </div>
-            </div>
-        </div>
+  </div>
+  <div class="container">
+    <div class="row" style="min-height: 500px;">
+      <router-outlet></router-outlet>      
     </div>
+  </div>
 </section>

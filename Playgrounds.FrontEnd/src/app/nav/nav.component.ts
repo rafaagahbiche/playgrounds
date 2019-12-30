@@ -19,7 +19,9 @@ export class NavComponent implements OnInit {
   ngOnInit(): void {
     this.authService.currentMemberName.subscribe(memberName => this.loggedInUserName =  memberName);
     this.authService.currentLoggedInStatus.subscribe(isLoggedIn => this.isLoggedIn = isLoggedIn);
-    this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
+    this.authService.currentMemberPhotoUrl.subscribe(photoUrl => {
+      this.photoUrl = photoUrl;
+    });
   }
 
   logout() {

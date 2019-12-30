@@ -31,5 +31,21 @@ namespace PlaygroundsGallery.API.Controllers
             var photos = await _frontManager.GetRecentPhotos(count);
             return Ok(photos);
         }
+
+        [Route("playground/{playgroundId}")]
+        [HttpGet]
+        public async Task<IActionResult> GetPlaygroundPhotos(int playgroundId)
+        {
+            var photos = await _frontManager.GetPhotosByPlayground(playgroundId);
+            return Ok(photos);
+        }
+
+        [Route("post/playground/{playgroundId}")]
+        [HttpGet]
+        public async Task<IActionResult> GetPlaygroundPhotosAsPosts(int playgroundId)
+        {
+            var photos = await _frontManager.GetPhotosAsPostByPlayground(playgroundId);
+            return Ok(photos);
+        }
     }
 }

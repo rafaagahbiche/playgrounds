@@ -1,8 +1,8 @@
-using System;
+﻿using System;
 
 namespace PlaygroundsGallery.Domain.DTOs
 {
-    public class CheckInDto
+    public class CheckinDto
     {
         public int Id { get; set; }
         public DateTime CheckInDate { get; set; }

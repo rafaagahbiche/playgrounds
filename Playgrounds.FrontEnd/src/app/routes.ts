@@ -16,7 +16,9 @@ export const appRoutes: Routes = [
     { path: 'home', component: HomeComponent},
     { path: 'login', component: LoginComponent},
     { path: 'register', component: RegisterComponent},
-    { path: 'playground/:id', component: PlaygroundComponent, resolve: {playground: PlaygroundDetailResolver}},
+    { path: 'playground/:id',
+            loadChildren: () => import(`./playground/playground.module`).then(m => m.PlaygroundModule),
+            resolve: {playground: PlaygroundDetailResolver}},
     { path: 'locations/:locationId', component: LocationsComponent, resolve: {playgrounds: PlaygroundListResolver}},
     {
         path: '',

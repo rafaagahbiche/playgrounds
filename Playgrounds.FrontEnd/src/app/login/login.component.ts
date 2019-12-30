@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.model).subscribe(next => {
       this.spinner.hide();
     },
-     error => {
+      error => {
       this.spinner.hide();
       this.errorsAfterSubmitting = error;
     }, () => {

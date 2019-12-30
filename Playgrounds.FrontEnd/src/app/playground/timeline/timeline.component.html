@@ -1,0 +1,18 @@
+<div class="col col-xl-2 order-xl-1 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+    &nbsp;
+</div>
+<div class="col col-xl-8 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+    <app-timeline-forms 
+        *ngIf="isLoggedIn"
+        [mainPosts]="timelinePosts" 
+        [userName]="userName" 
+        [userPhotoUrl]="userPhotoUrl"
+        [playgroundId]="playgroundId">
+    </app-timeline-forms>
+    <app-timeline-posts 
+        [mainPosts]="timelinePosts" 
+        [playgroundId]="playgroundId">
+    </app-timeline-posts>
+    
+    <!-- <app-players-checkins></app-players-checkins> -->
+</div>

@@ -37,7 +37,11 @@ namespace PlaygroundsGallery.Domain.Managers
 			}
             
             MemberLoggedInDto memberLoggedInDto = _mapper.Map<MemberLoggedInDto>(memberEntity);
-            memberLoggedInDto.Token = _tokenManager.CreateToken(memberEntity.Id, memberEntity.LoginName);
+            memberLoggedInDto.Token = _tokenManager.CreateToken(
+                memberEntity.Id, 
+                memberEntity.LoginName, 
+                memberLoggedInDto.ProfilePictureUrl);
+                
             return memberLoggedInDto;
         }
 

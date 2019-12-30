@@ -1,0 +1,47 @@
+    <div class="checkin-box w-100">
+      <ngx-spinner [fullScreen]="false" type="html" size="small">
+        <img class="loading-ball" src="../../../../../assets/ball-loading.gif">
+      </ngx-spinner>
+      <form [formGroup]="checkInForm" (ngSubmit)="checkInMemberToPlayground()">
+          <div class="checkin-picture">
+            <img src="{{userPhotoUrl}}">
+          </div>
+          <!-- <div>
+            <span><strong>Going today</strong></span>
+            <timepicker
+              class="timepicker-custom-style"
+              formControlName="checkInTime"
+              [showSpinners]="false"
+              [showMeridian]="false"
+              [minuteStep]="15">
+            </timepicker>
+          </div> -->
+          <div class="checkin-date-selector input-group pr-1">
+            <div>
+              <input
+                type="text"
+                formControlName="checkInDate"
+                bsDatepicker
+                #dp="bsDatepicker"
+                [bsConfig]="bsConfig"
+                class="form-control"
+                placeholder="When are you going?"
+                onfocus="this.placeholder = ''"
+                onblur="this.placeholder = 'When are you going?'"/>
+            
+              <timepicker
+                class="timepicker-custom-style"
+                formControlName="checkInTime"
+                [showSpinners]="false"
+                [showMeridian]="false"
+                [minuteStep]="15">
+              </timepicker>
+            </div>
+          </div>
+          <div class="text-right p-3 share-submit">
+            <div class="share-button">
+              <button class="btn btn-primary btn-sm" [disabled]="!checkInForm.valid" type="submit">Checkin</button>
+            </div>
+          </div>
+      </form>
+    </div>

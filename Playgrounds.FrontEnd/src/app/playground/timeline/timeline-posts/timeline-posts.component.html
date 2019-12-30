@@ -1,0 +1,22 @@
+<div *ngIf="mainPosts?.length" class="float-left w-100 mb-3">
+  <div *ngFor="let post of mainPosts" class="ui-block mb-2">
+      <article [@fadeInAnimation]="'in'" class="p-3 post">
+        <div class="post__author inline-items">
+            <img src="{{post.authorProfilePictureUrl}}" alt="author">
+            <div class="author-date">
+                <span class="h6 post__author-name fn">{{post.authorLoginName}}</span>
+                <div class="post__date">
+                <time class="published">
+                  {{post.created | date: 'short'}}
+                  </time>
+                </div>
+            </div>
+        </div>
+        <p *ngIf="post.description?.length" class="mb-3 ml-3">{{post.description}}</p>
+        <p *ngIf="post.checkInDate > minDate" class="mb-3 ml-3">Checkin date: {{post.checkInDate | date: 'short'}}</p>
+        <div *ngIf="post.url" class="post-thumb">
+            <img src="{{post.url}}">
+        </div>
+    </article>
+  </div>
+</div>

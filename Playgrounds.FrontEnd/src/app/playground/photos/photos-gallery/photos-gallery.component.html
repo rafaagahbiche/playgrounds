@@ -1,0 +1,25 @@
+<div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+  <div class="tab-pane active" id="album-page" role="tabpanel">
+    <div class="photo-album-wrapper">
+      <div *ngFor="let photo of playgroundPhotos" class="photo-album-item-wrap col-4-width">
+        <div class="photo-album-item" data-mh="album-item" style="height: 458.172px;">
+          <div class="photo-item">
+            <img src="{{ photo.url }}" alt="photo" />
+            <div class="overlay"></div>
+            <a href="#" data-toggle="modal" data-target="#open-photo-popup-v1" class="  full-block"></a>
+          </div>
+
+          <div class="content">
+            <a href="#" class="title h5">{{photo.description}}</a>
+            <span class="sub-title">Added: {{photo.created | date: 'short'}}</span>
+            <div class="swiper-container swiper-swiper-unique-id-1 initialized swiper-container-horizontal"
+              data-slide="fade" id="swiper-unique-id-1">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tab-content"></div>
+  <div class="tab-content"></div>
+</div>

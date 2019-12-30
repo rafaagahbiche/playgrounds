@@ -16,13 +16,13 @@ namespace PlaygroundsGallery.Helper
 			_secretKey = secretKey;
 		}
 
-        public string CreateToken(int userId, string userName)
+        public string CreateToken(int userId, string userName, string profilePictureUrl)
 		{
 			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
 			var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
 			// create some claims to put into the token
-			List<Claim> claims = GetClaims(userId, userName);
+			List<Claim> claims = GetClaims(userId, userName, profilePictureUrl);
 
 			SecurityTokenDescriptor securityTokenDescriptor = GetSecurityTokenDescriptor(signingCredentials, claims);
 
@@ -52,12 +52,13 @@ namespace PlaygroundsGallery.Helper
 			};
 		}
 
-		private List<Claim> GetClaims(int userId, string userName)
+		private List<Claim> GetClaims(int userId, string userName, string profilePictureUrl)
 		{
 			return new List<Claim>()
 				{
 					new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-					new Claim(ClaimTypes.Name, userName)
+					new Claim(ClaimTypes.Name, userName),
+					new Claim("profilePictureUrl", profilePictureUrl)
 				};
 		}
     }
