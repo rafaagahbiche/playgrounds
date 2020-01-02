@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TimelinePost } from 'src/app/_models/TimelinePost';
 import { AuthService } from 'src/app/_services/auth.service';
 import { PhotosService } from 'src/app/_services/photos.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
   @Component({
     selector: 'app-timeline',
@@ -10,23 +11,27 @@ import { PhotosService } from 'src/app/_services/photos.service';
   })
 
   export class TimelineComponent implements OnInit {
-    protected timelinePosts: TimelinePost[];
-    protected userName: string;
-    protected userPhotoUrl: string;
-    protected playgroundId: number;
-    protected isLoggedIn: boolean;
+    timelinePosts: TimelinePost[];
+    userName: string;
+    userPhotoUrl: string;
+    playgroundId: number;
+    isLoggedIn: boolean;
     constructor(
       private authService: AuthService,
       private photoServce: PhotosService,
-      private route: ActivatedRoute) { }
+      private route: ActivatedRoute,
+      private spinner: NgxSpinnerService) { }
 
     ngOnInit() {
       this.playgroundId = this.route.snapshot.parent.params.id;
       this.timelinePosts = new Array<TimelinePost>();
-      this.photoServce.getPlaygroundPosts(this.playgroundId).subscribe((posts: TimelinePost[]) => {
-        this.timelinePosts = posts;
-      });
-
+      this.spinner.show('timeline-spinner');
+      setTimeout(() => {
+        this.photoServce.getPlaygroundPosts(this.playgroundId).subscribe((posts: TimelinePost[]) => {
+          this.spinner.hide('timeline-spinner');
+          this.timelinePosts = posts;
+        });
+      }, 3000);
       this.authService.currentMemberName.subscribe(name => this.userName = name);
       this.authService.currentMemberPhotoUrl.subscribe(photoUrl => this.userPhotoUrl = photoUrl);
       this.authService.currentLoggedInStatus.subscribe(isLoggedIn => this.isLoggedIn = isLoggedIn);

@@ -45,6 +45,7 @@
     box-sizing: border-box;
     display: inline-block;
     margin: auto;
+    position: relative;
     form {
       position: relative;
     }
@@ -69,7 +70,7 @@
     float: left;
     font-size: 14px;;
     margin-right: 5px;
-    width: 30%;
+    width: 50%;
   }
 }
 

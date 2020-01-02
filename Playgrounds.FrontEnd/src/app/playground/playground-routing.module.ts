@@ -6,10 +6,10 @@ import { TimelineComponent } from './timeline/timeline.component';
 
 
 const routes: Routes = [
-  {
-    path: '', component: PlaygroundComponent, children: [
-      { path: 'photos', component: PhotosGalleryComponent },
-      { path: 'timeline', component: TimelineComponent }
+  { path: '', component: PlaygroundComponent, children: [
+    { path: '', component: TimelineComponent },
+    { path: 'photos', component: PhotosGalleryComponent },
+    { path: 'timeline', component: TimelineComponent } 
     ]
   }
 ];

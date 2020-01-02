@@ -19,12 +19,12 @@ export class ShareFormComponent implements OnInit {
   @Input() userPhotoUrl: string;
   @Input() playgroundId: number;
 
-  protected descriptionPlaceholderText = 'Share your experience in this playground...';
-  protected postDescriptionText = '';
-  protected photoUploader: FileUploader;
-  protected shareSectionFocused = false;
-  protected canBePosted = false;
-  protected errorText: string;
+  descriptionPlaceholderText = 'Share your experience in this playground...';
+  postDescriptionText = '';
+  photoUploader: FileUploader;
+  shareSectionFocused = false;
+  canBePosted = false;
+  errorText: string;
 
   constructor(
     private authService: AuthService,
@@ -43,7 +43,7 @@ export class ShareFormComponent implements OnInit {
     };
     this.photoUploader.onErrorItem = (item, response, status, headers) => {
       this.postDescriptionText = '';
-      this.spinner.hide();
+      this.spinner.hide('share-form-spinner');
       this.errorText = response;
     };
 
@@ -58,17 +58,17 @@ export class ShareFormComponent implements OnInit {
         };
         this.postDescriptionText = '';
         this.mainPosts.unshift(timelinePost);
-        this.spinner.hide();
+        this.spinner.hide('share-form-spinner');
       }
     };
   }
 
-  protected clearPhotoToPost() {
+  clearPhotoToPost() {
     this.photoUploader.clearQueue();
     this.canBePosted = this.postDescriptionText !== '';
   }
 
-  protected onPosteDescriptionValueChanged() {
+  onPosteDescriptionValueChanged() {
     if (this.postDescriptionText.length > 0) {
       this.canBePosted = true;
     } else {
@@ -77,7 +77,7 @@ export class ShareFormComponent implements OnInit {
     }
   }
 
-  protected sharePostToPlayground() {
+  sharePostToPlayground() {
     const photoDescription = this.postDescriptionText !== '' ? this.postDescriptionText : '';
     this.photoUploader.setOptions({
       additionalParameter: {
@@ -85,7 +85,7 @@ export class ShareFormComponent implements OnInit {
         description: photoDescription
       }
     });
-    this.spinner.show();
+    this.spinner.show('share-form-spinner');
     setTimeout(() => {
       this.photoUploader.uploadAll();
     }, 3000);

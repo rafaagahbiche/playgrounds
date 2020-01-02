@@ -1,18 +1,24 @@
-<div class="col col-xl-2 order-xl-1 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
-    &nbsp;
-</div>
-<div class="col col-xl-8 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
-    <app-timeline-forms 
-        *ngIf="isLoggedIn"
-        [mainPosts]="timelinePosts" 
-        [userName]="userName" 
-        [userPhotoUrl]="userPhotoUrl"
-        [playgroundId]="playgroundId">
-    </app-timeline-forms>
-    <app-timeline-posts 
-        [mainPosts]="timelinePosts" 
-        [playgroundId]="playgroundId">
-    </app-timeline-posts>
-    
-    <!-- <app-players-checkins></app-players-checkins> -->
+<div class="row" style="min-height: 600px;">
+    <div class="col col-xl-3 order-xl-1 col-lg-12 order-lg-1 col-md-3 col-sm-12 col-12">
+    </div>
+    <div class="col col-xl-6 order-xl-2 col-lg-12 order-lg-2 col-md-6 col-sm-12 col-12">
+        <div class="w-100 float-left " style="margin: auto">
+            <ngx-spinner name="timeline-spinner" [fullScreen]="false" type="html" size="large" bdColor="rgba(0,0,0,0)">
+                <img class="loading-ball w-100" src="../../../assets/loading-gif-orange-4.gif">
+            </ngx-spinner>
+        </div>
+        <app-timeline-forms 
+            *ngIf="isLoggedIn"
+            [mainPosts]="timelinePosts" 
+            [userName]="userName" 
+            [userPhotoUrl]="userPhotoUrl"
+            [playgroundId]="playgroundId">
+        </app-timeline-forms>
+        <app-timeline-posts 
+            [mainPosts]="timelinePosts" 
+            [playgroundId]="playgroundId">
+        </app-timeline-posts>
+        
+        <!-- <app-players-checkins></app-players-checkins> -->
+    </div>
 </div>

@@ -4,7 +4,6 @@ import { AuthGuard } from './_guards/auth.guard';
 import { PhotosManagerComponent } from './member/photos-manager/photos-manager.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { PlaygroundComponent } from './playground/playground.component';
 import { PlaygroundDetailResolver } from './_resolvers/playground-detail.resolver';
 import { LocationsComponent } from './home/locations/locations.component';
 import { PlaygroundListResolver } from './_resolvers/playground-list.resolver';
@@ -17,8 +16,9 @@ export const appRoutes: Routes = [
     { path: 'login', component: LoginComponent},
     { path: 'register', component: RegisterComponent},
     { path: 'playground/:id',
-            loadChildren: () => import(`./playground/playground.module`).then(m => m.PlaygroundModule),
-            resolve: {playground: PlaygroundDetailResolver}},
+            loadChildren: () => import('./playground/playground.module').then(m => m.PlaygroundModule),
+            resolve: {playground: PlaygroundDetailResolver}
+    },
     { path: 'locations/:locationId', component: LocationsComponent, resolve: {playgrounds: PlaygroundListResolver}},
     {
         path: '',

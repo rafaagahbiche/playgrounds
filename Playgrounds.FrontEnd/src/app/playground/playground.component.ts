@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 
 export class PlaygroundComponent implements OnInit {
-  protected playground: Playground;
+  playground: Playground;
 
   constructor(private route: ActivatedRoute) { }
 

@@ -4,12 +4,12 @@
         <div class="post__author inline-items">
             <img src="{{post.authorProfilePictureUrl}}" alt="author">
             <div class="author-date">
-                <span class="h6 post__author-name fn">{{post.authorLoginName}}</span>
-                <div class="post__date">
-                <time class="published">
-                  {{post.created | date: 'short'}}
-                  </time>
-                </div>
+              <span class="h6 post__author-name fn">{{post.authorLoginName}}</span>
+              <div class="post__date">
+              <time class="published">
+                {{post.created | date: 'short'}}
+                </time>
+              </div>
             </div>
         </div>
         <p *ngIf="post.description?.length" class="mb-3 ml-3">{{post.description}}</p>

@@ -1,5 +1,5 @@
     <div class="checkin-box w-100">
-      <ngx-spinner [fullScreen]="false" type="html" size="small">
+      <ngx-spinner name="checkin-post-spinner" [fullScreen]="false" type="html" size="small">
         <img class="loading-ball" src="../../../../../assets/ball-loading.gif">
       </ngx-spinner>
       <form [formGroup]="checkInForm" (ngSubmit)="checkInMemberToPlayground()">

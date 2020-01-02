@@ -19,16 +19,16 @@
                       <a [routerLink]="'timeline'" routerLinkActive="active">Timeline</a>
                     </li>
                     <li>
-                      <a href="05-ProfilePage-About.html">About</a>
+                      <a [routerLink]="'timeline'">About</a>
                     </li>
                     <li>
-                      <a href="06-ProfilePage.html">Players</a>
+                      <a [routerLink]="'timeline'">Hoopers</a>
                     </li>
                     <li>
                       <a [routerLink]="'photos'" routerLinkActive="active">Photos</a>
                     </li>
                     <li>
-                      <a href="09-ProfilePage-Videos.html">Videos</a>
+                      <a [routerLink]="'photos'">Videos</a>
                     </li>
                   </ul>
                 </div>
@@ -40,8 +40,6 @@
     </div>
   </div>
   <div class="container">
-    <div class="row" style="min-height: 500px;">
-      <router-outlet></router-outlet>      
-    </div>
+    <router-outlet></router-outlet>      
   </div>
 </section>

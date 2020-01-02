@@ -3,7 +3,7 @@
     <span>Something went wrong while uploading the photo.</span>
     <span>{{errorText}}</span>
   </div>
-  <ngx-spinner [fullScreen]="false" type="html" size="small">
+  <ngx-spinner name="share-form-spinner" [fullScreen]="false" type="html" size="small">
       <img class="loading-ball" src="../../../../../assets/ball-loading.gif">
   </ngx-spinner>
   <div>
@@ -43,7 +43,6 @@
           (click)="sharePostToPlayground()" 
           type="submit">Share Content
         </button>
-      <p>{{photoToUpload}}</p>
       </div>
     </div>
   </div>

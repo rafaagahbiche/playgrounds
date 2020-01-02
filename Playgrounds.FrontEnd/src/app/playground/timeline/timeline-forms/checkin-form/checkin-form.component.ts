@@ -5,6 +5,7 @@ import { CheckIn } from 'src/app/_models/CheckIn';
 import { PlaygroundsService } from 'src/app/_services/playgrounds.service';
 import { AuthService } from 'src/app/_services/auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TimelinePost } from 'src/app/_models/TimelinePost';
 
 @Component({
   selector: 'app-checkin-form',
@@ -15,11 +16,12 @@ export class CheckinFormComponent implements OnInit {
   @Input() userName: string;
   @Input() userPhotoUrl: string;
   @Input() playgroundId: number;
+  @Input() mainPosts: TimelinePost[];
 
-  protected bsConfig: Partial<BsDatepickerConfig>;
-  protected checkInForm: FormGroup;
-  protected isCheckedIn = false;
-  protected checkInModel: CheckIn;
+  bsConfig: Partial<BsDatepickerConfig>;
+  checkInForm: FormGroup;
+  isCheckedIn = false;
+  checkInModel: CheckIn;
 
   constructor(
     private authService: AuthService,
@@ -52,7 +54,7 @@ export class CheckinFormComponent implements OnInit {
 
   checkInMemberToPlayground() {
     if (this.checkInForm.valid) {
-      this.spinner.show();
+      this.spinner.show('checkin-post-spinner');
       this.checkInModel =  Object.assign({}, this.checkInForm.value);
       this.checkInModel.checkInDate = this.createDateAndTime(new Date(this.checkInForm.value.checkInDate),
                                                  new Date(this.checkInForm.value.checkInTime));
@@ -61,8 +63,14 @@ export class CheckinFormComponent implements OnInit {
         .subscribe((checkInViewModel: CheckIn) => {
           if (checkInViewModel !== null && checkInViewModel !== undefined) {
             this.isCheckedIn = true;
-            this.spinner.hide();
+            const timelinePost = {
+              authorLoginName: this.userName,
+              authorProfilePictureUrl: this.userPhotoUrl,
+              checkInDate: checkInViewModel.checkInDate
+            };
+            this.mainPosts.unshift(timelinePost);
           }
+          this.spinner.hide('checkin-post-spinner');
       });
     }
   }

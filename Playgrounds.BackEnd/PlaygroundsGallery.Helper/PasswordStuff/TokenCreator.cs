@@ -54,12 +54,18 @@ namespace PlaygroundsGallery.Helper
 
 		private List<Claim> GetClaims(int userId, string userName, string profilePictureUrl)
 		{
-			return new List<Claim>()
-				{
-					new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-					new Claim(ClaimTypes.Name, userName),
-					new Claim("profilePictureUrl", profilePictureUrl)
-				};
+			var claims = new List<Claim>()
+			{
+				new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+				new Claim(ClaimTypes.Name, userName)
+			};
+
+			if (!string.IsNullOrEmpty(profilePictureUrl))
+			{
+				claims.Add(new Claim("profilePictureUrl", profilePictureUrl));
+			}
+
+			return claims;
 		}
     }
 }
