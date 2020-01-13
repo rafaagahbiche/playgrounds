@@ -3,69 +3,44 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PlaygroundsGallery.Domain.DTOs;
 using PlaygroundsGallery.Domain.Managers;
-using PlaygroundsGallery.Helper.Exceptions;
 
 namespace PlaygroundsGallery.API.Controllers
 {
     [Route("api/auth/")]
     [ApiController]
-
     public class AuthController: ControllerBase
     {
-        private readonly IFrontManager _frontManager;
+        private readonly IMemberManager _memberManager;
 
-        public AuthController(IFrontManager frontManager)
+        public AuthController(IMemberManager memberManager)
         {
-            _frontManager = frontManager;
+            _memberManager = memberManager;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(MemberToLoginDto memberToLoginDto)
         {
-            try 
+            if (memberToLoginDto != null)
             {
-                var memberToLogin = await _frontManager.Register(memberToLoginDto);
-                if (memberToLogin != null)
-                {
-                    return CreatedAtRoute("GetMember", new { controller ="Member",  id = memberToLogin.Id}, memberToLogin);
-                }
-                else 
-                {
-                    return BadRequest();
-                }            
+                var newMember = await _memberManager.Register(memberToLoginDto);
+                return CreatedAtRoute("GetMember", new { controller ="Member",  id = newMember?.Id}, newMember);
             }
-            catch(MemberCreationException ex)
+            else 
             {
-                return BadRequest(ex.Message);
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
+                return BadRequest();
             }
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(MemberToLoginDto memberToLoginDto)
         {
-            try
+            if (memberToLoginDto != null)
             {
-                var loggedInMember = await _frontManager.Login(memberToLoginDto);
-                if (loggedInMember != null)
-                {
-                    return Ok(loggedInMember);
-                }
-                else
-                {
-                    return BadRequest();
-                }
+                return Ok(await _memberManager.Login(memberToLoginDto));
             }
-            catch (MemberLoginException ex)
+            else
             {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
+                return BadRequest();
             }
         }
     }

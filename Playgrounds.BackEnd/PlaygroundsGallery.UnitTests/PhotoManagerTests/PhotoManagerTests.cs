@@ -25,7 +25,7 @@ namespace Tests
         [Test]
         public async Task DeletePhoto_ExistingPublicId_Success()
         {
-            var deletionSucceeded = await _frontManagerSetter.MockFrontManager.DeletePhoto("mmmm", false);
+            var deletionSucceeded = await _frontManagerSetter.MockFrontManager.DeletePhoto("mmmm");
             var deletedPhoto = PlaygroundTestContext.Photos.Where(x => x.PublicId == "mmmm");
             Assert.IsTrue(deletionSucceeded);
             Assert.IsTrue(deletedPhoto.FirstOrDefault().Deleted);

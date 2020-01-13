@@ -65,16 +65,18 @@ export class ShareFormComponent implements OnInit {
 
   clearPhotoToPost() {
     this.photoUploader.clearQueue();
-    this.canBePosted = this.postDescriptionText !== '';
+    this.canBePosted = false;
+    // this.canBePosted = this.postDescriptionText !== '';
   }
 
   onPosteDescriptionValueChanged() {
-    if (this.postDescriptionText.length > 0) {
-      this.canBePosted = true;
-    } else {
-      const myPhoto = this.photoUploader.getNotUploadedItems();
-      this.canBePosted = myPhoto !== null && myPhoto !== undefined && myPhoto.length > 0;
-    }
+    // Uncomment when comments with no photos can be added to a Playground timeline.
+    // if (this.postDescriptionText.length > 0) {
+    //   this.canBePosted = true;
+    // } else {
+    //   const myPhoto = this.photoUploader.getNotUploadedItems();
+    //   this.canBePosted = myPhoto !== null && myPhoto !== undefined && myPhoto.length > 0;
+    // }
   }
 
   sharePostToPlayground() {

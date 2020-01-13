@@ -1,8 +1,9 @@
-using System;
+using System.Collections;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using PlaygroundsGallery.API.Filters;
 using PlaygroundsGallery.Domain.Managers;
-using PlaygroundsGallery.Helper.Exceptions;
 
 namespace PlaygroundsGallery.API.Controllers
 {
@@ -21,31 +22,62 @@ namespace PlaygroundsGallery.API.Controllers
         public async Task<IActionResult> GetPhoto(int id)
         {
             var photo = await _frontManager.GetPhoto(id);
-            return Ok(photo);
+            if (photo != null)
+            {
+                return Ok(photo);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         [Route("recent")]
+        [ClientCacheControlFilter(ClientCacheControl.Public, 120)]
         [HttpGet]
         public async Task<IActionResult> GetRecentPhotos(int count)
         {
-            var photos = await _frontManager.GetRecentPhotos(count);
-            return Ok(photos);
+            var recentPhotos = await _frontManager.GetRecentPhotos(count);
+            if (recentPhotos != null && recentPhotos.Any())
+            {
+                return Ok(recentPhotos);
+            }
+            else
+            {
+                return NoContent();
+            }
         }
 
         [Route("playground/{playgroundId}")]
+        [ClientCacheControlFilter(ClientCacheControl.Public, 120)]
         [HttpGet]
         public async Task<IActionResult> GetPlaygroundPhotos(int playgroundId)
         {
-            var photos = await _frontManager.GetPhotosByPlayground(playgroundId);
-            return Ok(photos);
+            var playgroundPhotos = await _frontManager.GetPhotosByPlayground(playgroundId);
+            if (playgroundPhotos != null && playgroundPhotos.Any())
+            {
+                return Ok(playgroundPhotos);
+            }
+            else
+            {
+                return NoContent();
+            }
         }
 
         [Route("post/playground/{playgroundId}")]
+        [ClientCacheControlFilter(ClientCacheControl.Public, 120)]
         [HttpGet]
         public async Task<IActionResult> GetPlaygroundPhotosAsPosts(int playgroundId)
         {
-            var photos = await _frontManager.GetPhotosAsPostByPlayground(playgroundId);
-            return Ok(photos);
+            var playgroundPhotosPosts = await _frontManager.GetPhotosAsPostByPlayground(playgroundId);
+            if (playgroundPhotosPosts != null && playgroundPhotosPosts.Any())
+            {
+                return Ok(playgroundPhotosPosts);
+            }
+            else
+            {
+                return NoContent();
+            }
         }
     }
 }

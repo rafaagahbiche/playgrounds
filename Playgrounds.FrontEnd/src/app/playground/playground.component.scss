@@ -17,17 +17,17 @@
 
 .profile-section {
   position: relative;
-  padding: 38px 0;
+  padding: 20px 0;
   z-index: 3;
 }
 .top-header-author {
   background-color: white;
-  position: absolute;
-  left: 50%;
-  max-width: 300px;
-  -webkit-transform: translate(-50%, 0);
-  transform: translate(-50%, 0);
-  top: 35px;
+  // position: absolute;
+  // left: 50%;
+  // max-width: 300px;
+  // -webkit-transform: translate(-50%, 0);
+  // transform: translate(-50%, 0);
+  // top: 35px;
   text-align: center;
   z-index: 4;
   h1 {

@@ -129,7 +129,7 @@ export class PhotoEditorComponent implements OnInit {
         photoToUpdate.playgroundId = this.memberPhoto.playgroundId;
       }
     }
-    console.log(photoToUpdate);
+
     this.photoService.updatePhoto(photoToUpdate, this.authService.getMemberToken()).subscribe((photoUpdated: Photo) => {
       this.memberPhoto = photoUpdated;
     },

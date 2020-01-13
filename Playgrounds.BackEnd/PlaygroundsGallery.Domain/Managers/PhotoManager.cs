@@ -11,37 +11,10 @@ namespace PlaygroundsGallery.Domain.Managers
 {
     public partial class FrontManager : IFrontManager
     {
-		private bool UploadPhotoToPhotoLibrary(
-			PhotoToInsertDto photoToInsertDto,
-			PhotoToUploadDto photoToUploadDto)
-		{
-			var uploadedPhotoToReturn = _photoUploader.UploadPhoto(photoToUploadDto.File);
-			if (uploadedPhotoToReturn.UploadSucceeded)
-			{
-				photoToInsertDto.Url = uploadedPhotoToReturn?.Uri?.ToString();
-				photoToInsertDto.PublicId = uploadedPhotoToReturn?.PublicId;
-			}
-
-			return uploadedPhotoToReturn.UploadSucceeded;
-		}        
-		
-		public async Task<PhotoInsertedDto> UploadPhoto(PhotoToUploadDto photoToUploadDto)
+		public async Task<PhotoInsertedDto> AddPhoto(PhotoToInsertDto photoToInsertDto)
         {
-			if (photoToUploadDto.File == null || photoToUploadDto.File.Length < 1)
-			{
-				throw new PhotoUploadFileEmptyException();
-			}
-			
-			var photoToInsertDto = _mapper.Map<PhotoToInsertDto>(photoToUploadDto);
-			var uploadSucceeded = UploadPhotoToPhotoLibrary(photoToInsertDto, photoToUploadDto);
-			if (uploadSucceeded == false)
-			{
-				throw new PhotoUploadToLibraryException();
-			}
-			
 			var photoToAdd = _mapper.Map<Photo>(photoToInsertDto);
 			await _photoRepository.Add(photoToAdd);
-
 			return _mapper.Map<PhotoInsertedDto>(photoToAdd);
         }
 
@@ -77,6 +50,7 @@ namespace PlaygroundsGallery.Domain.Managers
 			
 			return _mapper.Map<PhotoDto>(photo);
 		}
+
         public async Task<IEnumerable<PhotoDto>> GetPhotosByMemberId(int id) 
 			=> _mapper.Map<IEnumerable<PhotoDto>>(await _photoRepository.Find(p => p.Deleted == false && p.MemberId == id));
 		
@@ -95,30 +69,38 @@ namespace PlaygroundsGallery.Domain.Managers
 				);
 		}
 			
-		public async Task<bool> DeletePhoto(string publicId, bool physically)
+		public async Task<bool> DeletePhoto(string publicId)
 		{
 			var deletionSucceeded = false;
 			if (!string.IsNullOrEmpty(publicId))
 			{
 				Photo photoToDelete = null;
-				try
-				{
-					photoToDelete = await _photoRepository.SingleOrDefault(p => p.PublicId == publicId);
-				}
-				catch
-				{
-					throw new PhotoNotFoundException(publicId);
-				}
+				photoToDelete = await _photoRepository.SingleOrDefault(p => p.PublicId == publicId);
 				if (photoToDelete != null)
 				{
 					photoToDelete.Deleted = true;
-					deletionSucceeded = await _photoRepository.Update(photoToDelete);
-					if (physically) 
-					{
-						deletionSucceeded = await _photoRepository.Remove(photoToDelete) && _photoUploader.DeletePhoto(publicId);
-					}					
+					deletionSucceeded = await _photoRepository.Update(photoToDelete);				
 				}
 				else 
+				{
+					throw new PhotoNotFoundException(publicId);
+				}
+			}
+			
+			return deletionSucceeded;
+		}
+
+		public async Task<bool> DeletePhotoPhysically(string publicId)
+		{
+			var deletionSucceeded = false;
+			if (!string.IsNullOrEmpty(publicId))
+			{
+				var photoToDelete = await _photoRepository.SingleOrDefault(p => p.PublicId == publicId);
+				if (photoToDelete != null)
+				{
+					deletionSucceeded = await _photoRepository.Remove(photoToDelete);
+				}
+				else
 				{
 					throw new PhotoNotFoundException(publicId);
 				}

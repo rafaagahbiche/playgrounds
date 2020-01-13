@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PlaygroundsGallery.Domain.Managers;
@@ -21,7 +22,14 @@ namespace PlaygroundsGallery.API.Controllers
         public async Task<IActionResult> GetPlaygroundPhotosAsPosts(int playgroundId)
         {
             var posts = await _manager.GetPostsByPlaygroundId(playgroundId);
-            return Ok(posts);
+            if (posts != null && posts.Any())
+            {
+                return Ok(posts);
+            }
+            else
+            {
+                return StatusCode(204);
+            }
         }
     }
 }

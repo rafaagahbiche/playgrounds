@@ -5,8 +5,8 @@ using PlaygroundsGallery.Domain.Managers;
 using PlaygroundsGallery.API.Filters;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
-using PlaygroundsGallery.Helper.Exceptions;
 using System;
+using System.Linq;
 
 namespace PlaygroundsGallery.API.Controllers
 {
@@ -15,29 +15,42 @@ namespace PlaygroundsGallery.API.Controllers
     public class MemberController: ControllerBase
     {
         private readonly IFrontManager _frontManager;
+        private readonly IMemberManager _memberManager;
+        private readonly IThirdPartyStorageManager _cloudinaryManager;
 
-        public MemberController(IFrontManager frontManager)
+        public MemberController(
+            IFrontManager frontManager, 
+            IMemberManager memberManager,
+            IThirdPartyStorageManager cloudinaryManager)
         {
             _frontManager = frontManager;
+            _memberManager = memberManager;
+            _cloudinaryManager = cloudinaryManager;
         }
 
         [HttpGet("{id}", Name = "GetMember")]
         public async Task<IActionResult> GetMember(int id)
         {
-            var member = await _frontManager.GetMember(id);
+            var member = await _memberManager.GetMember(id);
             return Ok(member);
         }
 
         [Authorize]
         [Route("photos")]
-        // [ClientCacheControlFilter(ClientCacheControl.Public, 120)]
         [HttpGet]
         public async Task<IActionResult> GetMemberPhotos()
         {
             var memberIdStr = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var memberId = int.Parse(memberIdStr);
             var photos = await _frontManager.GetPhotosByMemberId(memberId);
-            return Ok(photos);
+            if (photos != null && photos.Any())
+            {
+                return Ok(photos);
+            }
+            else
+            {
+                return NoContent();
+            }
         }
 
         [Authorize]
@@ -45,80 +58,72 @@ namespace PlaygroundsGallery.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Upload([FromForm]PhotoToUploadDto photo)
         {
-            var memberIdStr = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            photo.MemberId = int.Parse(memberIdStr);
-            try
+            if (photo != null)
             {
-                var uploadedPhoto = await _frontManager.UploadPhoto(photo);
-                // var fakePhoto = new PhotoInsertedDto(){
-                //     Url = "https://res.cloudinary.com/diqh90gj2/image/upload/v1571775627/t6xbkdpcqm35unsiesev.png"
-                // };
-                return Ok(uploadedPhoto);
-                // return CreatedAtRoute("GetPhoto", new {controller ="Photo", id = photoToReturnDto.Id}, photoToReturnDto);
+                var memberIdStr = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                photo.MemberId = int.Parse(memberIdStr);
+                var photoToInsert = this._cloudinaryManager.UploadPhoto(photo);
+                if (photoToInsert != null)
+                {
+                    var uploadedPhoto = await _frontManager.AddPhoto(photoToInsert);
+                    return StatusCode(201, uploadedPhoto);
+                }
+
+                return StatusCode(500);
             }
-            catch (PhotoUploadFileEmptyException ex)
+            
+            return BadRequest();
+        }
+
+        [Authorize]
+        [Route("markPhotoAsDeleted/{publicId}")]
+        [HttpPut]
+        public async Task<IActionResult> DeletePhoto(string publicId)
+        {
+            var succeeded = await _frontManager.DeletePhoto(publicId);
+            if (succeeded)
             {
-                return BadRequest(ex.Message);
+                return Ok();
             }
-            catch (PhotoUploadToLibraryException ex)
+            else
             {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500); 
+                return NotFound();
             }
         }
 
         [Authorize]
-        [Route("photos/{publicId}")]
+        [Route("deletephoto/{publicId}")]
         [HttpDelete]
-        public async Task<IActionResult> DeletePhoto(string publicId)
+        public async Task<IActionResult> DeletePhotoPhysically(string publicId)
         {
-            try
+            var succeededDb = await _frontManager.DeletePhotoPhysically(publicId);
+            var succeededCl = _cloudinaryManager.DeletePhoto(publicId);
+            if (succeededDb && succeededCl)
             {
-                var succeeded = await _frontManager.DeletePhoto(publicId, false);
-                if (succeeded)
-                {
-                    return NoContent();
-                }
-                else
-                {
-                    return NotFound();
-                }
+                return Ok();
             }
-            catch (PhotoNotFoundException ex)
+            else
             {
-                return NotFound(ex.Message);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500);
+                return NotFound();
             }
         }
+
 
         [Authorize]
         [Route("photos/update")]
         [HttpPut]
         public async Task<IActionResult> UpdatePhoto(PhotoToUpdateDto photoToUpdateDto)
         {
-            PhotoDto photo = null;
-            var memberIdStr = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            photoToUpdateDto.MemberId = int.Parse(memberIdStr);
-            try
+            if (photoToUpdateDto != null)
             {
-                photo = await _frontManager.UpdatePhoto(photoToUpdateDto);
+                var memberIdStr = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                photoToUpdateDto.MemberId = int.Parse(memberIdStr);
+                return Ok(await _frontManager.UpdatePhoto(photoToUpdateDto));
             }
-            catch (PhotoUpdateException ex)
+            else
             {
-                return StatusCode(500, ex.Message);
+                return BadRequest();
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-
-            return Ok(photo);
         }
     }
 }

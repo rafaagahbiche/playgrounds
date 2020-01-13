@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PlaygroundsGallery.API.Filters;
 using PlaygroundsGallery.Domain.DTOs;
 using PlaygroundsGallery.Domain.Managers;
 
@@ -21,18 +22,25 @@ namespace PlaygroundsGallery.API.Controllers
         }
 
         [Route("location/{locationId}")] 
+        [ClientCacheControlFilter(ClientCacheControl.Public, 120)]
         [HttpGet]
         public async Task<IActionResult> GetPlaygroundsByLocation(int locationId)
         {
-            var playgrounds = await _manager.GetAllPlaygroundsByLocation(locationId);
-            return Ok(playgrounds);
+            return Ok(await _manager.GetAllPlaygroundsByLocation(locationId));
         }
 
         [HttpGet("{playgroundId}")]
         public async Task<IActionResult> GetPlaygroundById(int playgroundId)
         {
             var playground = await _manager.GetPlaygroundById(playgroundId);
-            return Ok(playground);
+            if (playground != null)
+            {
+                return Ok(playground);
+            }
+            else
+            {
+                return NoContent();
+            }
         }
 
         [HttpGet]
@@ -46,42 +54,28 @@ namespace PlaygroundsGallery.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CheckIn(CheckInForCreationDto checkInForCreation)
         {
-            try
+            if (checkInForCreation == null)
             {
-                if (checkInForCreation == null)
-                {
-                    return BadRequest();
-                }
-                
-                var memberIdStr = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                checkInForCreation.MemberId = int.Parse(memberIdStr);
-                return StatusCode(201,  await this._manager.CheckInToPlayground(checkInForCreation));
+                return BadRequest();
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            
+            var memberIdStr = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            checkInForCreation.MemberId = int.Parse(memberIdStr);
+            return StatusCode(201,  await this._manager.CheckInToPlayground(checkInForCreation));
         }
 
         [HttpGet]
         [Route("{playgroundId}/checkins")]
         public async Task<IActionResult> CheckInsAtPlayground(int playgroundId)
         {
-            try
+            var playgroundCheckins = await this._manager.GetCheckInsByPlaygroundId(playgroundId);
+            if (playgroundCheckins != null && playgroundCheckins.Any())
             {
-                var allCheckIns = await this._manager.GetCheckInsByPlaygroundId(playgroundId);
-                if (allCheckIns != null && allCheckIns.Any())
-                {
-                    return Ok(allCheckIns);
-                }
-                else
-                {
-                    return StatusCode(204);
-                }
+                return Ok(playgroundCheckins);
             }
-            catch (Exception ex)
+            else
             {
-                return StatusCode(500, ex.Message);
+                return NoContent();
             }
         }
     }

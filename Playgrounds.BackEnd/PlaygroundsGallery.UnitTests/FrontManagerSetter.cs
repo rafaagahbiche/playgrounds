@@ -12,6 +12,7 @@ namespace Tests
     public class FrontManagerSetter
     {
         internal IFrontManager MockFrontManager { get; set; }
+        internal IMemberManager MockMemberManager { get; set; }
         
         private Mock<IPasswordManager> _mockPasswordManager;
         
@@ -64,11 +65,12 @@ namespace Tests
         {
             this.MockFrontManager = new FrontManager(
                 photoRepo?.Object,
-                memberRepo?.Object,
-                this._mockPhotoUploader.Object,
+                this._mockMapper.Object);
+            this.MockMemberManager = new MemberManager(
                 this._mockPasswordManager.Object,
                 this._mockTokenManager.Object,
-                this._mockMapper.Object);
+                this._mockMapper.Object,
+                memberRepo?.Object);
         }
     }
 }

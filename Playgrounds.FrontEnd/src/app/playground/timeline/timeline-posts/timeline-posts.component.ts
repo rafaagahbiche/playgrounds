@@ -12,11 +12,15 @@ import { fadeInAnimation } from 'src/app/_animations/fadeInAnimation';
 export class TimelinePostsComponent implements OnInit {
   @Input() mainPosts: TimelinePost[];
   @Input() playgroundId: number;
-  minDate = new Date(-8640000000000000);
+  minDate = new Date('0001-01-01T00:00:00');
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  comapreDates(date1: Date) {
+    return new Date(date1) > this.minDate;
   }
 
 }

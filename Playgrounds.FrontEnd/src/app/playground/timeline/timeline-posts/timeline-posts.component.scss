@@ -25,3 +25,10 @@
 .post {
     transition: all 1s ease-in;
 }
+
+.checkin-post {
+    background-image: url(../../../../assets/checkin-ball1.jpg);
+    background-position: left;
+    background-size: contain;
+    background-repeat: no-repeat;
+}

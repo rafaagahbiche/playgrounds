@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CheckInToDisplay } from 'src/app/_models/CheckIn';
 import { ActivatedRoute } from '@angular/router';
 import { PlaygroundsService } from 'src/app/_services/playgrounds.service';

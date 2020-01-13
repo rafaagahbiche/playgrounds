@@ -5,11 +5,7 @@ namespace PlaygroundsGallery.Helper
 {
     public class PasswordManager : IPasswordManager
     {
-		public byte[] PasswordHash { get; set; }
-        
-        public byte[] PasswordSalt { get; set; }
-
-        public Tuple<string, string> ParseBasicAuthCredential(string credential)
+		public Tuple<string, string> ParseBasicAuthCredential(string credential)
 		{
 			string password = null;
 			var subject = (Encoding.GetEncoding("iso-8859-1").GetString(Convert.FromBase64String(credential)));
@@ -28,30 +24,37 @@ namespace PlaygroundsGallery.Helper
 			return new Tuple<string, string>(subject, password);
 		}
 
-		public void SetPasswordHashAndSalt(string password)
+		public EncryptedPassword SetPasswordHashAndSalt(string password)
 		{
+			var encryptedPassword = new EncryptedPassword();
 			using (var hmac = new System.Security.Cryptography.HMACSHA512())
 			{
-				PasswordSalt = hmac.Key;
-				PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+				encryptedPassword.PasswordSalt = hmac.Key;
+				encryptedPassword.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
 			}
+
+			return encryptedPassword;
 		}
 
 		public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
 		{
+			bool passwordMatchs = true;
 			using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
 			{
 				var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-				for (int i = 0; i < computedHash.Length; i++)
+				int i = 0;
+				while (i < computedHash.Length && passwordMatchs)
 				{
 					if (computedHash[i] != passwordHash[i])
 					{
-						return false;
+						passwordMatchs = false;
 					}
-				}
 
-				return true;
+					i++;
+				}
 			}
+
+			return passwordMatchs;
 		}
     }
 }

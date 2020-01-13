@@ -67,6 +67,8 @@ namespace PlaygroundsGallery.API
             services.AddScoped<IPasswordManager, PasswordManager>();
             services.AddScoped<IPostManager, PostManager>();
             services.AddScoped<IPlaygroundManager, PlaygroundManager>();
+            services.AddScoped<IThirdPartyStorageManager, ThirdPartyStorageManager>();
+            services.AddScoped<IMemberManager, MemberManager>();
             services.AddScoped<IFrontManager, FrontManager>();
             services.AddScoped<IGalleryContext, GalleryContext>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -111,7 +113,7 @@ namespace PlaygroundsGallery.API
                         var error = context.Features.Get<IExceptionHandlerFeature>();
                         if (error != null)
                         {
-                            // context.Response.AddApplicationError(error.Error.Message);
+                            context.Response.AddApplicationError(error.Error.Message);
                             await context.Response.WriteAsync(error.Error.Message);
                         }
                     });
