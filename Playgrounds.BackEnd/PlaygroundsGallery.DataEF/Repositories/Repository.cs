@@ -4,8 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using PlaygroundsGallery.Domain.Models;
-using PlaygroundsGallery.Domain.Repositories;
+using PlaygroundsGallery.DataEF.Models;
 
 namespace PlaygroundsGallery.DataEF.Repositories
 {
@@ -45,7 +44,7 @@ namespace PlaygroundsGallery.DataEF.Repositories
 
         public async Task<TEntity> Get(int id) => await EntityDbSet.FindAsync(id);
 
-        public virtual  async Task<IEnumerable<TEntity>> Find(
+        public virtual async Task<IEnumerable<TEntity>> Find(
 			Expression<Func<TEntity, bool>> predicate = null,
 			Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
 			int take = -1,

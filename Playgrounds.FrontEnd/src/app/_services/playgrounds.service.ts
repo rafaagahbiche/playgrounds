@@ -9,15 +9,17 @@ import { CheckIn } from '../_models/CheckIn';
 export class PlaygroundsService {
 
   constructor(private http: HttpClient) { }
-  playgroundApiUrl = environment.apiUrl + 'playgrounds/';
-  locationApiUrl = environment.apiUrl + 'locations/';
+  private playgroundApiUrl = environment.apiUrl + 'playgrounds/';
+  private checkinApiUrl = environment.apiUrl + 'checkins/';
+  private memberCheckinApiUrl = environment.apiUrl + 'member-checkins/';
+  private locationApiUrl = environment.apiUrl + 'locations/';
 
   getAllLoacations() {
     return this.http.get(this.locationApiUrl);
   }
 
   getPlaygroundsByLocationId(locationId: number) {
-    return this.http.get(this.playgroundApiUrl + 'location/' + locationId);
+    return this.http.get(this.playgroundApiUrl + 'locations/' + locationId);
   }
 
   getPlaygroundById(playgroundId: number) {
@@ -25,7 +27,7 @@ export class PlaygroundsService {
   }
 
   getCheckInsAtPlayground(playgroundId: number) {
-    return this.http.get(this.playgroundApiUrl + playgroundId + '/checkins');
+    return this.http.get(this.checkinApiUrl + 'playgrounds/' + playgroundId);
   }
 
   checkInToPlayground(checkinModel: CheckIn, token: any) {
@@ -36,7 +38,7 @@ export class PlaygroundsService {
         })
       };
 
-      return this.http.post(this.playgroundApiUrl + 'checkin', checkinModel, httpOptions);
+      return this.http.post(this.memberCheckinApiUrl, checkinModel, httpOptions);
     }
   }
 }

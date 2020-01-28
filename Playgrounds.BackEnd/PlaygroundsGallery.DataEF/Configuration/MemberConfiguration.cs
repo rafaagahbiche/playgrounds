@@ -2,7 +2,7 @@ namespace PlaygroundsGallery.DataEF.Configuration
 {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
-    using PlaygroundsGallery.Domain.Models;
+    using PlaygroundsGallery.DataEF.Models;
     public class MemberConfiguration : IEntityTypeConfiguration<Member>
     {
         public void Configure(EntityTypeBuilder<Member> builder)

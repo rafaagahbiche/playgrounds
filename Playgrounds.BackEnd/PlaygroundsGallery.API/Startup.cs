@@ -6,17 +6,21 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using PlaygroundsGallery.DataEF;
-using PlaygroundsGallery.Helper;
-using AutoMapper;
+using PlaygroundsGallery.DataEF.Models;
 using PlaygroundsGallery.DataEF.Repositories;
-using PlaygroundsGallery.Domain.Repositories;
-using PlaygroundsGallery.Domain.Models;
-using PlaygroundsGallery.Domain.Managers;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using AutoMapper;
+using Checkins.Services;
+using Playgrounds.Services;
+using Photos.Services.ThirdPartyManagers;
+using Photos.Services.Managers;
+using Photos.Infrastructure.Uploader;
+using Auth.Infrastructure.PasswordStuff;
+using Auth.Services;
 
 namespace PlaygroundsGallery.API
 {
@@ -50,8 +54,12 @@ namespace PlaygroundsGallery.API
         {
             var cloudinaryAccount = Configuration.GetSection("CloudinarySettings").Get<CloudinarySettings>();
             var tokenSecretKey = Configuration.GetSection("AppSettings:Token").Value;
-            
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(
+                typeof(Startup), 
+                typeof(Photos.Services.DTOs.PhotoEntityAutoMapperProfile),
+                typeof(Playgrounds.Services.PlaygroundEntityAutoMapperProfile),
+                typeof(Auth.Services.ManagerEntityAutoMapperProfile),
+                typeof(Checkins.Services.CheckinEntityAutoMapperProfile));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddScoped<IAccountSettings, CloudinarySettings>();
             services.AddScoped<IPhotoUploader, CloudinaryPhotoUploader>(_ =>
@@ -62,14 +70,12 @@ namespace PlaygroundsGallery.API
             services.AddScoped<IRepository<Playground>, Repository<Playground>>();
             services.AddScoped<IRepository<Location>, Repository<Location>>();
             services.AddScoped<IRepository<CheckIn>, Repository<CheckIn>>();
-            services.AddScoped<IPhotoRepository, PhotoRepository>();
-            services.AddScoped<IMemberRepository, MemberRepository>();
+            services.AddScoped<IMemberManager, MemberManager>();
             services.AddScoped<IPasswordManager, PasswordManager>();
-            services.AddScoped<IPostManager, PostManager>();
             services.AddScoped<IPlaygroundManager, PlaygroundManager>();
             services.AddScoped<IThirdPartyStorageManager, ThirdPartyStorageManager>();
-            services.AddScoped<IMemberManager, MemberManager>();
-            services.AddScoped<IFrontManager, FrontManager>();
+            services.AddScoped<IPhotoManager, PhotoManager>();
+            services.AddScoped<ICheckinManager, CheckinManager>();
             services.AddScoped<IGalleryContext, GalleryContext>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {
@@ -113,7 +119,7 @@ namespace PlaygroundsGallery.API
                         var error = context.Features.Get<IExceptionHandlerFeature>();
                         if (error != null)
                         {
-                            context.Response.AddApplicationError(error.Error.Message);
+                            // context.Response.AddApplicationError(error.Error.Message);
                             await context.Response.WriteAsync(error.Error.Message);
                         }
                     });

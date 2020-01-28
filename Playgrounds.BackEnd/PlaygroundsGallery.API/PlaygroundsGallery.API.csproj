@@ -11,5 +11,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PlaygroundsGallery.DataEF\PlaygroundsGallery.DataEF.csproj" />
+    <ProjectReference Include="..\Checkins\Checkins.Services\Checkins.Services.csproj" />
+    <ProjectReference Include="..\Playgrounds\Playgrounds.Services\Playgrounds.Services.csproj" />
+    <ProjectReference Include="..\Photos\infrastructure\Uploader\Uploader.csproj" />
+    <ProjectReference Include="..\Auth\Infrastructure\PasswordStuff\PasswordStuff.csproj" />
+    <ProjectReference Include="..\Auth\Auth.Services\Auth.Services.csproj" />
+    <ProjectReference Include="..\Photos\Photos.Services\Photos.Services.csproj" />
+    <ProjectReference Include="..\Photos\infrastructure\Exceptions\Exceptions.csproj" />
   </ItemGroup>
 </Project>

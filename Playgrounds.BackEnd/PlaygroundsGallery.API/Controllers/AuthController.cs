@@ -1,8 +1,6 @@
-using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using PlaygroundsGallery.Domain.DTOs;
-using PlaygroundsGallery.Domain.Managers;
+using System.Threading.Tasks;
+using Auth.Services;
 
 namespace PlaygroundsGallery.API.Controllers
 {

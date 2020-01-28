@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PlaygroundsGallery.DataEF.Configuration;
-using PlaygroundsGallery.Domain.Models;
+using PlaygroundsGallery.DataEF.Models;
 using System.Threading.Tasks;
 
 namespace PlaygroundsGallery.DataEF

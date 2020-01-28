@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PlaygroundsGallery.Domain.Models;
+using PlaygroundsGallery.DataEF.Models;
 
 namespace PlaygroundsGallery.DataEF.Configuration
 {

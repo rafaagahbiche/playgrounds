@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using PlaygroundsGallery.Domain.Models;
+using PlaygroundsGallery.DataEF.Models;
 namespace PlaygroundsGallery.DataEF
 {
     public class Seed
