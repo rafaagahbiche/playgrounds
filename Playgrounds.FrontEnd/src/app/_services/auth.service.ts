@@ -29,11 +29,11 @@ export class AuthService {
     this.setLoggedInStatus(true);
   }
 
-  register(member: Member) {
+  public register(member: Member) {
     return this.http.post(this.baseUrl + 'register', member);
   }
 
-  login(model: any) {
+  public login(model: any) {
     return this.http.post(this.baseUrl + 'login', model).pipe(map((response: any) => {
         const user = response;
         if (user) {
@@ -44,18 +44,18 @@ export class AuthService {
     ));
   }
 
-  logout() {
+  public logout() {
     this.setLoggedInStatus(false);
     this.changeMemberName('');
     this.changeMemberPhoto('');
     localStorage.removeItem('token');
   }
 
-  getMemberToken() {
+  public getMemberToken() {
     return localStorage.getItem('token');
   }
 
-  isLoggedIn() {
+  public isLoggedIn() {
     const token = this.getMemberToken();
     return !this.jwtHelper.isTokenExpired(token);
   }

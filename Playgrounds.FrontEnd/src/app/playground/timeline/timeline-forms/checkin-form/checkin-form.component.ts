@@ -1,11 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BsDatepickerConfig } from 'ngx-bootstrap';
-import { CheckIn } from 'src/app/_models/CheckIn';
-import { PlaygroundsService } from 'src/app/_services/playgrounds.service';
+import { CheckIn, CheckInToDisplay } from 'src/app/_models/CheckIn';
 import { AuthService } from 'src/app/_services/auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TimelinePost } from 'src/app/_models/TimelinePost';
+import { CheckinsService } from 'src/app/_services/checkins.service';
 
 @Component({
   selector: 'app-checkin-form',
@@ -25,7 +25,7 @@ export class CheckinFormComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private playgroundsService: PlaygroundsService,
+    private checkinsService: CheckinsService,
     private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
@@ -59,8 +59,8 @@ export class CheckinFormComponent implements OnInit {
       this.checkInModel.checkInDate = this.createDateAndTime(new Date(this.checkInForm.value.checkInDate),
                                                  new Date(this.checkInForm.value.checkInTime));
       this.checkInModel.playgroundId = this.playgroundId,
-      this.playgroundsService.checkInToPlayground(this.checkInModel, this.authService.getMemberToken())
-        .subscribe((checkInViewModel: CheckIn) => {
+      this.checkinsService.checkInToPlayground(this.checkInModel, this.authService.getMemberToken())
+        .subscribe((checkInViewModel: CheckInToDisplay) => {
           if (checkInViewModel !== null && checkInViewModel !== undefined) {
             this.isCheckedIn = true;
             const timelinePost = {

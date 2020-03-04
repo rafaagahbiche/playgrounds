@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CheckInToDisplay } from 'src/app/_models/CheckIn';
 import { ActivatedRoute } from '@angular/router';
-import { PlaygroundsService } from 'src/app/_services/playgrounds.service';
+import { CheckinsService } from 'src/app/_services/checkins.service';
 
 @Component({
   selector: 'app-players-checkins',
@@ -14,7 +14,7 @@ export class PlayersCheckinsComponent implements OnInit {
   numberOfCheckIns: number;
   showCheckinsDetails = false;
 
-  constructor(private playgroundsService: PlaygroundsService, private route: ActivatedRoute) { }
+  constructor(private checkinsService: CheckinsService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.playgroundId = this.route.snapshot.parent.params.id;
@@ -22,7 +22,7 @@ export class PlayersCheckinsComponent implements OnInit {
   }
 
   private getCheckIns() {
-    this.playgroundsService.getCheckInsAtPlayground(this.playgroundId).subscribe((checkInsAtPlayground: CheckInToDisplay[]) => {
+    this.checkinsService.getCheckInsAtPlayground(this.playgroundId).subscribe((checkInsAtPlayground: CheckInToDisplay[]) => {
       if (checkInsAtPlayground !== undefined) {
         this.playgroundCheckIns = checkInsAtPlayground;
         this.numberOfCheckIns = this.playgroundCheckIns.length;

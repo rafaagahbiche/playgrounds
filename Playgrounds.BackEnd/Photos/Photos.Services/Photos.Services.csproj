@@ -11,6 +11,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\PlaygroundsGallery.DataEF\PlaygroundsGallery.DataEF.csproj" />
     <ProjectReference Include="..\infrastructure\Uploader\Uploader.csproj" />
-    <ProjectReference Include="..\infrastructure\Exceptions\Exceptions.csproj" />
+    <ProjectReference Include="..\infrastructure\Photos.Exceptions\Photos.Exceptions.csproj" />
   </ItemGroup>
 </Project>

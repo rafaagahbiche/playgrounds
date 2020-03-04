@@ -3,12 +3,22 @@
 @import 'abstracts/variables';
 @import 'components/elements';
 
+.banner_part::before {
+    content: "";
+    background-color: rgba(201, 201, 232, 0.37); 
+    height: 100%; 
+    width: 100%; 
+    position: absolute;
+    z-index: 2;
+    left: 0;
+}
 .banner_part{
     height: 800px;
     display: flex;
     align-items: center;
     position: relative;
-    @include background("../../assets/banner_bg.png");
+    @include background("https://res.cloudinary.com/diqh90gj2/image/upload/v1580219971/b0dbp8majxqpknkjdemc.jpg");
+    // @include background("../../assets/banner_bg.png");
     @media #{$small_mobile}{
         height: 600px;
         background-image: none;

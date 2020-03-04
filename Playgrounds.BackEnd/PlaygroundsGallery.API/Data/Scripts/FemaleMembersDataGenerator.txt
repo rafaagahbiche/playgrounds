@@ -1,0 +1,22 @@
+[
+  '{{repeat(10)}}',
+  {
+    LoginName: '{{firstName("female")}}',
+    EmailAddress: '{{email([random])}}',
+    Created: '{{date(new Date(2019,10,1), new Date(), "YYYY-MM-dd")}}',
+    ProfilePictures: [
+        {
+          url: 'https://randomuser.me/api/portraits/women/' + '{{integer(1,99)}}' + '.jpg',
+          Created: '{{new Date().toJSON()}}'
+        }
+    ],
+    CheckIns: [
+      '{{repeat(3)}}',
+      {
+        PlaygroundId: '{{random(15,16,17)}}',
+        CheckInDate:'{{date(new Date(2020,1,1), new Date(), "YYYY-MM-dd")}}T{{integer(10,20)}}:{{random("00", 15, 30, 45)}}',
+        Created: '{{new Date().toJSON()}}'
+      }
+    ]
+  }
+]

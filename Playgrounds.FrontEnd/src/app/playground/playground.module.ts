@@ -11,6 +11,8 @@ import { TimelineFormsComponent } from './timeline/timeline-forms/timeline-forms
 import { TimelinePostsComponent } from './timeline/timeline-posts/timeline-posts.component';
 import { ShareFormComponent } from './timeline/timeline-forms/share-form/share-form.component';
 import { PlayersCheckinsComponent } from './timeline/players-checkins/players-checkins.component';
+import { UpcomingCheckinsComponent } from './timeline/upcoming-checkins/upcoming-checkins.component';
+import { SingleTimeSlotComponent } from './timeline/upcoming-checkins/single-time-slot/single-time-slot.component';
 import { PlaygroundRoutingModule } from './playground-routing.module';
 
 import { BsDatepickerModule, TimepickerModule, TabsModule, ModalModule, BsModalRef  } from 'ngx-bootstrap';
@@ -29,6 +31,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     TimelinePostsComponent,
     ShareFormComponent,
     CheckinFormComponent,
+    UpcomingCheckinsComponent,
+    SingleTimeSlotComponent,
     PlayersCheckinsComponent
   ],
   imports: [

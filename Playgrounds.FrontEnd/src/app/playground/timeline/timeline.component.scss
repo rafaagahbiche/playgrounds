@@ -9,6 +9,11 @@ img {
     width: 50%;
 }
 
+.ui-block {
+    border-radius: 5px;
+    border: 1px solid #e6ecf5;
+}
+
 .post-additional-info {
     -webkit-box-align: center;
     -ms-flex-align: center;
@@ -34,43 +39,6 @@ img {
             }
         }
     }
-
-    .friends-harmonic {
-        li {
-            background: white;
-            border: 1px solid #e6ecf5;
-            box-sizing: border-box;
-            display: inline-block;
-            margin: auto;
-            width: 95%;
-            .checkin-picture {
-                border: 2px solid #fff;
-                border-radius: 100%;
-                display: block;
-                float: left;
-                height: 38px;
-                overflow: hidden;
-                width: 38px;
-            }
-            .checkin-detail {
-                display: block;
-                float: left;
-            }
-        }
-        li.more-checkin {
-            display: inline-block;
-        }
-    }
-    .names-people-likes strong {
-        font-size: 14px;
-        color: #515365;
-        font-weight: 700;
-    }
-}
-
-.ui-block {
-    border-radius: 5px;
-    border: 1px solid #e6ecf5;
 }
 
 .inline-items > * {

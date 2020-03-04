@@ -14,7 +14,7 @@ export class LocationsComponent implements OnInit {
   playgrounds: Playground[];
 
   ngOnInit() {
-    this.playgroundsService.getPlaygroundsByLocationId(1).subscribe((playgrounds: Playground[]) => {
+    this.playgroundsService.getPlaygroundsByLocationId(2).subscribe((playgrounds: Playground[]) => {
       if (playgrounds) {
         this.playgrounds = playgrounds;
       }

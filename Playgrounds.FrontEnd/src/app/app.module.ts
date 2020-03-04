@@ -15,6 +15,7 @@ import { NavComponent } from './nav/nav.component';
 import { AuthService } from './_services/auth.service';
 import { PhotosService } from './_services/photos.service';
 import { PlaygroundsService } from './_services/playgrounds.service';
+import { CheckinsService } from './_services/checkins.service';
 
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
@@ -90,6 +91,7 @@ export function tokenGetter() {
       AuthService,
       PhotosService,
       PlaygroundsService,
+      CheckinsService,
       PlaygroundDetailResolver,
       PlaygroundListResolver,
       PhotoEditorResolver,

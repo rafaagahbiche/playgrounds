@@ -17,6 +17,7 @@
     <ProjectReference Include="..\Auth\Infrastructure\PasswordStuff\PasswordStuff.csproj" />
     <ProjectReference Include="..\Auth\Auth.Services\Auth.Services.csproj" />
     <ProjectReference Include="..\Photos\Photos.Services\Photos.Services.csproj" />
-    <ProjectReference Include="..\Photos\infrastructure\Exceptions\Exceptions.csproj" />
+    <ProjectReference Include="..\Auth\Infrastructure\Exceptions\Exceptions.csproj" />
+    <ProjectReference Include="..\Photos\infrastructure\Photos.Exceptions\Photos.Exceptions.csproj" />
   </ItemGroup>
 </Project>

@@ -10,9 +10,14 @@ namespace Photos.Infrastructure.Uploader
 
         private Cloudinary _cloudinaryAccount;
 
-        public CloudinaryPhotoUploader(IAccountSettings uploaderAccount)
+        // 0: dev
+        // 1: prod
+        private string _envFolder;
+
+        public CloudinaryPhotoUploader(IAccountSettings uploaderAccount, string envFolder)
         {
             UploaderAccount = uploaderAccount;
+            _envFolder = envFolder;
             _cloudinaryAccount = new Cloudinary(
                 new Account(
                     UploaderAccount.Name,
@@ -27,7 +32,8 @@ namespace Photos.Infrastructure.Uploader
 			{
 				var uploadParams = new ImageUploadParams()
 				{
-					File = new FileDescription(file.Name, stream)
+					File = new FileDescription(file.Name, stream),
+                    Folder = _envFolder
                     //,Transformation = new Transformation().Width(500).Height(500).Crop("fill").Gravity("face")
 				};
                 

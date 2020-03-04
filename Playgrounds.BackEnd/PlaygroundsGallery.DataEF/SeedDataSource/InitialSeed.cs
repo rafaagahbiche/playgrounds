@@ -3,10 +3,11 @@ using System.Linq;
 using PlaygroundsGallery.DataEF.Models;
 namespace PlaygroundsGallery.DataEF
 {
-    public class Seed
+    public class InitialSeed
     {
-        public static void SeedLocations(GalleryContext context)
+        public static bool SeedLocations(GalleryContext context)
         {
+            var changesHaveBeenMade = false;
             if (!context.Locations.Any())
             {
                 context.Locations.Add(
@@ -52,11 +53,16 @@ namespace PlaygroundsGallery.DataEF
                        Country = "UK",
                        Created = DateTime.UtcNow
                    });
+
+                   changesHaveBeenMade = true;
             }
+        
+            return changesHaveBeenMade;
         }
 
-        public static void SeedPlaygrounds(GalleryContext context)
+        public static bool SeedPlaygrounds(GalleryContext context)
         {
+            var changesHaveBeenMade = false;
             if (!context.Playgrounds.Any())
             {
                 context.Playgrounds.Add(
@@ -115,11 +121,16 @@ namespace PlaygroundsGallery.DataEF
                        Created = DateTime.UtcNow
                     }
                 );
+
+                changesHaveBeenMade = true;
             }
+
+            return changesHaveBeenMade;
         }
 
-        public static void SeedProfilePictures(GalleryContext context)
+        public static bool SeedProfilePictures(GalleryContext context)
         {
+            var changesHaveBeenMade = false;
             if (!context.ProfilePictures.Any())
             {
                 context.Add(new ProfilePicture 
@@ -142,7 +153,11 @@ namespace PlaygroundsGallery.DataEF
                     MemberId = 1029,
                     Url = "https://randomuser.me/api/portraits/women/49.jpg"
                 });
+
+                changesHaveBeenMade = true;
             }
+        
+            return changesHaveBeenMade;
         }
 
         public static void SaveSeeds(GalleryContext context)

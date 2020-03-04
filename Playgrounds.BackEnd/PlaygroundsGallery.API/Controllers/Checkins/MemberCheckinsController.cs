@@ -11,8 +11,8 @@ namespace PlaygroundsGallery.API.Controllers
     [ApiController]
     public class MemberCheckinsController: ControllerBase
     {
-        private readonly ICheckinManager _checkinManager;
-        public MemberCheckinsController(ICheckinManager checkinManager)
+        private readonly ICheckinMember _checkinManager;
+        public MemberCheckinsController(ICheckinMember checkinManager)
         {
             this._checkinManager = checkinManager;
         }
@@ -34,7 +34,23 @@ namespace PlaygroundsGallery.API.Controllers
             
             var memberIdStr = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             checkInForCreation.MemberId = int.Parse(memberIdStr);
-            return StatusCode(201,  await this._checkinManager.CheckInToPlayground(checkInForCreation));
+            return StatusCode(201,  await this._checkinManager.CheckinToPlaygroundAsync(checkInForCreation));
+        }
+
+        [Authorize]
+        [HttpDelete]
+        [Route("{checkinId}")]
+        public async Task<IActionResult> CancelCheckinAsync(int checkinId)
+        {
+            var deletionSucceeded = await this._checkinManager.CancelCheckinToPlaygroundAsync(checkinId);
+            if (deletionSucceeded)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }

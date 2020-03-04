@@ -3,6 +3,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { FileUploader } from 'ng2-file-upload';
 import { Photo } from '../_models/Photo';
+import Utils from './utils';
 
 @Injectable({
   providedIn: 'root'
@@ -17,24 +18,14 @@ export class PhotosService {
 
   private getHttpOptions(token: any) {
     if (token !== null) {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          'Authorization': 'Bearer ' + token
-        })
-      };
-
+      let httpOptions = Utils.getHttpOptionsHeader(token);
       return httpOptions;
     }
   }
 
   public getMemberPhotos(token: any) {
     if (token !== null) {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          'Authorization': 'Bearer ' + token
-        })
-      };
-
+      let httpOptions = Utils.getHttpOptionsHeader(token);
       return this.http.get(this.memberPhotosApiUrl, httpOptions);
     }
 

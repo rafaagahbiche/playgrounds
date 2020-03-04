@@ -9,18 +9,19 @@
           </div>
       </div>
       <div class="row">
-          <div class="col-sm-6 col-lg-4 col-xl-6" *ngFor="let playground of playgrounds">
-              <div class="single-home-blog">
-                  <div class="card">
-                      <img src="{{playground.mainPhotoUrl}}" class="card-img-top" alt="blog">
-                      <div class="card-body text-center">
-                          <!-- <span class="dot">12 march, 2019</span> -->
-                          <a [routerLink]="['/playground/', playground.id]" >
-                            <h5 class="card-title">{{playground.address}}</h5>
-                        </a>
-                      </div>
-                  </div>
-              </div>
+          <div class="col-sm-6 col-lg-4 col-xl-6 mb-4" *ngFor="let playground of playgrounds">
+            <div *ngIf="playground.mainPhotoUrl" class="single-home-playground">
+                <a [routerLink]="['/playground/', playground.id]" >
+                    <div class="single-home-playground-background-image" 
+                    [ngStyle]="{'background-image': 'url(' + playground.mainPhotoUrl + ')'}"></div>
+                    <div class="single-home-playground-text">
+                        <div class="card-body1 text-left">
+                                <h2 class="card-title">{{playground.address}}</h2>
+                            <span>Today 12 Hoopers are playing</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
           </div>
       </div>
   </div>
