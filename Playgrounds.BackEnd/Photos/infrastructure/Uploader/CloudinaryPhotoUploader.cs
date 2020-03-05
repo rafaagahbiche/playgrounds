@@ -10,8 +10,6 @@ namespace Photos.Infrastructure.Uploader
 
         private Cloudinary _cloudinaryAccount;
 
-        // 0: dev
-        // 1: prod
         private string _envFolder;
 
         public CloudinaryPhotoUploader(IAccountSettings uploaderAccount, string envFolder)

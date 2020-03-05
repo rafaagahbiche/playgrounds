@@ -2,6 +2,7 @@ using System;
 
 namespace PlaygroundsGallery.DataEF.Models
 {
+    // A Checkin is the presence of a member in a specific Playground at a certain time
     public class CheckIn : Entity
     {
         public Playground Playground { get; set; }

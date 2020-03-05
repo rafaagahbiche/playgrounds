@@ -40,7 +40,7 @@ namespace Checkins.Services
         public async Task<IEnumerable<CheckinsTimeSlot>> GetTimeSlotsAtPlaygroundByDateAsync(int playgroundId, DateTime dateTime)
         {
             var checkins = await GetCheckinsAtPlaygroundByDateAsync(playgroundId, dateTime);
-            checkins = checkins.OrderBy(c => c.CheckInDate);
+            // checkins = checkins.OrderBy(c => c.CheckInDate);
             List<CheckinsTimeSlot> timeSlots = new List<CheckinsTimeSlot>();
             if (checkins != null && checkins.Any())
             {

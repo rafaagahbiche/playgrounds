@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Checkins.Services
 {
+    // A CheckinsTimeSlot represents all checkins during a period of time (2 hours) that starts at StartsAt
     public class CheckinsTimeSlot
     {
         public ICollection<CheckinDto> Checkins { get; set; }
