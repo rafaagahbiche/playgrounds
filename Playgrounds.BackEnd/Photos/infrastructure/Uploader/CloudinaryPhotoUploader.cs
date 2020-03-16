@@ -1,26 +1,38 @@
 ﻿using System;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
+
 namespace Photos.Infrastructure.Uploader
 {
     public class CloudinaryPhotoUploader : IPhotoUploader
     {
-        public IAccountSettings UploaderAccount { get; set; }
+        // public CloudinarySettings UploaderAccount { get; set; }
 
         private Cloudinary _cloudinaryAccount;
+        private readonly IOptions<CloudinarySettings> _cloudinaryConfig;
+        private readonly ILogger _logger;
 
-        private string _envFolder;
-
-        public CloudinaryPhotoUploader(IAccountSettings uploaderAccount, string envFolder)
+        public CloudinaryPhotoUploader(
+            IOptions<CloudinarySettings> uploaderAccount, 
+            ILogger<CloudinaryPhotoUploader> logger)
         {
-            UploaderAccount = uploaderAccount;
-            _envFolder = envFolder;
-            _cloudinaryAccount = new Cloudinary(
-                new Account(
-                    UploaderAccount.Name,
-                    UploaderAccount.ApiKey,
-                    UploaderAccount.ApiSecret));
+            _cloudinaryConfig = uploaderAccount;
+            _logger = logger;
+            try 
+            {
+                _cloudinaryAccount = new Cloudinary(
+                    new Account(
+                        _cloudinaryConfig.Value.Name,
+                        _cloudinaryConfig.Value.ApiKey,
+                        _cloudinaryConfig.Value.ApiSecret));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while creating Cloudinary account.");
+            }
         }
 
         public UploadedPhotoToReturn UploadPhoto(IFormFile file)
@@ -31,18 +43,25 @@ namespace Photos.Infrastructure.Uploader
 				var uploadParams = new ImageUploadParams()
 				{
 					File = new FileDescription(file.Name, stream),
-                    Folder = _envFolder
+                    Folder = _cloudinaryConfig.Value.FolderName
                     //,Transformation = new Transformation().Width(500).Height(500).Crop("fill").Gravity("face")
 				};
                 
                 if (_cloudinaryAccount != null)
     			{	
-                    var uploadResult = _cloudinaryAccount.Upload(uploadParams);
-                    if (uploadResult != null) 
+                    try
                     {
-                        uploadedPhotoToReturn.PublicId = uploadResult.PublicId;
-                        uploadedPhotoToReturn.Uri = uploadResult.SecureUri;
-                        uploadedPhotoToReturn.UploadSucceeded = true;
+                        var uploadResult = _cloudinaryAccount.Upload(uploadParams);
+                        if (uploadResult != null) 
+                        {
+                            uploadedPhotoToReturn.PublicId = uploadResult.PublicId;
+                            uploadedPhotoToReturn.Uri = uploadResult.SecureUri;
+                            uploadedPhotoToReturn.UploadSucceeded = true;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Error occured while uploading photos to Cloudinary.");
                     }
                 }
 			}
@@ -55,8 +74,15 @@ namespace Photos.Infrastructure.Uploader
             var deletionSucceeded = false;
             if (_cloudinaryAccount != null)
             {	
-                var deleteResult = _cloudinaryAccount.DeleteResources(new string[] {publicId});
-                deletionSucceeded = deleteResult.Deleted.ContainsValue("deleted");
+                try
+                {
+                    var deleteResult = _cloudinaryAccount.DeleteResources(new string[] {publicId});
+                    deletionSucceeded = deleteResult.Deleted.ContainsValue("deleted");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error occured while deleting photos to Cloudinary.");
+                }
             }
 
             return deletionSucceeded;

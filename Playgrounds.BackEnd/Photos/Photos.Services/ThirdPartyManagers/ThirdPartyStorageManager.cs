@@ -2,6 +2,7 @@ using AutoMapper;
 using Photos.Services.DTOs;
 using Photos.Infrastructure.Exceptions;
 using Photos.Infrastructure.Uploader;
+using Microsoft.Extensions.Logging;
 
 namespace Photos.Services.ThirdPartyManagers
 {
@@ -9,10 +10,15 @@ namespace Photos.Services.ThirdPartyManagers
     {
         private readonly IPhotoUploader _photoUploader;
         private readonly IMapper _mapper;
-        public ThirdPartyStorageManager(IPhotoUploader photoUploader, IMapper mapper)
+        private readonly ILogger<ThirdPartyStorageManager> _logger;
+        public ThirdPartyStorageManager(
+            IPhotoUploader photoUploader, 
+            IMapper mapper,
+            ILogger<ThirdPartyStorageManager> logger)
         {
             this._photoUploader = photoUploader;
             this._mapper = mapper;
+            this._logger = logger;
         }
         
         public PhotoToInsertDto UploadPhoto(PhotoToUploadDto photoToUploadDto)
@@ -20,8 +26,11 @@ namespace Photos.Services.ThirdPartyManagers
             PhotoToInsertDto photoToInsertDto = null;
             if (photoToUploadDto.File == null || photoToUploadDto.File.Length < 1)
 			{
-				throw new PhotoUploadFileEmptyException();
+                _logger.LogError("Photo to upload is empty");
+                return photoToInsertDto;
+				// throw new PhotoUploadFileEmptyException();
 			}
+
 			var uploadedPhotoToReturn = _photoUploader.UploadPhoto(photoToUploadDto.File);
 			if (uploadedPhotoToReturn.UploadSucceeded)
 			{

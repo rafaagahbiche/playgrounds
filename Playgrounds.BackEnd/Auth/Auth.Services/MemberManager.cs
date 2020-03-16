@@ -5,27 +5,30 @@ using Auth.Infrastructure.Exceptions;
 using Auth.Infrastructure.PasswordStuff;
 using PlaygroundsGallery.DataEF.Models;
 using PlaygroundsGallery.DataEF.Repositories;
+using Microsoft.Extensions.Logging;
 
 namespace Auth.Services
 {
     public partial class MemberManager : IMemberManager
     {
+        private readonly IRepository<Member> _memberRepository;
         private readonly IPasswordManager _passwordManager;
 		private readonly ITokenManager _tokenManager;
-		private readonly IMapper _mapper;        
-        private readonly IRepository<Member> _memberRepository;
+		private readonly IMapper _mapper;       
+        private readonly ILogger<MemberManager> _logger; 
 
         public MemberManager(
+            IRepository<Member> memberRepository,
             IPasswordManager passwordManager, 
             ITokenManager tokenManager,
             IMapper mapper,
-            IRepository<Member> memberRepository
-        )
+            ILogger<MemberManager> logger)
         {
+            this._memberRepository = memberRepository;
             this._passwordManager = passwordManager;
             this._tokenManager = tokenManager;
-            this._mapper = mapper;        
-            this._memberRepository = memberRepository;
+            this._mapper = mapper;
+            this._logger = logger;        
         }
 
         private MemberEntityDto SetHachPasswordToMember(MemberToLoginDto memberToLogin)
@@ -80,9 +83,12 @@ namespace Auth.Services
                         memberLoggedInDto.ProfilePictureUrl);
                     return memberLoggedInDto;
                 }
+
+                this._logger.LogInformation("Wrong password.", memberToLoginDto);
             }
             
             // If this clause is reached it means the member was not found or the password is wrong.
+            this._logger.LogInformation("Member was not found.", memberToLoginDto);
             throw new MemberLoginException();
         }
 
@@ -93,14 +99,21 @@ namespace Auth.Services
             {
                 var memberEntityDto = SetHachPasswordToMember(memberToLoginDto);
                 var memberEntity = _mapper.Map<Member>(memberEntityDto);
-                if (await _memberRepository.Add(memberEntity))
+                try 
                 {
-                    newMember = _mapper.Map<MemberDto>(memberEntity);
+                    if (await _memberRepository.Add(memberEntity))
+                    {
+                        newMember = _mapper.Map<MemberDto>(memberEntity);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this._logger.LogError(ex, "Error occurred while adding member entity.");
                 }
             }
             else 
             {
-                throw new MemberCreationException(memberToLoginDto.LoginName, memberToLoginDto.EmailAddress);
+                this._logger.LogCritical("The Member entity to add already exist.", memberToLoginDto);
             }
 
             return newMember;

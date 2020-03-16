@@ -15,7 +15,11 @@ namespace Tests
         {
             Tests.SetupCheckinRepo();
             Tests.SetupCheckinMapper();
-            checkinMemberManager = new CheckinMember(Tests.MockCheckinRepository.Object, Tests.MockCheckinMapper.Object);
+            Tests.SetupLogging();
+            checkinMemberManager = new CheckinMember(
+                Tests.MockCheckinRepository.Object, 
+                Tests.MockCheckinMapper.Object,
+                Tests.MockLogger.Object);
         }
 
         [Test]

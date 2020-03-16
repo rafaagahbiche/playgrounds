@@ -27,20 +27,22 @@ namespace PlaygroundsGallery.API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration, IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            _isDevelopment = env.IsDevelopment();
+            // _isDevelopment = env.IsDevelopment();
         }
 
         public IConfiguration Configuration { get; }
-        private readonly bool _isDevelopment;
+        // private readonly bool _isDevelopment;
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var cloudinaryAccount = Configuration.GetSection("CloudinarySettings").Get<CloudinarySettings>();
+            // var cloudinaryAccount = Configuration.GetSection("CloudinarySettings").Get<CloudinarySettings>();
             var tokenSecretKey = Configuration.GetSection("AppSettings:Token").Value;
-            var envFolder = _isDevelopment ? "dev" : "prod";
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+
+            // var envFolder = _isDevelopment ? "dev" : "prod";
             services.AddAutoMapper(
                 typeof(Startup), 
                 typeof(Photos.Services.DTOs.PhotoEntityAutoMapperProfile),
@@ -55,15 +57,16 @@ namespace PlaygroundsGallery.API
             
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddScoped<IAccountSettings, CloudinarySettings>();
-            services.AddScoped<IPhotoUploader, CloudinaryPhotoUploader>(_ =>
-                new CloudinaryPhotoUploader(cloudinaryAccount, envFolder));
+            // services.AddScoped<IAccountSettings, CloudinarySettings>();
+            
+            services.AddScoped<IPhotoUploader, CloudinaryPhotoUploader>();
             services.AddScoped<IRepository<Photo>, Repository<Photo>>();
             services.AddScoped<IRepository<Member>, Repository<Member>>();
             services.AddScoped<IRepository<Playground>, Repository<Playground>>();
             services.AddScoped<IRepository<Location>, Repository<Location>>();
             services.AddScoped<IRepository<CheckIn>, Repository<CheckIn>>();
             services.AddScoped<IPhotoManager, PhotoManager>();
+            services.AddScoped<IPhotoMember, PhotoMember>();
             services.AddScoped<ICheckinManager, CheckinManager>();
             services.AddScoped<ICheckinMember, CheckinMember>();
             services.AddScoped<ICheckinSchedule, CheckinSchedule>();

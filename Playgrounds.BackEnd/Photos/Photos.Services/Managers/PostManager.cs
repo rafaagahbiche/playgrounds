@@ -8,6 +8,7 @@ using AutoMapper;
 using PlaygroundsGallery.DataEF.Repositories;
 using Photos.Services.DTOs;
 using models = PlaygroundsGallery.DataEF.Models;
+using Microsoft.Extensions.Logging;
 
 namespace Photos.Services.Managers
 {

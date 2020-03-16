@@ -130,8 +130,8 @@ export class PhotoEditorComponent implements OnInit {
       }
     }
 
-    this.photoService.updatePhoto(photoToUpdate, this.authService.getMemberToken()).subscribe((photoUpdated: Photo) => {
-      this.memberPhoto = photoUpdated;
+    this.photoService.updatePhoto(photoToUpdate, this.authService.getMemberToken()).subscribe((updateSucceeded: boolean) => {
+      return updateSucceeded;
     },
     error => {
       this.errorWhileUpdatingPhoto = error;

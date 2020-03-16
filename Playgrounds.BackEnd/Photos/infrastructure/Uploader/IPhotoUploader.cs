@@ -4,7 +4,7 @@ namespace Photos.Infrastructure.Uploader
 {
     public interface IPhotoUploader
     {
-        IAccountSettings UploaderAccount { get; set; }
+        // CloudinarySettings UploaderAccount { get; set; }
         UploadedPhotoToReturn UploadPhoto(IFormFile file);
         bool DeletePhoto(string publicId);
     }

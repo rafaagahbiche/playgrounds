@@ -2,9 +2,14 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
+using Serilog;
 using Microsoft.Extensions.Logging;
 using PlaygroundsGallery.DataEF;
 using PlaygroundsGallery.DataEF.Seed;
+using System.IO;
+using Microsoft.Extensions.Hosting;
+
 namespace PlaygroundsGallery.API
 {
     public class Program
@@ -13,12 +18,9 @@ namespace PlaygroundsGallery.API
         {
             try
             {
+                var config = GetConfiguration();
+                Log.Logger = CreateSerilogLogger(config);
                 var host = CreateWebHostBuilder(args).Build();
-                var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-                if (environment != EnvironmentName.Development)
-                {
-
-                }
                 // Uncomment to create new database
                 using (var scope = host.Services.CreateScope())
                 {
@@ -43,26 +45,50 @@ namespace PlaygroundsGallery.API
 
                         if (locationsSeed || playgroundsSeed || profilePicturesSeed || checkinsUpdated1 || checkinsUpdated2)
                         {
+                            Log.Information("data base updated at start");
                             InitialSeed.SaveSeeds(context);
                         } 
-
                     }
                     catch (Exception ex)
                     {
-                        var logger = services.GetRequiredService<ILogger<Program>>();
-                        logger.LogError(ex, "An error occuried during Migration");
+                        Log.Error(ex, "An error occuried during Migration");
                     }
                 }
 
                 host.Run();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.Error(ex, ex.Message);
             }    
         }
+        
+        private static Serilog.ILogger CreateSerilogLogger(IConfiguration configuration)
+        {
+            var logstashUrl = configuration["Serilog:LogstashgUrl"];
+            return new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .ReadFrom.Configuration(configuration)
+                .CreateLogger();
+        }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        private static IConfiguration GetConfiguration()
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddEnvironmentVariables();
+
+            var config = builder.Build();
+
+            return builder.Build();
+        }
+        
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            return WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .UseSerilog();
+        }
     }
 }

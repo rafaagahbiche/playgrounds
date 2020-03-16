@@ -15,13 +15,16 @@ namespace PlaygroundsGallery.API.Controllers
     [Route("api/member-photos/")]
     public class MemberPhotosController: ControllerBase
     {
+        private readonly IPhotoMember _photoMember;
         private readonly IPhotoManager _photoManager;
         private readonly IThirdPartyStorageManager _cloudinaryManager;
 
         public MemberPhotosController(
             IPhotoManager photoManager, 
+            IPhotoMember photoMember, 
             IThirdPartyStorageManager cloudinaryManager)
         {
+            _photoMember = photoMember;
             _photoManager = photoManager;
             _cloudinaryManager = cloudinaryManager;
         }
@@ -68,7 +71,7 @@ namespace PlaygroundsGallery.API.Controllers
                 var photoToInsert = this._cloudinaryManager.UploadPhoto(photo);
                 if (photoToInsert != null)
                 {
-                    var uploadedPhoto = await _photoManager.AddPhoto(photoToInsert);
+                    var uploadedPhoto = await _photoMember.AddPhoto(photoToInsert);
                     return StatusCode(201, uploadedPhoto);
                 }
 
@@ -85,7 +88,7 @@ namespace PlaygroundsGallery.API.Controllers
             {
                 var memberIdStr = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 photoToUpdateDto.MemberId = int.Parse(memberIdStr);
-                return Ok(await _photoManager.UpdatePhoto(photoToUpdateDto));
+                return Ok(await _photoMember.UpdatePhoto(photoToUpdateDto));
             }
             else
             {
@@ -97,7 +100,7 @@ namespace PlaygroundsGallery.API.Controllers
         [HttpPut]
         public async Task<IActionResult> DeletePhoto(string publicId)
         {
-            var succeeded = await _photoManager.DeletePhoto(publicId);
+            var succeeded = await _photoMember.DeletePhoto(publicId);
             if (succeeded)
             {
                 return Ok();
@@ -112,7 +115,7 @@ namespace PlaygroundsGallery.API.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeletePhotoPhysically(string publicId)
         {
-            var succeededDb = await _photoManager.DeletePhotoPhysically(publicId);
+            var succeededDb = await _photoMember.DeletePhotoPhysically(publicId);
             var succeededCl = _cloudinaryManager.DeletePhoto(publicId);
             if (succeededDb && succeededCl)
             {

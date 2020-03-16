@@ -6,10 +6,6 @@ namespace Photos.Services.Managers
 {
     public interface IPhotoManager
     {
-        Task<PhotoInsertedDto> AddPhoto(PhotoToInsertDto photoToInsertDto);
-        Task<PhotoDto> UpdatePhoto(PhotoToUpdateDto photoToUpdateDto);
-        Task<bool> DeletePhoto(string publicId);
-        Task<bool> DeletePhotoPhysically(string publicId);
         Task<PhotoDto> GetPhoto(int id);
         Task<IEnumerable<PhotoDto>> GetPhotosByMemberId(int id);
         Task<IEnumerable<PhotoDto>> GetRecentPhotos(int count);

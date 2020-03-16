@@ -1,6 +1,7 @@
 using AutoMapper;
 using Moq;
 using NUnit.Framework;
+using Microsoft.Extensions.Logging;
 using PlaygroundsGallery.DataEF.Repositories;
 using PlaygroundsGallery.DataEF.Models;
 using System;
@@ -14,6 +15,7 @@ namespace Tests
     {
         public static Mock<IRepository<CheckIn>> MockCheckinRepository;
         public static Mock<IMapper> MockCheckinMapper;
+        public static Mock<ILogger> MockLogger;
         private static ICollection<CheckIn> checkinsCollection;
         public static void SetupCheckinRepo()
         {
@@ -30,6 +32,12 @@ namespace Tests
             MockCheckinRepository.Setup(repo => repo.Get(It.IsAny<int>())).ReturnsAsync((int checkinId) => {
                 return checkinsCollection.Where(checkin => checkin.Id == checkinId).FirstOrDefault();
             });
+        }
+
+        public static void SetupLogging()
+        {
+            MockLogger = new Mock<ILogger>();
+            MockLogger.Setup(log => log.LogError(It.IsAny<Exception>(), It.IsAny<string>()));
         }
         public static void SetupCheckinMapper()
         {
