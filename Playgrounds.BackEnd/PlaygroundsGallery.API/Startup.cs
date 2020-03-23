@@ -54,14 +54,10 @@ namespace PlaygroundsGallery.API
                 options => options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             
-            
-            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            // services.AddScoped<IAccountSettings, CloudinarySettings>();
-            
             services.AddScoped<IPhotoUploader, CloudinaryPhotoUploader>();
             services.AddScoped<IRepository<Photo>, Repository<Photo>>();
-            services.AddScoped<IRepository<Member>, Repository<Member>>();
+            // services.AddScoped<IRepository<Member>, Repository<Member>>();
             services.AddScoped<IRepository<Playground>, Repository<Playground>>();
             services.AddScoped<IRepository<Location>, Repository<Location>>();
             services.AddScoped<IRepository<CheckIn>, Repository<CheckIn>>();
@@ -103,12 +99,12 @@ namespace PlaygroundsGallery.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
+            // if (env.IsDevelopment())
+            // {
+            //     app.UseDeveloperExceptionPage();
+            // }
+            // else
+            // {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
                 app.UseExceptionHandler(builder => 
@@ -123,7 +119,7 @@ namespace PlaygroundsGallery.API
                         }
                     });
                 });
-            }
+            // }
 
             app.UseAuthentication();
             app.UseHttpsRedirection();

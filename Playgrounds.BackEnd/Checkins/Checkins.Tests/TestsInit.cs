@@ -15,7 +15,7 @@ namespace Tests
     {
         public static Mock<IRepository<CheckIn>> MockCheckinRepository;
         public static Mock<IMapper> MockCheckinMapper;
-        public static Mock<ILogger> MockLogger;
+        public static Mock<ILogger<CheckinMember>> MockLogger;
         private static ICollection<CheckIn> checkinsCollection;
         public static void SetupCheckinRepo()
         {
@@ -36,7 +36,7 @@ namespace Tests
 
         public static void SetupLogging()
         {
-            MockLogger = new Mock<ILogger>();
+            MockLogger = new Mock<ILogger<CheckinMember>>();
             MockLogger.Setup(log => log.LogError(It.IsAny<Exception>(), It.IsAny<string>()));
         }
         public static void SetupCheckinMapper()

@@ -28,7 +28,7 @@ export class SingleTimeSlotComponent implements OnInit {
   ngOnInit() {
     this.setTimeSlot();
     this.setMoreHoopersPlaying();
-    // this.setThreeParticipants();
+    this.setThreeParticipants();
     this.isLoggedInMemberAmongParticipants();
     this.reverseListOfParticipants();
   }
@@ -53,11 +53,11 @@ export class SingleTimeSlotComponent implements OnInit {
     }
   }
 
-  // private setThreeParticipants() {
-  //   if (this.participants.length > 3) {
-  //     this.participants.length = 3;
-  //   }
-  // }
+  private setThreeParticipants() {
+    if (this.participants.length > 3) {
+      this.participants.length = 3;
+    }
+  }
 
   private isLoggedInMemberAmongParticipants() {
     this.loggedInMemberIsAmongParticipants = false;
@@ -78,7 +78,7 @@ export class SingleTimeSlotComponent implements OnInit {
           this.loggedInMemberIsAmongParticipants = true;
           this.participants.unshift(checkinToDisplay);
           this.setMoreHoopersPlaying();
-          // this.setThreeParticipants();
+          this.setThreeParticipants();
         }
     });
   }
@@ -91,7 +91,7 @@ export class SingleTimeSlotComponent implements OnInit {
           this.loggedInMemberIsAmongParticipants = false;
           this.participants.shift();
           this.setMoreHoopersPlaying();
-          // this.setThreeParticipants();
+          this.setThreeParticipants();
     });
   }
 }

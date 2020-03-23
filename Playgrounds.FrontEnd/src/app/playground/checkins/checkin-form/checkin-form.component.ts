@@ -4,7 +4,6 @@ import { BsDatepickerConfig } from 'ngx-bootstrap';
 import { CheckIn, CheckInToDisplay } from 'src/app/_models/CheckIn';
 import { AuthService } from 'src/app/_services/auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { TimelinePost } from 'src/app/_models/TimelinePost';
 import { CheckinsService } from 'src/app/_services/checkins.service';
 
 @Component({
@@ -16,7 +15,6 @@ export class CheckinFormComponent implements OnInit {
   @Input() userName: string;
   @Input() userPhotoUrl: string;
   @Input() playgroundId: number;
-  @Input() mainPosts: TimelinePost[];
 
   bsConfig: Partial<BsDatepickerConfig>;
   checkInForm: FormGroup;
@@ -68,7 +66,6 @@ export class CheckinFormComponent implements OnInit {
               authorProfilePictureUrl: this.userPhotoUrl,
               checkInDate: checkInViewModel.checkInDate
             };
-            this.mainPosts.unshift(timelinePost);
           }
           this.spinner.hide('checkin-post-spinner');
       });

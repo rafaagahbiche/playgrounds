@@ -70,7 +70,7 @@ namespace Photo.Api.Controllers
         [Authorize]
         [Route("markPhotoAsDeleted/{publicId}")]
         [HttpPut]
-        public async Task<IActionResult> DeletePhoto(string publicId)
+        public async Task<IActionResult> DeletePhoto(int publicId)
         {
             var succeeded = await _photoMember.DeletePhoto(publicId);
             if (succeeded)
@@ -83,21 +83,25 @@ namespace Photo.Api.Controllers
             }
         }
 
-        [Authorize]
-        [Route("deletephoto/{publicId}")]
+        [Route("{photoId}")]
         [HttpDelete]
-        public async Task<IActionResult> DeletePhotoPhysically(string publicId)
+        public async Task<IActionResult> DeletePhotoPhysically(int photoId)
         {
-            var succeededDb = await _photoMember.DeletePhotoPhysically(publicId);
-            var succeededCl = _cloudinaryManager.DeletePhoto(publicId);
-            if (succeededDb && succeededCl)
+            var photoPublicId = await _photoMember.DeletePhotoPhysically(photoId);
+            if (!string.IsNullOrEmpty(photoPublicId))
             {
-                return Ok();
+                var succeededCl = _cloudinaryManager.DeletePhoto(photoPublicId);
+                if (succeededCl)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
-            else
-            {
-                return NotFound();
-            }
+            
+            return NotFound(); 
         }
 
 

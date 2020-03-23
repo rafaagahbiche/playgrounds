@@ -18,14 +18,14 @@ namespace PlaygroundsGallery.API.Controllers
         }
 
         [HttpGet]
-        public async Task<CheckinDto> GetCheckin(int checkInId)
+        public async Task<CheckinDto> GetCheckinAsync(int checkInId)
         {
             return await _checkinManager.GetCheckInById(checkInId);
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Checkin(CheckInForCreationDto checkInForCreation)
+        public async Task<IActionResult> CancelCheckinAsync([FromBody]CheckInForCreationDto checkInForCreation)
         {
             if (checkInForCreation == null)
             {

@@ -7,7 +7,7 @@ namespace Photos.Services.Managers
     {
         Task<PhotoInsertedDto> AddPhoto(PhotoToInsertDto photoToInsertDto);
         Task<bool> UpdatePhoto(PhotoToUpdateDto photoToUpdateDto);
-        Task<bool> DeletePhoto(string publicId);
-        Task<bool> DeletePhotoPhysically(string publicId);
+        Task<bool> DeletePhoto(int photoId);
+        Task<string> DeletePhotoPhysically(int photoId);
     }
 }

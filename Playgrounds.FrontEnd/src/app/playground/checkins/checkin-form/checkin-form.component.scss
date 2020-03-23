@@ -1,5 +1,5 @@
-@import '../../timeline.component.scss';
-
+@import '../../timeline/timeline.component.scss';
+@import '../../../../../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css';
 ::ng-deep .timepicker-custom-style
 { 
   .bs-timepicker-field {

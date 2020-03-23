@@ -1,0 +1,36 @@
+@import '../../timeline/timeline.component.scss';
+@import '../../../../styles/abstracts/variables';
+
+.schedule-title {
+    p {
+        color: black;
+        font-family: $font_Caladea;
+        font-size: 2rem;
+        // font-weight: 600;
+        text-decoration: underline;
+        line-height: 1;
+    }
+}
+.single-slot {
+    position: relative;
+    .schedule-box {
+        display: inline-block;
+        vertical-align: top;
+        .inner-box {
+            background-image: url('../../../../assets/timeslot.png');
+            background-size: cover;
+            background-position: center;
+            border: 5px solid #fff;
+            border-radius: 50%;
+            font-size: 11px;
+            font-weight: 800;
+            line-height: 40px;
+            margin-left: 5px;
+            position: relative;
+            text-align: center;
+            height: 50px;
+            width: 50px;
+            z-index: 10;
+        }
+    }
+}

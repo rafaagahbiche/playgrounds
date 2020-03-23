@@ -8,17 +8,19 @@
       <img src="{{participant.memberProfilePictureUrl}}" alt="author">
       <p class="fn">{{participant.memberLoginName}}</p>
     </div>
-    <div *ngIf="isLoggedIn" class="single-participant float-right">
+    <div class="single-participant float-right">
       <div class="mb-2">
         <p class="more-participants">{{moreHoopersPlaying}}</p>
       </div>
-      <div *ngIf="loggedInMemberIsAmongParticipants;else checkinbutton">
-        <p>You are playing in this timeslot.</p>
-        <button class="btn btn-primary btn-sm" (click)="cancelCheckinMember()" type="submit">Cancel</button>
+      <div *ngIf="isLoggedIn">
+        <div *ngIf="loggedInMemberIsAmongParticipants;else checkinbutton">
+          <p>You are playing in this timeslot.</p>
+          <button class="btn btn-primary btn-sm" (click)="cancelCheckinMember()" type="submit">Cancel</button>
+        </div>
+        <ng-template #checkinbutton class="share-button">
+          <button class="btn btn-primary btn-sm" (click)="checkinMemberToPlayground()" type="submit">Join</button>
+        </ng-template>
       </div>
-      <ng-template #checkinbutton class="share-button">
-        <button class="btn btn-primary btn-sm" (click)="checkinMemberToPlayground()" type="submit">Join</button>
-      </ng-template>
     </div>
   </div>
 </div>

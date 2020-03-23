@@ -6,7 +6,7 @@ import { AuthService } from './_services/auth.service';
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-  title = 'Playgrounds Gallery';
+  title = 'Hoopers Playground';
 
   constructor(private authService: AuthService) {
 

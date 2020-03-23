@@ -48,8 +48,8 @@ export class PhotosService {
     return this.http.get(this.photoApiUrl + '/' + id);
   }
 
-  public deletePhoto(publicId: string, token: any) {
-      return this.http.put(this.memberPhotosApiUrl + '/mark-as-deleted/' + publicId, this.getHttpOptions(token));
+  public deletePhoto(photoId: number, token: any) {
+      return this.http.put(this.memberPhotosApiUrl + '/mark-as-deleted/' + photoId, this.getHttpOptions(token));
   }
 
   public updatePhoto(photo: Photo, token: any) {

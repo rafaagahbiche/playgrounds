@@ -53,43 +53,53 @@ namespace Photos.Services.Managers
             return updateSucceeded;
 		}
 
-        public async Task<bool> DeletePhoto(string publicId)
+        public async Task<bool> DeletePhoto(int photoId)
 		{
 			bool deletionSucceeded = false;
-			if (!string.IsNullOrEmpty(publicId))
-			{
-                try
+            try
+            {
+                var photoToDelete = await _photoRepository.Get(photoId);
+                if (photoToDelete == null)
                 {
-                    var photoToDelete = await _photoRepository.SingleOrDefault(p => p.PublicId == publicId);
+                    _logger.LogError($"Delete Photo: Photo with id {photoId} was not found.");
+                }
+                else
+                {
                     photoToDelete.Deleted = true;
                     deletionSucceeded = await _photoRepository.Update(photoToDelete);				
                 }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Error occured when setting Photo entity as deleted.");
-                }
-			}
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occured when setting Photo entity as deleted.");
+            }
 			
 			return deletionSucceeded;
 		}
 
-		public async Task<bool> DeletePhotoPhysically(string publicId)
+		public async Task<string> DeletePhotoPhysically(int photoId)
 		{
 			bool deletionSucceeded = false;
-			if (!string.IsNullOrEmpty(publicId))
-			{
-                try
+            var photoPublicId = string.Empty;
+            try
+            {
+                var photoToDelete = await _photoRepository.Get(photoId);
+                if (photoToDelete == null)
                 {
-                    var photoToDelete = await _photoRepository.SingleOrDefault(p => p.PublicId == publicId);
+                    _logger.LogError($"Delete Photo physically: Photo with id {photoId} was not found.");
+                }
+                else
+                {
+                    photoPublicId = photoToDelete.PublicId;
                     deletionSucceeded = await _photoRepository.Remove(photoToDelete);
                 }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Error occured when deleting Photo entity.");
-                }
-			}
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occured when deleting Photo entity.");
+            }
 			
-			return deletionSucceeded;
+			return photoPublicId;
 		}
     }
 }

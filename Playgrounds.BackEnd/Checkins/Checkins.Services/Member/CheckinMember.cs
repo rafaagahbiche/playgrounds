@@ -14,12 +14,12 @@ namespace Checkins.Services
         private readonly IRepository<CheckIn> _checkInRepository;
         // private readonly IGalleryContext _context;
 		private readonly IMapper _mapper;
-        private readonly ILogger _logger;
+        private readonly ILogger<CheckinMember> _logger;
         public CheckinMember(
             // IGalleryContext context,
             IRepository<CheckIn> checkInRepository,
             IMapper mapper,
-            ILogger logger)
+            ILogger<CheckinMember> logger)
         {
             this._checkInRepository = checkInRepository;
             // this._context = context;

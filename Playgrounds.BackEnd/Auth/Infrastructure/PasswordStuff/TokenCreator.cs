@@ -62,7 +62,7 @@ namespace Auth.Infrastructure.PasswordStuff
 
 			if (!string.IsNullOrEmpty(profilePictureUrl))
 			{
-				claims.Add(new Claim("profilePictureUrl", profilePictureUrl));
+				claims.Add(new Claim("profile_picture_url", profilePictureUrl));
 			}
 
 			return claims;

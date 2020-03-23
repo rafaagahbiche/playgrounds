@@ -19,9 +19,9 @@ export class PhotosComponent implements OnInit {
   ngOnInit() {
   }
 
-  deletePhoto(publicId: string) {
-    this.photosService.deletePhoto(publicId, this.authService.getMemberToken()).subscribe(() => {
-      const photoToDeleteIndex = this.memberPhotos.findIndex(p => p.publicId === publicId);
+  deletePhoto(photoId: number) {
+    this.photosService.deletePhoto(photoId, this.authService.getMemberToken()).subscribe(() => {
+      const photoToDeleteIndex = this.memberPhotos.findIndex(p => p.id === photoId);
       this.memberPhotos.splice(photoToDeleteIndex, 1);
     },
     error => {

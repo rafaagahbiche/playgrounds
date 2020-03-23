@@ -3,13 +3,15 @@ import { Routes, RouterModule } from '@angular/router';
 import { PlaygroundComponent } from './playground.component';
 import { PhotosGalleryComponent } from './photos/photos-gallery/photos-gallery.component';
 import { TimelineComponent } from './timeline/timeline.component';
+import { CheckinsComponent } from './checkins/checkins.component';
 
 
 const routes: Routes = [
   { path: '', component: PlaygroundComponent, children: [
     { path: '', component: TimelineComponent },
-    { path: 'photos', component: PhotosGalleryComponent },
-    { path: 'timeline', component: TimelineComponent } 
+    { path: 'timeline', component: TimelineComponent },
+    { path: 'checkins', component: CheckinsComponent },
+    { path: 'photos', component: PhotosGalleryComponent }
     ]
   }
 ];

@@ -10,7 +10,7 @@
       <div class="card-footer">
           <div class="btn-group d-flex">
             <button class="btn btn-primary btn-sm w-50 mr-1" [routerLink]="['/member/photo-editor/', photo.id]">Edit</button>
-            <button class="btn btn-success btn-sm w-50 ml-1" (click)="deletePhoto(photo.publicId)">Delete</button>
+            <button class="btn btn-success btn-sm w-50 ml-1" (click)="deletePhoto(photo.id)">Delete</button>
           </div>
         </div>
         <div>{{errorWhileDeletingPhoto}}</div>

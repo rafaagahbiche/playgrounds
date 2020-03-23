@@ -16,29 +16,43 @@ namespace PlaygroundsGallery.API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(MemberToLoginDto memberToLoginDto)
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> Register([FromBody]MemberToLoginDto memberToLoginDto)
         {
             if (memberToLoginDto != null)
             {
                 var newMember = await _memberManager.Register(memberToLoginDto);
-                return CreatedAtRoute("GetMember", new { controller ="Member",  id = newMember?.Id}, newMember);
+                if (newMember != null)
+                {
+                    return CreatedAtRoute("GetMember", new { controller = "Member",  id = newMember?.Id}, newMember);
+                }
+
+                return BadRequest("Login or email address already exist.");
+
             }
             else 
             {
-                return BadRequest();
+                return BadRequest("Empty member object");
             }
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(MemberToLoginDto memberToLoginDto)
+        public async Task<IActionResult> Login([FromBody]MemberToLoginDto memberToLoginDto)
         {
             if (memberToLoginDto != null)
             {
-                return Ok(await _memberManager.Login(memberToLoginDto));
+                var loggedInMember = await _memberManager.Login(memberToLoginDto);
+                if (loggedInMember != null)
+                {
+                    return Ok(await _memberManager.Login(memberToLoginDto));
+                }
+
+                return BadRequest("Wrong Login/Password");
             }
             else
             {
-                return BadRequest();
+                return BadRequest("Empty member object");
             }
         }
     }

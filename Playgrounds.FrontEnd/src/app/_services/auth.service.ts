@@ -25,7 +25,7 @@ export class AuthService {
     const myToken = this.getMemberToken();
     const myDecodedToken = this.jwtHelper.decodeToken(myToken);
     this.changeMemberName(myDecodedToken.unique_name);
-    this.changeMemberPhoto(myDecodedToken.profilePictureUrl);
+    this.changeMemberPhoto(myDecodedToken.profile_picture_url);
     this.setLoggedInStatus(true);
   }
 

@@ -1,0 +1,29 @@
+<div class="row" style="min-height: 500px;">
+  <div class="col col-xl-3 order-xl-1 col-lg-12 order-lg-1 col-md-3 col-sm-12 col-12"></div>
+  <div class="col col-xl-6 order-xl-2 col-lg-12 order-lg-2 col-md-6 col-sm-12 col-12">
+    <div class="w-100 float-left " style="margin: auto">
+      <ngx-spinner
+        name="checkins-spinner"
+        [fullScreen]="false"
+        type="html"
+        size="large"
+        bdColor="rgba(0,0,0,0)">
+        <img class="loading-ball w-100" src="../../../assets/loading-gif-orange-4.gif" />
+      </ngx-spinner>
+    </div>
+    <app-checkin-form
+      *ngIf="isLoggedIn"
+      [userName]="userName"
+      [userPhotoUrl]="userPhotoUrl"
+      [playgroundId]="playgroundId">
+    </app-checkin-form>
+    <app-upcoming-checkins
+      [isLoggedIn]="isLoggedIn"
+      [userName]="userName"
+      [userPhotoUrl]="userPhotoUrl"
+      [playgroundId]="playgroundId"
+      [todaysCheckinsTimeSlots]="todaysCheckinsTimeSlots"
+      [endLastTimeslot]="endLastTimeslot">
+    </app-upcoming-checkins>
+  </div>
+</div>

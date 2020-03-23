@@ -1,12 +1,4 @@
-@import '../timeline.component.scss';
-.schedule-title {
-    p {
-        color: black;
-        font-family: "Courier New";
-        font-size: 20px;
-        font-weight: 600;
-    }
-}
+// @import '../upcoming-checkins.component.scss';
 
 .participants {
     display: inline-block;
@@ -42,7 +34,7 @@
     &:before {
         content: '';
         width: 2px;
-        background: #0f6fd5;
+        background: #f2a23f;
         height: 100%;
         position: absolute;
         top: 50px;
@@ -56,19 +48,20 @@
         display: inline-block;
         vertical-align: top;
         .inner-box {
-            background: #0f6fd5;
-            width: 50px;
-            height: 50px;
-            text-align: center;
-            line-height: 40px;
+            background-image: url('../../../../../assets/timeslot.png');
+            background-size: cover;
+            background-position: center;
+            border: 5px solid #fff;
             border-radius: 50%;
-            color: #FFFFFF;
             font-size: 11px;
             font-weight: 800;
-            border: 5px solid #fff;
-            position: relative;
-            z-index: 10;
+            line-height: 40px;
             margin-left: 5px;
+            position: relative;
+            text-align: center;
+            height: 50px;
+            width: 50px;
+            z-index: 10;
         }
     }
 }
