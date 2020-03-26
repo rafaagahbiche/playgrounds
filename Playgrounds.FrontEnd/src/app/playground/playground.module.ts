@@ -17,8 +17,6 @@ import { SingleTimeSlotComponent } from './checkins/upcoming-checkins/single-tim
 import { PlaygroundRoutingModule } from './playground-routing.module';
 
 import { BsDatepickerModule, TimepickerModule, TabsModule, ModalModule, BsModalRef  } from 'ngx-bootstrap';
-// import { BrowserModule } from '@angular/platform-browser';
-// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FileUploadModule } from 'ng2-file-upload';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
@@ -39,9 +37,6 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   ],
   imports: [
     CommonModule,
-    BsDatepickerModule,
-    // BrowserModule,
-    // BrowserAnimationsModule,
     TimepickerModule,
     TabsModule,
     FormsModule,
@@ -49,6 +44,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     PlaygroundRoutingModule,
     FileUploadModule,
     NgxSpinnerModule,
+    BsDatepickerModule.forRoot(),
     ModalModule.forRoot()
   ],
   entryComponents: [

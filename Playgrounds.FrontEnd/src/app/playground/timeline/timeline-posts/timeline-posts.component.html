@@ -13,9 +13,6 @@
             </div>
         </div>
         <p *ngIf="post.description?.length" class="mb-3 ml-3">{{post.description}}</p>
-        <div *ngIf="comapreDates(post.checkInDate)" class="pl-3 checkin-post">
-          <p class="m-3">Checkin date: {{post.checkInDate | date: 'short'}}</p>
-        </div>
         <div *ngIf="post.url" class="post-thumb">
             <img src="{{post.url}}">
         </div>

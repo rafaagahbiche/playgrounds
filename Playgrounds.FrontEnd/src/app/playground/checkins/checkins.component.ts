@@ -18,6 +18,7 @@ export class CheckinsComponent implements OnInit {
   isLoggedIn: boolean;
   todaysCheckinsTimeSlots: CheckinsTimeslots[];
   endLastTimeslot: string;
+  showCheckinForm: boolean;
 
   constructor(
     private authService: AuthService,
@@ -31,6 +32,7 @@ export class CheckinsComponent implements OnInit {
     this.authService.currentMemberPhotoUrl.subscribe(photoUrl => this.userPhotoUrl = photoUrl);
     this.authService.currentLoggedInStatus.subscribe(isLoggedIn => this.isLoggedIn = isLoggedIn);
     this.getTodaysCheckinTimeslots();
+    this.showCheckinForm = false;
   }
 
   private getTodaysCheckinTimeslots() {
@@ -55,5 +57,13 @@ export class CheckinsComponent implements OnInit {
       var lastStart = new Date(lastSlot.startsAt);
       this.endLastTimeslot = ('0' + (lastStart.getHours() + 2)).slice(-2) + ':' + ('0' +lastStart.getMinutes()).slice(-2);
     }
+  }
+
+  openCheckinForm() {
+    this.showCheckinForm = true;
+  }
+
+  disposeCheckinForm() {
+    this.showCheckinForm = false;
   }
 }

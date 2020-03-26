@@ -34,7 +34,7 @@ namespace Checkins.Services
                                         (c => c.Member.ProfilePictures), 
                                         (c => c.Playground)
                                     },
-                orderBy: q => q.OrderByDescending(c => c.CheckInDate)));
+                orderBy: q => q.OrderBy(c => c.CheckInDate)));
         }
 
         public async Task<IEnumerable<CheckinsTimeSlot>> GetTimeSlotsAtPlaygroundByDateAsync(int playgroundId, DateTime dateTime)

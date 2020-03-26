@@ -40,7 +40,7 @@ export class SingleTimeSlotComponent implements OnInit {
 
   private setMoreHoopersPlaying() {
     if (this.participants.length > 3) {
-      this.moreHoopersPlaying = 'and ' + (this.participants.length - 3) + ' more Hoopers are playing';
+      this.moreHoopersPlaying = '+' + (this.participants.length - 3) + ' more Hoopers are playing';
     }
   }
 

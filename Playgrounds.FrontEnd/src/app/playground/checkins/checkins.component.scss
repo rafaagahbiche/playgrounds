@@ -1,0 +1,14 @@
+@import '../../../styles/abstracts/variables';
+
+.open-checkin-paragraph {
+    p {
+        color: black;
+        font-family: $font_Caladea;
+        font-size: 1.7rem;
+        line-height: 1;
+        a {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    }
+}

@@ -49,17 +49,16 @@ namespace Checkins.Services
                 this._logger.LogError(ex, "Error occurred when adding checkin entity.");
             }
 
-            if (addSucceeded)
-            {
-                var checkinDto = _mapper.Map<CheckinDto>(checkIn);
-            }
-
             // Eager load Member and Playground entities
             try
             {
                 checkIn = await _checkInRepository.SingleOrDefault(
                     predicate: c => c.Id == checkIn.Id, 
-                    includeProperties: new Expression<Func<CheckIn, object>>[] {(c => c.Member), (c => c.Playground)});
+                    includeProperties: new Expression<Func<CheckIn, object>>[] {
+                        (c => c.Member), 
+                        (c => c.Member.ProfilePictures), 
+                        (c => c.Playground)
+                    });
             }
             catch (Exception ex)
             {

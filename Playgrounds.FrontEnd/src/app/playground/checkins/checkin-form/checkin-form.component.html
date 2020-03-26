@@ -1,11 +1,10 @@
-<div class="post-additional-info float-left text-center w-100 mb-3">
-  <tabset>
-    <tab heading="Share" id="tab2">
-    <div class="checkin-box w-100">
+<div class="background-form"></div>
+<div class="checkin-form text-center mt-3">
+    <div class="checkin-box w-100 pb-3">
       <ngx-spinner name="checkin-post-spinner" [fullScreen]="false" type="html" size="small">
         <img class="loading-ball" src="../../../../../assets/ball-loading.gif">
       </ngx-spinner>
-      <form [formGroup]="checkInForm" (ngSubmit)="checkInMemberToPlayground()">
+      <form [formGroup]="checkinForm" (ngSubmit)="checkinMemberToPlayground()">
           <div class="checkin-picture">
             <img src="{{userPhotoUrl}}">
           </div>
@@ -25,7 +24,6 @@
                 type="text"
                 formControlName="checkInDate"
                 bsDatepicker
-                #dp="bsDatepicker"
                 [bsConfig]="bsConfig"
                 class="form-control"
                 placeholder="When are you going?"
@@ -41,13 +39,14 @@
               </timepicker>
             </div>
           </div>
-          <div class="text-right p-3 share-submit">
-            <div class="share-button">
-              <button class="btn btn-primary btn-sm" [disabled]="!checkInForm.valid" type="submit">Checkin</button>
+          <div class="text-right p-3 share-submit mb-3">
+            <div class="cancel-button float-right">
+              <button class="btn btn-success btn-sm" (click)="closeCheckinForm()">Cancel</button>
+            </div>
+            <div class="share-button float-right mr-3">
+              <button class="btn btn-primary btn-sm" [disabled]="!checkinForm.valid" type="submit">Checkin</button>
             </div>
           </div>
       </form>
     </div>
-    </tab>
-  </tabset>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BsDatepickerConfig } from 'ngx-bootstrap';
 import { CheckIn, CheckInToDisplay } from 'src/app/_models/CheckIn';
@@ -15,9 +15,10 @@ export class CheckinFormComponent implements OnInit {
   @Input() userName: string;
   @Input() userPhotoUrl: string;
   @Input() playgroundId: number;
+  @Output() disposed = new EventEmitter<boolean>();
 
   bsConfig: Partial<BsDatepickerConfig>;
-  checkInForm: FormGroup;
+  checkinForm: FormGroup;
   isCheckedIn = false;
   checkInModel: CheckIn;
 
@@ -27,7 +28,7 @@ export class CheckinFormComponent implements OnInit {
     private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
-    this.checkInForm = new FormGroup({
+    this.checkinForm = new FormGroup({
       checkInDate: new FormControl('', Validators.required),
       checkInTime: new FormControl(null, Validators.required)
     });
@@ -50,12 +51,12 @@ export class CheckinFormComponent implements OnInit {
     return dateAndTime;
   }
 
-  checkInMemberToPlayground() {
-    if (this.checkInForm.valid) {
+  checkinMemberToPlayground() {
+    if (this.checkinForm.valid) {
       this.spinner.show('checkin-post-spinner');
-      this.checkInModel =  Object.assign({}, this.checkInForm.value);
-      this.checkInModel.checkInDate = this.createDateAndTime(new Date(this.checkInForm.value.checkInDate),
-                                                 new Date(this.checkInForm.value.checkInTime));
+      this.checkInModel =  Object.assign({}, this.checkinForm.value);
+      this.checkInModel.checkInDate = this.createDateAndTime(new Date(this.checkinForm.value.checkInDate),
+                                                 new Date(this.checkinForm.value.checkInTime));
       this.checkInModel.playgroundId = this.playgroundId,
       this.checkinsService.checkInToPlayground(this.checkInModel, this.authService.getMemberToken())
         .subscribe((checkInViewModel: CheckInToDisplay) => {
@@ -68,7 +69,12 @@ export class CheckinFormComponent implements OnInit {
             };
           }
           this.spinner.hide('checkin-post-spinner');
+          this.disposed.emit(true);
       });
     }
+  }
+
+  closeCheckinForm() {
+    this.disposed.emit(true);
   }
 }
