@@ -3,6 +3,7 @@ export interface Photo {
     url: string;
     publicId: string;
     memberId?: number;
+    memberLoginName?: string;
     playgroundId?: number;
     playgroundAddress?: string;
     playgroundLocationStr?: string;

@@ -1,26 +1,32 @@
-<div class="single-slot single-slot-start">
-  <div class="schedule-box">
-    <div class="inner-box">{{startsAtStr}}</div>
-  </div>
-  <!-- add overflow to hide the rest of the list -->
-  <div class="ui-block participants text-center">
-    <div *ngFor="let participant of participants" class="single-participant">
-      <img src="{{participant.memberProfilePictureUrl}}" alt="author">
-      <p class="fn">{{participant.memberLoginName}}</p>
-    </div>
-    <div class="single-participant float-right">
-      <div class="mb-2">
-        <p class="more-participants">{{moreHoopersPlaying}}</p>
-      </div>
-      <div *ngIf="isLoggedIn">
-        <div *ngIf="loggedInMemberIsAmongParticipants;else checkinbutton">
-          <p>You are playing in this timeslot.</p>
-          <button class="btn btn-primary btn-sm" (click)="cancelCheckinMember()" type="submit">Cancel</button>
+<div [ngClass]="showTimeslotDetails ? 'open' : 'closed'" class="single-slot" 
+     [ngStyle]="{'transform': 'translateY(' + pixelsToTranslate +')'}">
+  <div class="participants text-center">
+    <ul class="timeslot-participants">
+      <li class="single-participant" *ngFor="let participant of participants">
+        <span><img src="{{participant.memberProfilePictureUrl}}" alt="{{participant.memberLoginName}}"></span>
+        <div class="participant-info-box">
+          <div class="box-content">
+            <span class="box-triangle"></span>
+            <img src="{{participant.memberProfilePictureUrl}}">
+            <span>{{participant.memberLoginName}}</span><br>
+            <span>{{participant.checkInDate | date: 'h:mm a'}}</span>
+          </div>
         </div>
-        <ng-template #checkinbutton class="share-button">
-          <button class="btn btn-primary btn-sm" (click)="checkinMemberToPlayground()" type="submit">Join</button>
-        </ng-template>
-      </div>
+      </li>
+      <li *ngIf="moreHoopersPlaying" class="extra-for-participants text">
+        <div class="mb-2">
+          <p class="extra-p">{{moreHoopersPlaying}}</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div *ngIf="isLoggedIn" class="extra-for-participants member">
+    <div *ngIf="loggedInMemberIsAmongParticipants;else checkinbutton">
+      <p class="mb-2 extra-p">You are playing.</p>
+      <a class="join-button" (click)="cancelCheckinMember()">Cancel <i class="fa fa-sign-out"></i></a>
     </div>
+    <ng-template #checkinbutton>
+      <a class="join-button" (click)="checkinMemberToPlayground()">Join <i class="fa fa-sign-in"></i></a>
+    </ng-template>
   </div>
 </div>

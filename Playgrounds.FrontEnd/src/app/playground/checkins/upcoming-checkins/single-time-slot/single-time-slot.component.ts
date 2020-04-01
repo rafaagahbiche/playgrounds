@@ -2,17 +2,21 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CheckInToDisplay, CheckIn } from 'src/app/_models/CheckIn';
 import { AuthService } from 'src/app/_services/auth.service';
 import { CheckinsService } from 'src/app/_services/checkins.service';
+import { fadeInAnimation } from 'src/app/_animations/fadeInAnimation';
+import { TimeslotSelectionService } from 'src/app/_services/timeslot-selection.service';
 
 @Component({
   selector: 'app-single-time-slot',
   templateUrl: './single-time-slot.component.html',
-  styleUrls: ['./single-time-slot.component.scss']
+  styleUrls: ['./single-time-slot.component.scss'],
+  animations: [fadeInAnimation]
 })
 export class SingleTimeSlotComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private checkinsService: CheckinsService) { }
+    private checkinsService: CheckinsService,
+    private timeslotSelectionService: TimeslotSelectionService) { }
 
   @Input() participants: CheckInToDisplay[];
   @Input() startsAt: Date;
@@ -20,27 +24,36 @@ export class SingleTimeSlotComponent implements OnInit {
   @Input() isLoggedIn: boolean;
   @Input() userName?: string;
   @Input() userPhotoUrl?: string;
+  @Input() timeslotIndex: number;
 
-  startsAtStr: string;
+  showTimeslotDetails: boolean;
   moreHoopersPlaying: string;
   loggedInMemberIsAmongParticipants: boolean;
+  pixelsToTranslate: string;
   
   ngOnInit() {
-    this.setTimeSlot();
-    this.setMoreHoopersPlaying();
-    this.setThreeParticipants();
-    this.isLoggedInMemberAmongParticipants();
-    this.reverseListOfParticipants();
-  }
+    this.timeslotSelectionService.currentTimeslotSelected.subscribe(timeslotSelected => {
+      this.showTimeslotDetails = timeslotSelected !== undefined 
+                              && timeslotSelected !== null
+                              && (new Date(this.startsAt).getTime()).toString() === timeslotSelected;
+    });
 
-  private setTimeSlot() {
-    var timeSlotStartsAt = new Date(this.startsAt);
-    this.startsAtStr = ('0' + timeSlotStartsAt.getHours()).slice(-2) + ':' + ('0' + timeSlotStartsAt.getMinutes()).slice(-2);
+    this.timeslotSelectionService.currentPixelsToTranslate.subscribe(pixelsToTranslate => {
+      this.pixelsToTranslate = pixelsToTranslate + 'px';
+    });
+
+    this.reverseListOfParticipants();
+    // this.setMoreHoopersPlaying();
+    // this.setThreeParticipants();
+    this.isLoggedInMemberAmongParticipants();
   }
 
   private setMoreHoopersPlaying() {
-    if (this.participants.length > 3) {
-      this.moreHoopersPlaying = '+' + (this.participants.length - 3) + ' more Hoopers are playing';
+    if (this.participants.length == 6) {
+      this.moreHoopersPlaying = '+1 more Hooper.';
+    }
+    if (this.participants.length > 6) {
+      this.moreHoopersPlaying = '+' + (this.participants.length - 5) + ' more Hoopers.';
     }
   }
 
@@ -54,8 +67,8 @@ export class SingleTimeSlotComponent implements OnInit {
   }
 
   private setThreeParticipants() {
-    if (this.participants.length > 3) {
-      this.participants.length = 3;
+    if (this.participants.length > 5) {
+      this.participants.length = 5;
     }
   }
 
@@ -77,8 +90,8 @@ export class SingleTimeSlotComponent implements OnInit {
         if (checkinToDisplay !== null && checkinToDisplay !== undefined) {
           this.loggedInMemberIsAmongParticipants = true;
           this.participants.unshift(checkinToDisplay);
-          this.setMoreHoopersPlaying();
-          this.setThreeParticipants();
+          // this.setMoreHoopersPlaying();
+          // this.setThreeParticipants();
         }
     });
   }
@@ -90,8 +103,8 @@ export class SingleTimeSlotComponent implements OnInit {
           // this.participants.unshift(checkInViewModel);
           this.loggedInMemberIsAmongParticipants = false;
           this.participants.shift();
-          this.setMoreHoopersPlaying();
-          this.setThreeParticipants();
+          // this.setMoreHoopersPlaying();
+          // this.setThreeParticipants();
     });
   }
 }

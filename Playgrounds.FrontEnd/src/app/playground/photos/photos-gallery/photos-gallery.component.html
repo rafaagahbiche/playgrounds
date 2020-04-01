@@ -8,18 +8,14 @@
   </div>
   <div *ngFor="let photo of playgroundPhotos" 
     class="photo-album-item-wrap col col-xl-3 col-lg-12 col-md-12 col-sm-3 col-12">
-    <div [@fadeInAnimation]="'in'" class="photo-album-item" data-mh="album-item" style="height: 458.172px;">
+    <div [@fadeInAnimation]="'in'" class="photo-album-item" data-mh="album-item" style="height: 400px;">
       <div class="photo-item">
         <img src="{{ photo.url }}" alt="photo" />
-        <div class="overlay"></div>
-        <a href="#" data-toggle="modal" data-target="#open-photo-popup-v1" class="  full-block"></a>
       </div>
-      <div class="content">
-        <a href="#" class="title h5">{{photo.description}}</a>
-        <span class="sub-title">Added: {{photo.created | date: 'short'}}</span>
-        <div class="swiper-container swiper-swiper-unique-id-1 initialized swiper-container-horizontal"
-          data-slide="fade" id="swiper-unique-id-1">
-        </div>
+      <div class="sub-title p-4">
+        <span class="title h5 mb-2">{{photo.description}}</span>
+        <span>Added by <strong>{{photo.memberLoginName}}</strong></span><br>
+        <span>on {{photo.created | date: 'MMM dd, y, h:mm a'}}</span>
       </div>
     </div>
   </div>

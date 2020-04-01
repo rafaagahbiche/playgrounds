@@ -2,12 +2,20 @@
 @import 'abstracts/variables';
 
 .main_menu {
+	height: 53px;
+	.menu-content {
+		background-color: #e68610;
+		box-shadow: 0px 1px 4px 1px rgba(0,0,0,0.3);
+		position: fixed;
+		width: 100%;
+		z-index: 1000;
+	}
 	.profile-img {
 		max-height: 40px;
 		display: inline;
 		border: solid 2px white;
 	}
-	.sub_header_social_icon{
+	.connection-icons {
 		@media #{$small_mobile}{
 			float: none !important;
 			text-align: center;
@@ -22,10 +30,10 @@
 		@media #{$medium_device}{
 		
 		}
-		a{
-			font-size: 14px;
-			color: #555555;
-			margin-left: 60px;
+		a {
+			font-size: 16px;
+			color: #fff;
+			margin-left: 40px;
 			display: inline-block;
 			@media #{$small_mobile}{
 				margin-left: 5px;
@@ -50,63 +58,120 @@
 				color: $btn_bg;
 			}
 		}
-		.register_icon{
+		.register {
 			border: 1px solid #e5e9ed;
-			padding: 9px 26px 9px 60px;
+			padding: 5px 26px 5px 26px;
 			border-radius: 50px;
-			position: relative;
-			i{
-				display: inline-block;
-				height: 40px;
-				width: 40px;
-				text-align: center;
-				line-height: 38px;
-				border: 1px solid #e5e9ed;
-				border-radius: 50%;
-				position: absolute;
-				left: -1px;
-				top: -1px;
-				@include transform_time(2s);
-			}
-			&:hover{
-				padding: 9px 60px 9px 26px;
+			&:hover {
 				background-color: $btn_bg;
 				color: $white-color;
-				i{
-					left: auto;
-					right: -14px;
-					top: -1px;
-					color: $white-color;
-				}
 			}
 		}
 	}
 	.navbar{
-		padding: 20px 0px;
+		margin: auto;
+		width: 60%;
 	}
-	border-top: 1px solid #eeeeee;
+	.nav-item {
+		padding: 5px 10px 5px 10px;
+		// background-color: $btn_bg;
+		&.active {
+			position: relative;
+			margin-bottom: -.5rem;
+			&:after {
+				content: "";
+				position: absolute;
+				border-bottom: 2.5px solid white;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+			}
+		}
+	}
 	ul {
 		li{
 			display: inline-block;
 			font-size: 14px;
 			text-transform: uppercase;
-			padding-right: 22px;
-			:hover{
-				color: $btn_bg !important;
-			}
 		}
 	}
+
 	.header_social_icon {
-		ul li{
-			padding-right: 13px;
-			a{
-				color: #c3c6c9;
-				&:hover{
-					color: $btn_bg;
+		.profile {
+			cursor: pointer;
+			.profile-name {
+				color: white;
+				font-size: 16px;
+			}
+		}
+
+		.profile-dropdown {
+			position: absolute;
+			min-width: 170px;
+			top: 60px;
+			right: 0;
+			z-index: 100;
+			.dropdown-content {
+				position: relative;
+				background-color: #fff;
+				box-shadow: 0 0 24px rgba(0,0,0,.2);
+				color: #333;
+				border-radius: 3px;
+				text-align: left;
+				padding: 4px 0;
+				margin: 8px 0;
+				.dropdown-triangle-top {
+					position: absolute;
+					top: -16px;
+					right: 90px;
+					&:before {
+						content: "";
+						position: absolute;
+						top: 0;
+						left: 0;
+						height: 0;
+						width: 0;
+						border: 9px solid transparent;
+						border-bottom-color: #e6e6e6;
+						margin-left: -1px;
+						margin-top: -2px;
+					}
+					&::after {
+						content: "";
+						position: absolute;
+						top: 0;
+						left: 0;
+						height: 0;
+						width: 0;
+						border: 8px solid transparent;
+						border-bottom-color: #fff;
+					}
+				}
+				
+				a {
+					max-width: 100%;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					position: relative;
+					padding: 12px 20px;
+					font-size: .82rem;
+					cursor: pointer;
+					display: -webkit-box;
+					display: -ms-flexbox;
+					display: flex;
+					-webkit-box-align: center;
+					-ms-flex-align: center;
+					align-items: center;
+					&:hover {
+						background-color: #f6f6f6;
+					}
 				}
 			}
 		}
 	}
+
+	
 	@media #{$small_mobile}{
 		.main_menu{
 			position: relative;
@@ -131,6 +196,9 @@
 		.nav-item {
 			padding: 5px 10px 5px 15px;
 			background-color: $btn_bg;
+			&.active {
+				border-bottom: 1px solid white;
+			}
 		}
 		.navbar-nav .nav-link:hover{
 			color: $white_color !important;
@@ -159,6 +227,9 @@
 		.nav-item {
 			padding: 5px 10px 5px 15px;
 			background-color: $btn_bg;
+			&.active {
+				border-bottom: 1px solid white;
+			}
 		}
 		.navbar-nav .nav-link:hover{
 			color: $white_color !important;
@@ -187,14 +258,16 @@
 		.nav-item {
 			padding: 5px 10px 5px 15px;
 			background-color: $btn_bg;
+			&.active {
+				border-bottom: 1px solid white;
+			}
 		}
 		.navbar-nav .nav-link:hover{
 			color: $white_color !important;
 		}
 	}
 	.navbar-light .navbar-nav .nav-link{
-		color: #2a2a2a;
-		font-weight: 300;
+		color: white;
 		font-family: $font_stack_1;
 	}
 }

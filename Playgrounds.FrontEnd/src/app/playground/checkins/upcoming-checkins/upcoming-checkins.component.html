@@ -1,19 +1,22 @@
-<div class="float-left w-100 mb-3 mt-3 pb-2">
-  <div class="schedule-title p-3 mt-2 text-right">
-    <p class="text-uppercase">HOOPERS</p>
+<div class="schedule mb-5 mt-3 pb-2">
+  <div class="schedule-title text-left">
     <p class="text-uppercase">TODAY</p>
   </div>
-  <app-single-time-slot *ngFor="let singleCheckinTimeslot of todaysCheckinsTimeSlots"
-    [participants]="singleCheckinTimeslot.checkins"
-    [startsAt]="singleCheckinTimeslot.startsAt"
-    [playgroundId]="playgroundId"
-    [isLoggedIn]="isLoggedIn"
-    [userName]="userName" 
-    [userPhotoUrl]="userPhotoUrl">
-  </app-single-time-slot>
-  <div class="single-slot">
-      <div class="schedule-box">
-          <div class="inner-box">{{endLastTimeslot}}</div>
-      </div>
+  <div class="tabs mt-3">
+    <app-timeslot-tab *ngFor="let singleCheckinTimeslot of todaysCheckinsTimeSlots; let i = index"
+      [tabIndex]="i+1"
+      [startsAt]="singleCheckinTimeslot.startsAt">
+    </app-timeslot-tab>
+  </div>
+  <div class="content">
+    <app-single-time-slot *ngFor="let singleCheckinTimeslot of todaysCheckinsTimeSlots; let i = index"
+      [timeslotIndex]="i+1"
+      [participants]="singleCheckinTimeslot.checkins"
+      [startsAt]="singleCheckinTimeslot.startsAt"
+      [playgroundId]="playgroundId"
+      [isLoggedIn]="isLoggedIn"
+      [userName]="userName"
+      [userPhotoUrl]="userPhotoUrl">
+    </app-single-time-slot>
   </div>
 </div>

@@ -17,7 +17,7 @@
 
 .profile-section {
   position: relative;
-  padding: 20px 0;
+  padding: 20px 0 0;
   z-index: 3;
 }
 .top-header-author {
@@ -66,15 +66,20 @@
   align-items: center;
   -ms-flex-pack: distribute;
   justify-content: space-around;
+ 
   li {
+    padding-bottom: 20px;
     div, a {
       font-size: 14px;
       font-weight: 700;
       color: #9a9fbf;
       display: block;
     }
-    a.active {
-      color: #515365;
+    &.active {
+      border-bottom: 2px solid #000;
+      a {
+        color: #000;
+      }
     }
   }
 }

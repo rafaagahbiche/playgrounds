@@ -41,6 +41,7 @@ import { ErrorInterceptorProvider } from './_services/error.interceptor';
 import { PlaygroundDetailResolver } from './_resolvers/playground-detail.resolver';
 import { PlaygroundListResolver } from './_resolvers/playground-list.resolver';
 import { PhotoEditorResolver } from './_resolvers/photo-editor.resolver';
+import { PlaygroundsComponent } from './playgrounds/playgrounds.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -60,10 +61,8 @@ export function tokenGetter() {
       PhotoUploaderComponent,
       PhotosManagerComponent,
       PhotoEditorComponent,
-      FooterComponent
-      // PlaygroundComponent,
-      // PlayersCheckinsComponent,
-      // PhotosGalleryComponent
+      FooterComponent,
+      PlaygroundsComponent
    ],
    imports: [
       BrowserModule,
@@ -74,7 +73,6 @@ export function tokenGetter() {
       NgxSpinnerModule,
       FileUploadModule,
       AutocompleteLibModule,
-      // BsDatepickerModule.forRoot(),
       TimepickerModule.forRoot(),
       TabsModule.forRoot(),
       RouterModule.forRoot(appRoutes),

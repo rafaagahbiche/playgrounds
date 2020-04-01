@@ -14,7 +14,7 @@
 .share-form {
     position: relative;
     textarea {
-        min-height: 160px;
+        min-height: 130px;
         border-radius: 0;
         border: none;
         padding: 1.5rem 1.1rem .2rem;
@@ -52,13 +52,15 @@
     }
 }
 
-.label-floating.with-icon {
-    border-left: 1px solid #e6ecf5;
-    // border-right: 1px solid #e6ecf5;
-    margin-bottom: 0;
-    position: relative;
+.label-floating {
+    &.with-icon {
+        border-left: 1px solid #e6ecf5;
+        border-top: 1px solid #e6ecf5;
+        border-right: 1px solid #e6ecf5;
+        margin-bottom: 0;
+        position: relative;
+    }
 }
-
 .control-label {
     color: #888da8;
     font-size: 14px;

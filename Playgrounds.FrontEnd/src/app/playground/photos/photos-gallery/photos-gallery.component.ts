@@ -13,8 +13,9 @@ import { fadeInAnimation } from 'src/app/_animations/fadeInAnimation';
 })
 export class PhotosGalleryComponent implements OnInit {
   playgroundId: number;
-  playgroundPhotos: Photo[];
+  playgroundPhotos: Photo[] = new Array<Photo>();
   errorWhenRetreivingPhotos: string;
+  
   constructor(
     private photosService: PhotosService,
     private route: ActivatedRoute,
@@ -30,6 +31,10 @@ export class PhotosGalleryComponent implements OnInit {
     setTimeout(() => {
       this.photosService.getPlaygroundPhotos(this.playgroundId).subscribe((response: Photo[]) => {
         this.spinner.hide('photos-gallery-spinner');
+        if (response === null || response === undefined) {
+          return;
+        }
+
         this.playgroundPhotos = response;
       },
       error => {

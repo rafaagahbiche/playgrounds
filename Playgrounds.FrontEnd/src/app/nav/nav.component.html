@@ -1,39 +1,45 @@
-<header class="header_area">
-  <div class="main_menu">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <nav class="navbar navbar-expand-lg navbar-light">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                  <a class="nav-link active" [routerLink]="['/home']">Home</a>
-                </li>
-                <li class="nav-item" *ngIf="isLoggedIn" routerLinkActive="active">
-                  <a class="nav-link" [routerLink]="['/member/photos-manager']">your gallery</a>
-                </li>
-              </ul>
-              <div class="sub_header_social_icon float-right" *ngIf="!isLoggedIn">
-                <a [routerLink]="['/register']" class="genric-btn default radius">Register</a>
-                <a class="nav-link" [routerLink]="['/login']">Login</a>
-              </div>
-              <div class="header_social_icon d-block" *ngIf="isLoggedIn">
-                <span class="mr-2">
-                  <img class="profile-img rounded-circle" src="{{photoUrl}}" alt="{{loggedInUserName}}">
-                </span>
-                <span class="mr-1">Welcome {{loggedInUserName}}</span>
-                <button class="btn btn-secondary ml-3 mr-3" (click)="logout()">
-                  <i class="fa fa-sign-out"></i> Logout
-                </button>
+<div class="main_menu">
+  <div class="menu-content">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item" routerLinkActive="active">
+              <a class="nav-link" [routerLink]="['/home']">Home</a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+              <a class="nav-link">Playgrounds</a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+              <a class="nav-link">Photos</a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+              <a class="nav-link">Hoopers</a>
+            </li>
+          </ul>
+          <div class="connection-icons float-right" *ngIf="!isLoggedIn">
+            <a [routerLink]="['/register']" class="register"><span>Register</span></a>
+            <a [routerLink]="['/login']" class="login nav-link"><span>Login</span></a>
+          </div>
+          <div class="header_social_icon d-block" *ngIf="isLoggedIn">
+            <a class="profile mr-2" (click)="switchDropdownDisplay()">
+              <img class="profile-img rounded-circle" src="{{photoUrl}}" alt="{{loggedInUserName}}">
+              <span class="profile-name ml-1">{{loggedInUserName}}</span>
+            </a>
+            <div class="profile-dropdown" *ngIf="showDropdown">
+              <div class="dropdown-content">
+                <span class="dropdown-triangle-top"></span>
+                <a>Profile</a>
+                <a>Checkins</a>
+                <a [routerLink]="['/member/photos-manager']">Photos</a>
+                <a (click)="logout()">Logout</a>
               </div>
             </div>
-          </nav>
+          </div>
         </div>
-      </div>
-    </div>
+      </nav>
   </div>
-</header>
+</div>

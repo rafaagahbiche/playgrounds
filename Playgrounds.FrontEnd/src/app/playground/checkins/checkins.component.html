@@ -11,9 +11,8 @@
         <img class="loading-ball w-100" src="../../../assets/loading-gif-orange-4.gif" />
       </ngx-spinner>
     </div>
-    <div *ngIf="isLoggedIn" class="open-checkin-paragraph float-left w-100 ui-block mb-3 mt-3 pb-2">
-      <p>Checkin <a (click)="openCheckinForm()">here</a> or join a future timeslot.</p>
-      <!-- <p>Checkin to Playground Name <a (click)="openCheckinForm()">here</a>.</p> -->
+    <div *ngIf="showTopMessage" class="open-checkin-paragraph w-100 mb-3 mt-3 pb-2">
+      <p>Checkin <a (click)="openCheckinForm()">here</a>.</p>
     </div>
     <app-checkin-form
       *ngIf="showCheckinForm"
@@ -28,8 +27,10 @@
       [userName]="userName"
       [userPhotoUrl]="userPhotoUrl"
       [playgroundId]="playgroundId"
-      [todaysCheckinsTimeSlots]="todaysCheckinsTimeSlots"
-      [endLastTimeslot]="endLastTimeslot">
+      [todaysCheckinsTimeSlots]="todaysCheckinsTimeSlots">
     </app-upcoming-checkins>
+    <div *ngIf="showBottomMessage" class="open-checkin-paragraph w-100 mb-3 mt-3 pb-2">
+      <p>No future timeslot is suitable for you? Checkin <a (click)="openCheckinForm()">here</a>.</p>
+    </div>
   </div>
 </div>

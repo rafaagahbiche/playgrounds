@@ -14,10 +14,8 @@ export class UpcomingCheckinsComponent implements OnInit {
   @Input() userName?: string;
   @Input() userPhotoUrl?: string;
   @Input() todaysCheckinsTimeSlots: CheckinsTimeslots[];
-  @Input() endLastTimeslot: string;
 
   ngOnInit() {
-    console.log(this.todaysCheckinsTimeSlots.length);
-    // this.getTodaysCheckinTimeslots();
+    
   }
 }

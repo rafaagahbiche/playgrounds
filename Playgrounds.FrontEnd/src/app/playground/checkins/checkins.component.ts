@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/_services/auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CheckinsService } from 'src/app/_services/checkins.service';
 import { CheckinsTimeslots } from 'src/app/_models/CheckIn';
+import { TimeslotSelectionService } from 'src/app/_services/timeslot-selection.service';
 
 @Component({
   selector: 'app-checkins',
@@ -16,15 +17,17 @@ export class CheckinsComponent implements OnInit {
   userPhotoUrl: string;
   playgroundId: number;
   isLoggedIn: boolean;
-  todaysCheckinsTimeSlots: CheckinsTimeslots[];
-  endLastTimeslot: string;
+  todaysCheckinsTimeSlots: CheckinsTimeslots[] = new Array<CheckinsTimeslots>();
   showCheckinForm: boolean;
+  showBottomMessage: boolean = false;
+  showTopMessage: boolean = false;
 
   constructor(
     private authService: AuthService,
     private checkinsService: CheckinsService,
     private route: ActivatedRoute,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,
+    private timeslotSelectionService: TimeslotSelectionService) { }
 
   ngOnInit() {
     this.playgroundId = this.route.snapshot.parent.params.id;
@@ -33,6 +36,7 @@ export class CheckinsComponent implements OnInit {
     this.authService.currentLoggedInStatus.subscribe(isLoggedIn => this.isLoggedIn = isLoggedIn);
     this.getTodaysCheckinTimeslots();
     this.showCheckinForm = false;
+    
   }
 
   private getTodaysCheckinTimeslots() {
@@ -41,22 +45,17 @@ export class CheckinsComponent implements OnInit {
     this.spinner.show('checkins-spinner');
     setTimeout(() => {
       this.checkinsService.getCheckinsSlotsAtPlaygroundByDate(this.playgroundId, todaysDateStr).subscribe((checkinsTimeSlots: CheckinsTimeslots[]) => {
-        if (checkinsTimeSlots !== undefined && checkinsTimeSlots !== null && checkinsTimeSlots.length > 0) {
+        if (checkinsTimeSlots !== undefined && checkinsTimeSlots !== null) {
           this.todaysCheckinsTimeSlots = checkinsTimeSlots;
-          this.setEndLastTimeslot();
+          this.timeslotSelectionService.setTimeslotSelection((new Date(this.todaysCheckinsTimeSlots[0].startsAt)).getTime().toString());
+          this.showBottomMessage = this.todaysCheckinsTimeSlots.length > 0 && this.isLoggedIn;
+          this.showTopMessage = this.isLoggedIn && this.todaysCheckinsTimeSlots.length === 0;
+        } else {
+          this.showTopMessage = this.isLoggedIn;
         }
         this.spinner.hide('checkins-spinner');
       });
     }, 3000);
-  }
-
-  private setEndLastTimeslot() {
-    if (this.todaysCheckinsTimeSlots.length > 0) {
-      var count = this.todaysCheckinsTimeSlots.length;
-      var lastSlot = this.todaysCheckinsTimeSlots[count -1];
-      var lastStart = new Date(lastSlot.startsAt);
-      this.endLastTimeslot = ('0' + (lastStart.getHours() + 2)).slice(-2) + ':' + ('0' +lastStart.getMinutes()).slice(-2);
-    }
   }
 
   openCheckinForm() {

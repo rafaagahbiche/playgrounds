@@ -4,28 +4,8 @@
 .blog_part{
     position: relative;
     z-index: 1;
-    &:after{
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        height: 46%;
-        content: "";
-        background-color: $section_bg;
-        z-index: -1;
-        @media #{$small_mobile}{
-
-        }
-        @media #{$large_mobile}{
-            height: 35%;
-        }
-        @media #{$tab_device}{
-            height: 35%;
-        }
-        @media #{$medium_device}{
-        
-        }
-    }
+    background-color: $section_bg;
+    
     .blog_right_sidebar .widget_title {
         font-size: 20px;
         margin-bottom: 40px;

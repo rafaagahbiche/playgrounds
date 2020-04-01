@@ -39,12 +39,23 @@ namespace PlaygroundsGallery.API
 
                         // Set 6 checkins today for Playground 15
                         var checkinsUpdated1 = CheckinUpdate.UpdateCheckinsByPlaygroundId(context, 15, 6);
+                        var checkinsUpdated3 = CheckinUpdate.UpdateCheckinsByPlaygroundId(context, 2, 10);
+                        var checkinsUpdated4 = CheckinUpdate.UpdateCheckinsByPlaygroundId(context, 3, 10);
+                        var checkinsUpdated5 = CheckinUpdate.UpdateCheckinsByPlaygroundId(context, 4, 10);
+                        var checkinsUpdated6 = CheckinUpdate.UpdateCheckinsByPlaygroundId(context, 5, 10);
 
                         // Set 7 checkins today for Playground 16
-                        var checkinsUpdated2 =  CheckinUpdate.UpdateCheckinsByPlaygroundId(context, 16, 7);
+                        var checkinsUpdated7 =  CheckinUpdate.UpdateCheckinsByPlaygroundId(context, 16, 7);
+                        var checkinsUpdated2 =  CheckinUpdate.UpdateCheckinsByPlaygroundId(context, 17, 7);
 
-                        if (locationsSeed || playgroundsSeed || profilePicturesSeed || checkinsUpdated1 || checkinsUpdated2)
-                        {
+                        if (locationsSeed || playgroundsSeed || profilePicturesSeed 
+                        || checkinsUpdated1 
+                        || checkinsUpdated3 
+                        || checkinsUpdated4 
+                        || checkinsUpdated5 
+                        || checkinsUpdated6 
+                        || checkinsUpdated7 
+                        || checkinsUpdated2) {
                             Log.Information("data base updated at start");
                             InitialSeed.SaveSeeds(context);
                         } 

@@ -11,12 +11,14 @@ export class NavComponent implements OnInit {
   loggedInUserName: string;
   isLoggedIn = false;
   photoUrl: string;
+  showDropdown: boolean;
 
   constructor(
     private authService: AuthService,
     private router: Router) { }
 
   ngOnInit(): void {
+    this.showDropdown = false;
     this.authService.currentMemberName.subscribe(memberName => this.loggedInUserName =  memberName);
     this.authService.currentLoggedInStatus.subscribe(isLoggedIn => this.isLoggedIn = isLoggedIn);
     this.authService.currentMemberPhotoUrl.subscribe(photoUrl => {
@@ -27,5 +29,9 @@ export class NavComponent implements OnInit {
   logout() {
     this.authService.logout();
     this.router.navigate(['/home']);
+  }
+
+  switchDropdownDisplay() {
+    this.showDropdown = !this.showDropdown;
   }
 }

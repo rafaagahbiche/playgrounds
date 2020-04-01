@@ -14,6 +14,7 @@ import { CheckinsComponent } from './checkins/checkins.component';
 import { PlayersCheckinsComponent } from './checkins/players-checkins/players-checkins.component';
 import { UpcomingCheckinsComponent } from './checkins/upcoming-checkins/upcoming-checkins.component';
 import { SingleTimeSlotComponent } from './checkins/upcoming-checkins/single-time-slot/single-time-slot.component';
+import { TimeslotTabComponent } from './checkins/upcoming-checkins/timeslot-tab/timeslot-tab.component';
 import { PlaygroundRoutingModule } from './playground-routing.module';
 
 import { BsDatepickerModule, TimepickerModule, TabsModule, ModalModule, BsModalRef  } from 'ngx-bootstrap';
@@ -33,6 +34,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     CheckinFormComponent,
     UpcomingCheckinsComponent,
     SingleTimeSlotComponent,
+    TimeslotTabComponent,
     PlayersCheckinsComponent
   ],
   imports: [

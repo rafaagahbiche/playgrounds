@@ -12,7 +12,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   })
 
   export class TimelineComponent implements OnInit {
-    timelinePosts: TimelinePost[];
+    timelinePosts: TimelinePost[] = new Array<TimelinePost>();
     userName: string;
     userPhotoUrl: string;
     playgroundId: number;
@@ -30,6 +30,10 @@ import { NgxSpinnerService } from 'ngx-spinner';
       setTimeout(() => {
         this.photoServce.getPlaygroundPosts(this.playgroundId).subscribe((posts: TimelinePost[]) => {
           this.spinner.hide('timeline-spinner');
+          if (posts === null || posts === undefined) {
+            return;
+          }
+
           this.timelinePosts = posts;
         });
       }, 3000);

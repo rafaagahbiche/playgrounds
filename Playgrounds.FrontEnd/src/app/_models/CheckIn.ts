@@ -16,4 +16,5 @@ export interface CheckInToDisplay {
 export interface CheckinsTimeslots {
     checkins: CheckInToDisplay[];
     startsAt: Date;
+    selected?: boolean;
 }

@@ -7,5 +7,6 @@ namespace Photos.Services.DTOs
         public string PlaygroundAddress { get; set; }
         public int PlaygroundLocationId { get; set; }
         public string PlaygroundLocationStr { get; set; }
+        public string MemberLoginName { get; set; }
     }
 }

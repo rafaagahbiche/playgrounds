@@ -53,7 +53,12 @@ namespace Photos.Services.Managers
 		
 		public async Task<IEnumerable<PhotoDto>> GetPhotosByPlayground(int playgroundId)
 			=> _mapper.Map<IEnumerable<PhotoDto>>(await _photoRepository.Find(
-				p => p.Deleted == false && p.PlaygroundId == playgroundId));
+				predicate : p => p.Deleted == false && p.PlaygroundId == playgroundId,
+				orderBy: q => q.OrderByDescending(p => p.Created), 
+				includeProperties: new Expression<Func<models.Photo, object>>[] {
+					p => p.Member
+				} 
+			));
 
 		public async Task<IEnumerable<PhotoAsPostDto>> GetPhotosAsPostByPlayground(int playgroundId)
 		{

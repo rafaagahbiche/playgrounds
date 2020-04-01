@@ -3,15 +3,17 @@
     <div class="row align-content-center">
       <div class="col-lg-7 col-xl-5">
         <div class="banner_text">
-          <h1><span>Playgrounds</span><br>
-            around the World</h1>
-          <p>Basketball is everywhere you go.
-            <br /> Join Hoopers to play Basketball in Playgrounds around the world.</p>
-          <div *ngIf="isLoggedIn == false">
-            <p>
-              <button class="genric-btn primary mr-5" type="submit" [routerLink]="['/register']">Register</button>
-              <button class="genric-btn info radius" type="submit" [routerLink]="['/login']">Log in</button>
-            </p>
+          <div class="mb-5">
+            <h1><span>Playgrounds</span><br>
+              around the World</h1>
+          </div>
+          <div class="mb-5">
+            <p>Basketball is everywhere you go.</p>
+            <br /> <p>Join Hoopers to play Basketball in Playgrounds around the world.</p>
+          </div>
+          <div class="connection-btn mt-3" *ngIf="isLoggedIn == false">
+            <button class="genric-btn primary mr-5" type="submit" [routerLink]="['/register']">Register</button>
+            <button class="genric-btn info radius" type="submit" [routerLink]="['/login']">Log in</button>
           </div>
         </div>
       </div>

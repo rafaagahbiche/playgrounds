@@ -10,10 +10,13 @@ import { AuthService } from 'src/app/_services/auth.service';
   styleUrls: ['./photo-uploader.component.scss']
 })
 export class PhotoUploaderComponent implements OnInit {
-  uploader: FileUploader;
   @Input() memberPhotos: Photo[];
+
+  uploader: FileUploader;
   hasBaseDropZoneOver = false;
-  constructor(private photosService: PhotosService, private authService: AuthService) { }
+  constructor(
+    private photosService: PhotosService, 
+    private authService: AuthService) { }
 
   ngOnInit() {
     this.initializeUploader();
@@ -37,6 +40,7 @@ export class PhotoUploaderComponent implements OnInit {
           playgroundId: res.playgroundId,
           created: res.created
         };
+
         this.memberPhotos.push(photo);
       }
     };

@@ -1,0 +1,45 @@
+.schedule-box {
+    cursor: pointer;
+    display: inline-block;
+    transition: transform 0.1s ease-out;
+    margin-bottom: 2.5rem;
+    &:hover {
+        transform: scale(1.2, 1.2);
+    }
+    .text {
+        position: relative;
+        background-color: #fff;
+        border: 2px solid;
+        border-left: none;
+        border-radius: 0 5px 5px 0;
+        color: #000;
+        display: inline-block;
+        margin-left: 55px;
+        margin-top: 13px;
+        padding: 4px 6px 4px 10px;
+        width: 80px;
+        z-index: 40;
+    }
+    &.selected {
+        transform: scale(1.2, 1.2);
+        .text {
+            background-color: #000;
+            color: #fff;
+        }
+    }
+    &:before {
+        content: '';
+        background-image: url('../../../../../assets/bw-basketball.png');
+        background-size: cover;
+        background-position: center;
+        border: 5px solid #fff;
+        border-radius: 50%;
+        color: #fff;
+        display: inline-block;
+        position: absolute;
+        // left: 0;
+        height: 60px;
+        width: 60px;
+        z-index: 50;
+    }
+}

@@ -10,8 +10,11 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class LocationsComponent implements OnInit {
 
-  constructor(private playgroundsService: PlaygroundsService, private route: ActivatedRoute) { }
   playgrounds: Playground[];
+
+  constructor(
+    private playgroundsService: PlaygroundsService, 
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.playgroundsService.getPlaygroundsByLocationId(2).subscribe((playgrounds: Playground[]) => {
