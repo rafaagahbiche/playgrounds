@@ -1,0 +1,76 @@
+@import 'abstracts/variables';
+
+.home-timeslots {
+    // background-color: #ffc107;
+    background-color: #f0eed4;
+    height: 780px;
+    .timeslots-container {
+        position: relative;
+        height: 100%;
+        &:before{
+            content:"";
+            background: url('../../../assets/banner_bg.png');
+            background-size: contain;
+            background-position: top;
+            background-repeat: no-repeat;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+        }
+        .timeslots-info {
+            width: 100%;
+            .today-timeslots {
+                position: absolute;
+                left: 10%;
+                margin-top: 4rem;
+                text-align: center;
+                .timeslots-prev{
+                    font-size: 50px;
+                    position: absolute;
+                    top: 0;
+                    left: -20%;
+                }
+                .timeslots-next{
+                    font-size: 50px;
+                    position: absolute;
+                    top: 0;
+                    right: -20%;
+                }
+            }
+            .weather {
+                position: absolute;
+                right: 10%;
+                text-align: center;
+                .weather-info {
+                    background-image: url(../../../assets/weather.png);
+                    background-repeat: no-repeat;
+                    background-position:0 47.05882%;
+                    height: 180px;
+                    width: 180px;
+                }
+            }
+        }
+        .home-playgrounds-timeslots {
+            display: inline-block;
+            width: 100%;
+            margin-top: 18rem;
+            .home-timeslot {
+                background-color: #fff;
+                display: inline-block;
+                margin-right: 2rem;
+                height: 260px;
+                width: 285px;
+                position: relative;
+            }
+        }
+    }
+}
+
+.btn-join {
+    border-radius: 29px;
+    border: 1px solid #fff;
+    background: #e68610;
+    color: #fff;
+    font-weight: 300;
+}
+

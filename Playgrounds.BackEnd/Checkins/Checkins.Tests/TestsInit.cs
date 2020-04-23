@@ -52,7 +52,6 @@ namespace Tests
             MockCheckinMapper.Setup(mapper => mapper.Map<CheckinDto>(It.IsAny<CheckIn>())).Returns((CheckIn checkinEntity) => {
                 return new CheckinDto(){
                     MemberLoginName = "new hooper in town",
-                    PlaygroundAddress = "new playground", 
                     CheckInDate = checkinEntity.CheckInDate
                 };
             });

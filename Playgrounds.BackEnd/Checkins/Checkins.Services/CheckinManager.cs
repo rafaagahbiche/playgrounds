@@ -1,53 +1,50 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
-using PlaygroundsGallery.DataEF.Models;
-using PlaygroundsGallery.DataEF.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using PlaygroundsGallery.DataEF;
 
 namespace Checkins.Services
 {
     public class CheckinManager : ICheckinManager
     {
-        private readonly IRepository<CheckIn> _checkInRepository;
+        private readonly GalleryContext _context;
 		private readonly IMapper _mapper;
+        private readonly ILogger<CheckinManager> _logger;        
+        
         public CheckinManager(
-            IRepository<CheckIn> checkInRepository,
-            IMapper mapper)
+            GalleryContext context,
+            IMapper mapper,
+            ILogger<CheckinManager> logger)
         {
-            this._checkInRepository = checkInRepository;
+            this._context = context;
             this._mapper = mapper;
+            this._logger = logger;
         }
 
         public async Task<IEnumerable<CheckinDto>> GetCheckInsByPlaygroundIdAsync(int playgroundId)
         {
-            return _mapper.Map<IEnumerable<CheckinDto>>(await _checkInRepository.Find(
-                predicate: c => c.PlaygroundId == playgroundId, 
-                includeProperties: new Expression<Func<CheckIn, object>>[] 
-                                    {
-                                        (c => c.Member), 
-                                        (c => c.Member.ProfilePictures), 
-                                        (c => c.Playground)
-                                    },
-                orderBy: q => q.OrderByDescending(c => c.CheckInDate)));
-        }
+            var checkinsDtos = Enumerable.Empty<CheckinDto>();
+            try
+            {
+                var checkinsEntities =  await _context.CheckIns
+                            .Include(ch => ch.Playground)
+                            .Include(ch => ch.Member)
+                            .ThenInclude(m => m.ProfilePictures)
+                            .OrderByDescending(ch => ch.CheckInDate)
+                            .ToListAsync();
 
-        public async Task<IEnumerable<CheckinDto>> GetCheckinsByPlaygroundIdByDateAsync(int playgroundId, DateTime dateTime)
-        {
-            return _mapper.Map<IEnumerable<CheckinDto>>(await _checkInRepository.Find(
-                predicate: c => c.PlaygroundId == playgroundId 
-                                && c.CheckInDate.Day == dateTime.Day
-                                && c.CheckInDate.Month == dateTime.Month
-                                && c.CheckInDate.Year == dateTime.Year, 
-                includeProperties: new Expression<Func<CheckIn, object>>[] 
-                                    {
-                                        (c => c.Member), 
-                                        (c => c.Member.ProfilePictures), 
-                                        (c => c.Playground)
-                                    },
-                orderBy: q => q.OrderByDescending(c => c.CheckInDate)));
+                checkinsDtos = _mapper.Map<IEnumerable<CheckinDto>>(checkinsEntities);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error occured while searching for checkins by playground id: {playgroundId}.");
+            }
+
+            return checkinsDtos;
         }
     }
 }

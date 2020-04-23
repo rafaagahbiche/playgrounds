@@ -1,15 +1,26 @@
 using System;
 using System.Linq;
-using PlaygroundsGallery.DataEF.Models;
-using PlaygroundsGallery.DataEF.Repositories;
 
 namespace PlaygroundsGallery.DataEF.Seed
 {
     public class CheckinUpdate
     {
-        public static bool UpdateCheckinsByPlaygroundId(GalleryContext context, int playgroundId, int checkinsCountToUpdate)
+        private static bool changesHaveBeenMade = false; 
+        public static bool UpdateTodayCheckins(GalleryContext context)
         {
-            var changesHaveBeenMade = false;
+            changesHaveBeenMade = changesHaveBeenMade || CheckinUpdate.UpdateCheckinsByPlaygroundId(context, 15, 6);
+            changesHaveBeenMade = changesHaveBeenMade || CheckinUpdate.UpdateCheckinsByPlaygroundId(context, 5, 10);
+            changesHaveBeenMade = changesHaveBeenMade || CheckinUpdate.UpdateCheckinsByPlaygroundId(context, 17, 7);
+            changesHaveBeenMade = changesHaveBeenMade || CheckinUpdate.UpdateCheckinsByPlaygroundId(context, 16, 7);
+            changesHaveBeenMade = changesHaveBeenMade || CheckinUpdate.UpdateCheckinsByPlaygroundId(context, 2, 10);
+            changesHaveBeenMade = changesHaveBeenMade || CheckinUpdate.UpdateCheckinsByPlaygroundId(context, 3, 10);
+            changesHaveBeenMade = changesHaveBeenMade || CheckinUpdate.UpdateCheckinsByPlaygroundId(context, 4, 10);
+
+            return changesHaveBeenMade;
+        }
+        private static bool UpdateCheckinsByPlaygroundId(GalleryContext context, int playgroundId, int checkinsCountToUpdate)
+        {
+            var checkinUpdated = false;
             if (context.CheckIns.Any())
             {
                 // var checkinsRepo = new Repository<CheckIn>(context);
@@ -37,11 +48,11 @@ namespace PlaygroundsGallery.DataEF.Seed
                         context.CheckIns.Update(checkin);
                     }
 
-                    changesHaveBeenMade = true;
+                    checkinUpdated = true;
                 }
             }
 
-            return changesHaveBeenMade;
+            return checkinUpdated;
         }
     }
 }

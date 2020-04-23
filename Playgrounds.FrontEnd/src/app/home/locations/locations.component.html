@@ -1,22 +1,19 @@
-<section class="blog_part section_padding">
+<section class="playgrounds-section">
   <div class="container">
       <div class="row justify-content-center">
-          <div class="col-xl-5">
-              <div class="section_tittle text-center">
-                  <h4>Play Basketball</h4>
-                  <h2>Playgrounds in Barcelona</h2>
-              </div>
+          <div class="col-xl-12 text-center title">
+            <h2>Playgrounds in Barcelona</h2>
           </div>
       </div>
       <div class="row">
           <div class="col-sm-6 col-lg-4 col-xl-6 mb-4" *ngFor="let playground of playgrounds">
-            <div *ngIf="playground.mainPhotoUrl" class="single-home-playground">
+            <div class="single-home-playground">
                 <a [routerLink]="['/playground/', playground.id]" >
                     <div class="single-home-playground-background-image" 
                     [ngStyle]="{'background-image': 'url(' + playground.mainPhotoUrl + ')'}"></div>
                     <div class="single-home-playground-text">
                         <div class="card-body1 text-left">
-                                <h2 class="card-title">{{playground.address}}</h2>
+                            <h3 class="card-title">{{playground.address}}</h3>
                             <span>Today 12 Hoopers are playing</span>
                         </div>
                     </div>

@@ -19,7 +19,10 @@ export class LocationsComponent implements OnInit {
   ngOnInit() {
     this.playgroundsService.getPlaygroundsByLocationId(2).subscribe((playgrounds: Playground[]) => {
       if (playgrounds) {
-        this.playgrounds = playgrounds;
+        this.playgrounds = playgrounds.filter(p => p.mainPhotoUrl !== null);
+        if (this.playgrounds.length > 4) {
+          this.playgrounds.length = 4;
+        }
       }
     });
   }

@@ -1,0 +1,34 @@
+<section class="home-timeslots pt-5">
+  <div class="timeslots-container container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-xl-12 text-center mb-3">
+          <h2>Upcoming Pickup Games in Barcelona</h2>
+        </div>
+    </div>
+    <div class="row">
+      <div class="timeslots-info">
+        <div class="today-timeslots d-inline-block">
+          <!-- <div class="timeslots-prev"><i class="fa fa-angle-left"></i></div> -->
+          <h1>Today</h1>
+          <!-- <h1>Mon</h1>
+          <h1>04 JUN</h1> -->
+          <div class="timeslots-next"><i class="fa fa-angle-right"></i></div>
+        </div>
+        <!-- <div class="weather">
+          <div><span>Cloudy</span></div>
+          <div class="weather-info"></div>
+        </div> -->
+      </div>
+      <div class="ml-4 home-playgrounds-timeslots">
+        <div class="home-timeslot" *ngFor="let playgroundTimeslots of locationTimeslots">
+          <app-playground-timeslots 
+          [playgroundId]="playgroundTimeslots.playgroundId" 
+          [playgroundAddress]="playgroundTimeslots.playgroundAddress" 
+          [playgroundPhotoUrl]="playgroundTimeslots.playgroundPhotoUrl" 
+            [playgroundTimeslots]="playgroundTimeslots.timeslots">            
+          </app-playground-timeslots>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

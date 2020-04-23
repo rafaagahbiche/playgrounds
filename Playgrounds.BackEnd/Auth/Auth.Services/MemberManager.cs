@@ -23,14 +23,12 @@ namespace Auth.Services
 
         public MemberManager(
             GalleryContext context,
-            // IRepository<Member> memberRepository,
             IPasswordManager passwordManager, 
             ITokenManager tokenManager,
             IMapper mapper,
             ILogger<MemberManager> logger)
         {
             this._context = context;
-            // this._memberRepository = memberRepository;
             this._passwordManager = passwordManager;
             this._tokenManager = tokenManager;
             this._mapper = mapper;

@@ -14,92 +14,116 @@ namespace PlaygroundsGallery.API
 {
     public class Program
     {
+        // private static IConfiguration _config;
+        private static GalleryContext _context;
+        private static bool setInitData()
+        {
+            var savechangesNeeded = false;
+            savechangesNeeded = savechangesNeeded 
+                    // || InitialSeed.SeedLocations(_context)
+                    // || InitialSeed.SeedPlaygrounds(_context)
+                    // || InitialSeed.SeedProfilePictures(_context)
+                    
+                    // Add new members with checkins to playground;
+                    // var membersSeed = new MembersSeedFromJsonData(context);
+                    // membersSeed.AddMembersFromJson("Data/Json/Barcelona/male-checkins2-members.data.json");
+                    // membersSeed.AddMembersFromJson("Data/Json/Barcelona/female-checkins2-members.data.json");
+
+                    // Set some checkins in today's schedule 
+                    || CheckinUpdate.UpdateTodayCheckins(_context);
+            return savechangesNeeded;
+        }
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                // .ConfigureAppConfiguration((hostingContext, config) =>
+                //     {
+                //         if (config != null) 
+                //         {
+                //             _config = config.Build();
+                //             config.AddAzureAppConfiguration(options => {
+                //                 options.ConfigureClientOptions(configOption => {
+                //                     configOption.
+                //                 })
+                //             });
+                //             // config.AddAzureAppConfiguration(_config["AzureLogAnalytics:workspaceId"]);
+                //             // config.AddAzureAppConfiguration(_config["AzureLogAnalytics:authenticationId"]);
+                //         }
+                //     })
+                .UseStartup<Startup>()
+                .UseSerilog();
+        
         public static void Main(string[] args)
         {
+            IWebHost host = null;
             try
             {
-                var config = GetConfiguration();
-                Log.Logger = CreateSerilogLogger(config);
-                var host = CreateWebHostBuilder(args).Build();
-                // Uncomment to create new database
-                using (var scope = host.Services.CreateScope())
-                {
-                    var services = scope.ServiceProvider;
-                    try
-                    {
-                        var context = services.GetRequiredService<GalleryContext>();
-                        context.CurrentDatabaseMigrate();
-                        var locationsSeed = InitialSeed.SeedLocations(context);
-                        var playgroundsSeed = InitialSeed.SeedPlaygrounds(context);
-                        var profilePicturesSeed = InitialSeed.SeedProfilePictures(context);
-                        // Add new members with checkins to playground;
-                        // var membersSeed = new MembersSeedFromJsonData(context);
-                        // membersSeed.AddMembersFromJson("Data/Json/Barcelona/male-checkins2-members.data.json");
-                        // membersSeed.AddMembersFromJson("Data/Json/Barcelona/female-checkins2-members.data.json");
-
-                        // Set 6 checkins today for Playground 15
-                        var checkinsUpdated1 = CheckinUpdate.UpdateCheckinsByPlaygroundId(context, 15, 6);
-                        var checkinsUpdated3 = CheckinUpdate.UpdateCheckinsByPlaygroundId(context, 2, 10);
-                        var checkinsUpdated4 = CheckinUpdate.UpdateCheckinsByPlaygroundId(context, 3, 10);
-                        var checkinsUpdated5 = CheckinUpdate.UpdateCheckinsByPlaygroundId(context, 4, 10);
-                        var checkinsUpdated6 = CheckinUpdate.UpdateCheckinsByPlaygroundId(context, 5, 10);
-
-                        // Set 7 checkins today for Playground 16
-                        var checkinsUpdated7 =  CheckinUpdate.UpdateCheckinsByPlaygroundId(context, 16, 7);
-                        var checkinsUpdated2 =  CheckinUpdate.UpdateCheckinsByPlaygroundId(context, 17, 7);
-
-                        if (locationsSeed || playgroundsSeed || profilePicturesSeed 
-                        || checkinsUpdated1 
-                        || checkinsUpdated3 
-                        || checkinsUpdated4 
-                        || checkinsUpdated5 
-                        || checkinsUpdated6 
-                        || checkinsUpdated7 
-                        || checkinsUpdated2) {
-                            Log.Information("data base updated at start");
-                            InitialSeed.SaveSeeds(context);
-                        } 
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Error(ex, "An error occuried during Migration");
-                    }
-                }
-
-                host.Run();
-            }
+                // var config = GetConfiguration();
+                host = CreateWebHostBuilder(args).Build();
+            }    
             catch (Exception ex)
             {
                 Log.Error(ex, ex.Message);
             }    
+
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    _context = services.GetRequiredService<GalleryContext>();
+                    _context.CurrentDatabaseMigrate();
+                    if (setInitData()) {
+                        Log.Information("data base updated at start");
+                        InitialSeed.SaveSeeds(_context);
+                    } 
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "An error occuried during Migration");
+                }
+            }
+
+            host.Run();
         }
         
-        private static Serilog.ILogger CreateSerilogLogger(IConfiguration configuration)
-        {
-            var logstashUrl = configuration["Serilog:LogstashgUrl"];
-            return new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .ReadFrom.Configuration(configuration)
-                .CreateLogger();
-        }
+        // private static Serilog.ILogger CreateSerilogLogger(IConfiguration configuration)
+        // {
+        //     var devLog = configuration["Serilog:LogstashgUrl"];
+        //     var workspaceIdValue = _config.GetSection("AzureLogAnalytics:workspaceId")?.Value;
+        //     var authenticationIdValue = _config.GetSection("AzureLogAnalytics:authenticationId")?.Value;
+        //     if (!string.IsNullOrEmpty(workspaceIdValue) && !string.IsNullOrEmpty(authenticationIdValue))
+        //     {
+        //         return new LoggerConfiguration()
+        //             .MinimumLevel.Debug()
+        //             .WriteTo.AzureAnalytics(
+        //                 workspaceId: workspaceIdValue,
+        //                 authenticationId: authenticationIdValue)
+        //             .ReadFrom.Configuration(_config)
+        //             .CreateLogger();
+        //     }
 
-        private static IConfiguration GetConfiguration()
-        {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddEnvironmentVariables();
+        //     return new LoggerConfiguration()
+        //         .MinimumLevel.Debug()
+        //         .ReadFrom.Configuration(_config)
+        //         .CreateLogger();
+        // }
 
-            var config = builder.Build();
+        // private static IConfiguration GetConfiguration()
+        // {
+        //     var builder = new ConfigurationBuilder()
+        //         .SetBasePath(Directory.GetCurrentDirectory())
+        //         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+        //         .AddEnvironmentVariables();
 
-            return builder.Build();
-        }
+        //     return builder.Build();
+        // }
         
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
-        {
-            return WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseSerilog();
-        }
+        // public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        // {
+        //     return WebHost.CreateDefaultBuilder(args)
+        //         .UseStartup<Startup>()
+        //         .UseSerilog();
+        // }
     }
 }

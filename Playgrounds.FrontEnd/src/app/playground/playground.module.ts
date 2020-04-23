@@ -10,10 +10,10 @@ import { CheckinFormComponent } from './checkins/checkin-form/checkin-form.compo
 import { TimelineFormsComponent } from './timeline/timeline-forms/timeline-forms.component';
 import { TimelinePostsComponent } from './timeline/timeline-posts/timeline-posts.component';
 import { ShareFormComponent } from './timeline/timeline-forms/share-form/share-form.component';
-import { CheckinsComponent } from './checkins/checkins.component';
+import { PlaygroundCheckinsComponent } from './checkins/checkins.component';
 import { PlayersCheckinsComponent } from './checkins/players-checkins/players-checkins.component';
 import { UpcomingCheckinsComponent } from './checkins/upcoming-checkins/upcoming-checkins.component';
-import { SingleTimeSlotComponent } from './checkins/upcoming-checkins/single-time-slot/single-time-slot.component';
+import { SingleTimeslotComponent } from './checkins/upcoming-checkins/single-timeslot/single-timeslot.component';
 import { TimeslotTabComponent } from './checkins/upcoming-checkins/timeslot-tab/timeslot-tab.component';
 import { PlaygroundRoutingModule } from './playground-routing.module';
 
@@ -30,10 +30,10 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     TimelineFormsComponent,
     TimelinePostsComponent,
     ShareFormComponent,
-    CheckinsComponent,
+    PlaygroundCheckinsComponent,
     CheckinFormComponent,
     UpcomingCheckinsComponent,
-    SingleTimeSlotComponent,
+    SingleTimeslotComponent,
     TimeslotTabComponent,
     PlayersCheckinsComponent
   ],

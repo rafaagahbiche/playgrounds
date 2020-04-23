@@ -1,37 +1,32 @@
-<section class="mt-5">
+<section>
   <div class="container">
-    <div class="row">
+    <div class="row mt-5 pt-3">
       <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-        <div class="">
-          <div class="top-header">
-            <!-- <div class="top-header-thumb">
-                <img src="{{playground.mainPhotoUrl}}" class="d-block w-100">
-            </div> -->
-            <div class="top-header-author pl-3 pr-3 mb-3">
-              <h1>{{ playground.address }}</h1>
-              <p>{{ playground.locationStr }}</p>
-            </div>
-            <div class="ui-block profile-section mt-3">
-              <div class="row">
-                <div class="col col-lg-12 col-md-12 col-sm-12 col-12">
-                  <ul class="profile-menu">
-                    <li routerLinkActive="active">
-                      <a [routerLink]="'timeline'">Timeline</a>
-                    </li>
-                    <li routerLinkActive="active">
-                      <a [routerLink]="'checkins'">Checkins</a>
-                    </li>
-                    <li routerLinkActive="active">
-                      <a>Hoopers</a>
-                    </li>
-                    <li routerLinkActive="active">
-                      <a [routerLink]="'photos'">Photos</a>
-                    </li>
-                    <li routerLinkActive="active">
-                      <a>Videos</a>
-                    </li>
-                  </ul>
-                </div>
+        <div class="top-header">
+          <div class="top-header-author p-3 mb-5">
+            <h1>{{ playground.address }}</h1>
+            <p>{{ playground.locationStr }}</p>
+          </div>
+          <div class="ui-block profile-section mt-3">
+            <div class="row">
+              <div class="col col-lg-12 col-md-12 col-sm-12 col-12">
+                <ul class="profile-menu">
+                  <li routerLinkActive="active">
+                    <a [routerLink]="'timeline'">Timeline</a>
+                  </li>
+                  <li routerLinkActive="active">
+                    <a [routerLink]="'checkins'">Checkins</a>
+                  </li>
+                  <li routerLinkActive="active">
+                    <a>Hoopers</a>
+                  </li>
+                  <li routerLinkActive="active">
+                    <a [routerLink]="'photos'">Photos</a>
+                  </li>
+                  <li routerLinkActive="active">
+                    <a>Videos</a>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>

@@ -22,18 +22,10 @@
 }
 .top-header-author {
   background-color: white;
-  // position: absolute;
-  // left: 50%;
-  // max-width: 300px;
-  // -webkit-transform: translate(-50%, 0);
-  // transform: translate(-50%, 0);
-  // top: 35px;
   text-align: center;
   z-index: 4;
   h1 {
-    font-size: 42px;
-    font-weight: 700;
-    color: #484848;
+    font-family: $font_Caladea;
     @media #{$small_mobile}{
       font-size: 35px;
     }

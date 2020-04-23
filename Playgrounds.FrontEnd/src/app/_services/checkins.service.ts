@@ -23,11 +23,15 @@ export class CheckinsService {
   }
 
   public getCheckinsSlotsAtPlaygroundByDate(playgroundId: number, dateTime: string) {
-    return this.http.get(this.checkinApiUrl + 'playgrounds/' + playgroundId + '/slots/' + dateTime);
+    return this.http.get(this.checkinApiUrl + 'playgrounds/' + playgroundId + '/timeslots/' + dateTime);
   }
 
   public getCheckinsAtPlaygroundBetweenTwoDate(playgroundId: number, startDateTime: Date, endDateTime: Date) {
     return this.http.get(this.checkinApiUrl + 'playgrounds/' + playgroundId + '/' + startDateTime + '/' + endDateTime);
+  }
+
+  public getCheckinsSlotsAtLocationByDate(locationId: number, dateTime: string) {
+    return this.http.get(this.checkinApiUrl + 'locations/' + locationId + '/timeslots/' + dateTime);
   }
 
   public checkInToPlayground(checkinModel: CheckIn, token: any) {

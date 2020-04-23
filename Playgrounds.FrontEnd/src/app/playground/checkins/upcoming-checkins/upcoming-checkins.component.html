@@ -9,14 +9,13 @@
     </app-timeslot-tab>
   </div>
   <div class="content">
-    <app-single-time-slot *ngFor="let singleCheckinTimeslot of todaysCheckinsTimeSlots; let i = index"
-      [timeslotIndex]="i+1"
+    <app-single-timeslot *ngFor="let singleCheckinTimeslot of todaysCheckinsTimeSlots"
       [participants]="singleCheckinTimeslot.checkins"
       [startsAt]="singleCheckinTimeslot.startsAt"
       [playgroundId]="playgroundId"
       [isLoggedIn]="isLoggedIn"
       [userName]="userName"
       [userPhotoUrl]="userPhotoUrl">
-    </app-single-time-slot>
+    </app-single-timeslot>
   </div>
 </div>

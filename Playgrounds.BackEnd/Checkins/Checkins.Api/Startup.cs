@@ -31,11 +31,10 @@ namespace Checkin.Api
             services.AddDbContext<GalleryContext>(
                 options => options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddScoped<IRepository<CheckIn>, Repository<CheckIn>>();
             services.AddScoped<ICheckinManager, CheckinManager>();
             services.AddScoped<ICheckinMember, CheckinMember>();
-            services.AddScoped<ICheckinSchedule, CheckinSchedule>();
-            services.AddScoped<IGalleryContext, GalleryContext>();
+            services.AddScoped<ILocationCheckinsSchedule, LocationCheckinsSchedule>();
+            services.AddScoped<IPlaygroundCheckinsSchedule, PlaygroundCheckinsSchedule>();
             services.AddCors();
         }
 

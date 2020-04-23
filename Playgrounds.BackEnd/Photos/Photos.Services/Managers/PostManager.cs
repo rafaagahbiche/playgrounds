@@ -1,40 +1,49 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
-using PlaygroundsGallery.DataEF.Repositories;
 using Photos.Services.DTOs;
-using models = PlaygroundsGallery.DataEF.Models;
 using Microsoft.Extensions.Logging;
+using PlaygroundsGallery.DataEF;
+using Microsoft.EntityFrameworkCore;
 
 namespace Photos.Services.Managers
 {
     public class PostManager : IPostManager
     {
-        private readonly IRepository<models.Photo> _photoRepository;
-        private readonly IMapper _mapper;
-
+        private readonly GalleryContext _context;
+		private readonly IMapper _mapper;
+        private readonly ILogger<PhotoMember> _logger;
         public PostManager(
-            IRepository<models.Photo> photoRepository,
-            IMapper mapper)
+            GalleryContext context,
+			IMapper mapper,
+            ILogger<PhotoMember> logger)
         {
-            this._photoRepository = photoRepository;
-            this._mapper = mapper;
+            this._context = context;
+			this._mapper = mapper;
+			this._logger = logger;
         }
 
         public async Task<IEnumerable<PhotoAsPostDto>> GetPhotosAsPostByPlayground(int playgroundId)
         {
-            return _mapper.Map<IEnumerable<PhotoAsPostDto>>(await _photoRepository.Find(
-				predicate: p => p.Deleted == false && p.PlaygroundId == playgroundId && p.Member != null,
-				orderBy: q => q.OrderByDescending(p => p.Created), 
-				includeProperties: new Expression<Func<models.Photo, object>>[] { 
-						(p => p.Member), 
-						(p => p.Member.ProfilePictures ) 
-					})
-				);
+            var photosAsPostDto = Enumerable.Empty<PhotoAsPostDto>();
+            try 
+            {
+                var photosEntities = await _context.Photos
+                        .Include(p => p.Member)
+                        .ThenInclude(m => m.ProfilePictures)
+                        .Where(p => p.Deleted == false && p.PlaygroundId == playgroundId && p.Member != null)
+                        .OrderByDescending(p => p.Created)
+                        .ToListAsync();
+                photosAsPostDto = _mapper.Map<IEnumerable<PhotoAsPostDto>>(photosEntities);
+            }
+            catch (Exception ex)
+            {
+                 _logger.LogError(ex, "Exception while searching for photos by playground id.");
+            }
+
+            return photosAsPostDto;
         }
 
         // public async Task<IEnumerable<CheckinAsPostDto>> GetCheckinsAsPostsByPlaygroundId(int playgroundId)

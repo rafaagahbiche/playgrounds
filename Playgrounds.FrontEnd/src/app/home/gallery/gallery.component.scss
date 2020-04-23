@@ -2,6 +2,9 @@
 @import 'abstracts/mixins';
 @import 'abstracts/variables';
 
+.title {
+    margin-bottom: 5rem;
+}
 .gallery_part{
     padding-top: 130px;
     @media #{$small_mobile}{

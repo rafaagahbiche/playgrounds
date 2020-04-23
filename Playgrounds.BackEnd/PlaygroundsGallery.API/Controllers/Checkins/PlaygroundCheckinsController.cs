@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace PlaygroundsGallery.API.Controllers
 {
     [Route("api/checkins/")]
-    public class CheckinsController: ControllerBase
+    public class PlaygroundCheckinsController: ControllerBase
     {
         private readonly ICheckinManager _checkinManager;
-        private readonly ICheckinSchedule _checkinSchedule;
+        private readonly IPlaygroundCheckinsSchedule _checkinSchedule;
 
-        public CheckinsController(ICheckinManager checkinManager, ICheckinSchedule checkinSchedule)
+        public PlaygroundCheckinsController(ICheckinManager checkinManager, IPlaygroundCheckinsSchedule checkinSchedule)
         {
             this._checkinManager = checkinManager;
             this._checkinSchedule = checkinSchedule;
@@ -48,8 +48,9 @@ namespace PlaygroundsGallery.API.Controllers
             }
         }
 
+
         [HttpGet]
-        [Route("playgrounds/{playgroundId}/slots/{dateTime}")]
+        [Route("playgrounds/{playgroundId}/timeslots/{dateTime}")]
         public async Task<IActionResult> CheckinsSlotsAtPlaygroundByDateAsync(int playgroundId, DateTime dateTime)
         {
             var timeSlots = await this._checkinSchedule.GetTimeSlotsAtPlaygroundByDateAsync(playgroundId, dateTime);

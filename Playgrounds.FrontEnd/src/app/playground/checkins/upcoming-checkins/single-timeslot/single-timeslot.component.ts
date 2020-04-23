@@ -6,12 +6,12 @@ import { fadeInAnimation } from 'src/app/_animations/fadeInAnimation';
 import { TimeslotSelectionService } from 'src/app/_services/timeslot-selection.service';
 
 @Component({
-  selector: 'app-single-time-slot',
-  templateUrl: './single-time-slot.component.html',
-  styleUrls: ['./single-time-slot.component.scss'],
+  selector: 'app-single-timeslot',
+  templateUrl: './single-timeslot.component.html',
+  styleUrls: ['./single-timeslot.component.scss'],
   animations: [fadeInAnimation]
 })
-export class SingleTimeSlotComponent implements OnInit {
+export class SingleTimeslotComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
@@ -24,7 +24,6 @@ export class SingleTimeSlotComponent implements OnInit {
   @Input() isLoggedIn: boolean;
   @Input() userName?: string;
   @Input() userPhotoUrl?: string;
-  @Input() timeslotIndex: number;
 
   showTimeslotDetails: boolean;
   moreHoopersPlaying: string;

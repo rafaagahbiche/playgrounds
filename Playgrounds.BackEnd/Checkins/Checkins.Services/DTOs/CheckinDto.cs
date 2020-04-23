@@ -8,6 +8,5 @@ namespace Checkins.Services
         public DateTime CheckInDate { get; set; }
         public string MemberLoginName { get; set; }
         public string MemberProfilePictureUrl { get; set; }
-        public string PlaygroundAddress { get; set; }
     }
 }

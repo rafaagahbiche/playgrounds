@@ -1,5 +1,5 @@
 @import '../../timeline/timeline.component.scss';
-@import '../../../../styles/abstracts/variables';
+@import 'abstracts/variables';
 
 .schedule {
     float: left;
@@ -22,7 +22,6 @@
     .content {
         background-color: #ffc107;
         border-radius: 5px;
-        border: 1px solid #fff;
         float: left;
         height: 400px;
         overflow: hidden;

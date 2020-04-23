@@ -1,0 +1,18 @@
+<div class="timeslot-content" [ngStyle]="{'background-image': 'url(' + playgroundPhotoUrl + ')'}">
+  <div class="timeslot-address text-center"><h4>{{playgroundAddress}}</h4></div>
+  <div class="timeslots-nav">
+    <div class="timeslots-prev" (click)="goLeft()"><i class="fa fa-angle-left"></i></div>
+    <a class="playground-timeslots-container" [routerLink]="['/playground/'+ playgroundId + '/checkins']" >
+      <div class="playground-timeslots-slider" [ngStyle]="{'left': pixelsToTranslate +'px'}">
+        <div class="playground-timeslots d-inline-block text-center" *ngFor="let timeslot of playgroundTimeslots">
+          <div class="timeslot-time text-center">
+            <h3>{{timeslot.startsAt | date: 'hh:mm a'}}</h3>
+          </div>
+          <app-timeslot-checkins [checkins]="timeslot.checkins"></app-timeslot-checkins>
+        </div>
+      </div>
+    </a>
+    <div class="timeslots-next" (click)="goRight()"><i class="fa fa-angle-right"></i></div>
+  </div>
+</div>
+

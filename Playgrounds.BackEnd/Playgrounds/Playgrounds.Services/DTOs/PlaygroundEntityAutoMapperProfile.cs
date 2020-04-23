@@ -13,6 +13,8 @@ namespace Playgrounds.Services
                 .ReverseMap();
 
              CreateMap<Location, LocationDto>();
+
+             CreateMap<Location, LocationDto>();
         }
     }
 }

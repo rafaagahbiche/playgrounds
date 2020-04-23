@@ -1,48 +1,58 @@
 using System;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PlaygroundsGallery.DataEF;
 using PlaygroundsGallery.DataEF.Models;
-using PlaygroundsGallery.DataEF.Repositories;
 
 namespace Checkins.Services
 {
     public class CheckinMember : ICheckinMember
     {
-        private readonly IRepository<CheckIn> _checkInRepository;
-        // private readonly IGalleryContext _context;
+        private readonly GalleryContext _context;
 		private readonly IMapper _mapper;
         private readonly ILogger<CheckinMember> _logger;
         public CheckinMember(
-            // IGalleryContext context,
-            IRepository<CheckIn> checkInRepository,
+            GalleryContext context,
             IMapper mapper,
             ILogger<CheckinMember> logger)
         {
-            this._checkInRepository = checkInRepository;
-            // this._context = context;
+            this._context = context;
             this._mapper = mapper;
             this._logger = logger;
         }
         
         public async Task<CheckinDto> GetCheckInById(int checkinId) 
-            => _mapper.Map<CheckinDto>(await _checkInRepository.Get(checkinId));        
+            => _mapper.Map<CheckinDto>(await _context.CheckIns.FindAsync(checkinId));        
         
         public async Task<bool> CancelCheckinToPlaygroundAsync(int checkinId)
         {
-            var checkin = await this._checkInRepository.Get(checkinId);
-            return await this._checkInRepository.Remove(checkin);
+            bool cancelSucceeded = false;
+            try
+            {
+                var checkin = await this._context.CheckIns.FindAsync(checkinId);
+                this._context.CheckIns.Remove(checkin);
+                cancelSucceeded = await _context.SaveChangesAsync() > 0;
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex, $"Error occurred when cancelling checkin id {checkinId}.");
+            }
+
+            return cancelSucceeded;
         }
 
         public async Task<CheckinDto> CheckinToPlaygroundAsync(CheckInForCreationDto checkInForCreation)
         {
+            CheckinDto checkinDto = null;
             var checkIn = _mapper.Map<CheckIn>(checkInForCreation);
             bool addSucceeded = false;
             try 
             {
-                addSucceeded = await _checkInRepository.Add(checkIn);
+                checkIn.Created = DateTime.UtcNow;
+                await _context.CheckIns.AddAsync(checkIn);
+                addSucceeded = await _context.SaveChangesAsync() > 0;
             }
             catch (Exception ex)
             {
@@ -52,20 +62,22 @@ namespace Checkins.Services
             // Eager load Member and Playground entities
             try
             {
-                checkIn = await _checkInRepository.SingleOrDefault(
-                    predicate: c => c.Id == checkIn.Id, 
-                    includeProperties: new Expression<Func<CheckIn, object>>[] {
-                        (c => c.Member), 
-                        (c => c.Member.ProfilePictures), 
-                        (c => c.Playground)
-                    });
+                if (addSucceeded)
+                {
+                    checkIn = await _context.CheckIns
+                                    .Include(c => c.Playground)
+                                    .Include(c => c.Member)
+                                    .ThenInclude(m => m.ProfilePictures)
+                                    .SingleOrDefaultAsync(c => c.Id == checkIn.Id);
+                    checkinDto = _mapper.Map<CheckinDto>(checkIn);
+                }
             }
             catch (Exception ex)
             {
                 this._logger.LogError(ex, "Error occurred when extracting the newly added checkin.");
             }
 
-            return _mapper.Map<CheckinDto>(checkIn);
+            return checkinDto;
         }
     }
 }

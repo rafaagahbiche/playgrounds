@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CheckInToDisplay, CheckinsTimeslots } from 'src/app/_models/CheckIn';
+import { Timeslot } from 'src/app/_models/CheckIn';
 
 @Component({
   selector: 'app-upcoming-checkins',
@@ -13,7 +13,7 @@ export class UpcomingCheckinsComponent implements OnInit {
   @Input() isLoggedIn: boolean;
   @Input() userName?: string;
   @Input() userPhotoUrl?: string;
-  @Input() todaysCheckinsTimeSlots: CheckinsTimeslots[];
+  @Input() todaysCheckinsTimeSlots: Timeslot[];
 
   ngOnInit() {
     

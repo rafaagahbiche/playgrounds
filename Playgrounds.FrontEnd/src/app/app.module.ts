@@ -25,6 +25,9 @@ import { RegisterComponent } from './register/register.component';
 // import { PlayersCheckinsComponent } from './playground/timeline/players-checkins/players-checkins.component';
 // import { PhotosGalleryComponent } from './playground/photos/photos-gallery/photos-gallery.component';
 import { LocationsComponent } from './home/locations/locations.component';
+import { LocationCheckinsComponent } from './home/location-checkins/location-checkins.component';
+import { HomePlaygroundTimeslotsComponent } from './home/location-checkins/playground-timeslots/playground-timeslots.component';
+import { HomePlaygroundTimeslotCheckinsComponent } from './home/location-checkins/playground-timeslots/timeslot-checkins/timeslot-checkins.component';
 
 import { GalleryComponent } from './home/gallery/gallery.component';
 import { SingleGalleryPhotoComponent } from './home/gallery/single-gallery-photo/single-gallery-photo.component';
@@ -56,6 +59,9 @@ export function tokenGetter() {
       HomeComponent,
       GalleryComponent,
       LocationsComponent,
+      LocationCheckinsComponent,
+      HomePlaygroundTimeslotsComponent,
+      HomePlaygroundTimeslotCheckinsComponent,
       SingleGalleryPhotoComponent,
       RegisterComponent,
       PhotoUploaderComponent,

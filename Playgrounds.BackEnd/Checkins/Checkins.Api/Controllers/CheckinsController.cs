@@ -14,11 +14,11 @@ namespace Checkins.Api.Controllers
     {
         private readonly ICheckinManager _checkinManager;
         private readonly ICheckinMember _checkinMember;
-        private readonly ICheckinSchedule _checkinSchedule;
+        private readonly IPlaygroundCheckinsSchedule _checkinSchedule;
         public CheckinsController(
             ICheckinManager checkinManager, 
             ICheckinMember checkinMember,
-            ICheckinSchedule checkinSchedule)
+            IPlaygroundCheckinsSchedule checkinSchedule)
         {
             this._checkinManager = checkinManager;
             this._checkinMember = checkinMember;
@@ -65,7 +65,7 @@ namespace Checkins.Api.Controllers
         [Route("playgrounds/{playgroundId}/{dateTime}")]
         public async Task<IActionResult> CheckinsAtPlaygroundByDateAsync(int playgroundId, DateTime dateTime)
         {
-            var playgroundCheckins = await this._checkinManager.GetCheckinsByPlaygroundIdByDateAsync(playgroundId, dateTime);
+            var playgroundCheckins = await this._checkinSchedule.GetCheckinsAtPlaygroundByDateAsync(playgroundId, dateTime);
             if (playgroundCheckins != null && playgroundCheckins.Any())
             {
                 return Ok(playgroundCheckins);

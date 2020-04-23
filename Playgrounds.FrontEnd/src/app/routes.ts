@@ -9,12 +9,14 @@ import { LocationsComponent } from './home/locations/locations.component';
 import { PlaygroundListResolver } from './_resolvers/playground-list.resolver';
 import { PhotoEditorComponent } from './member/photo-editor/photo-editor.component';
 import { PhotoEditorResolver } from './_resolvers/photo-editor.resolver';
+import { PlaygroundsComponent } from './playgrounds/playgrounds.component';
 
 export const appRoutes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'home', component: HomeComponent},
     { path: 'login', component: LoginComponent},
     { path: 'register', component: RegisterComponent},
+    { path: 'playgrounds', component: PlaygroundsComponent},
     { path: 'playground/:id',
             loadChildren: () => import('./playground/playground.module').then(m => m.PlaygroundModule),
             resolve: {playground: PlaygroundDetailResolver}

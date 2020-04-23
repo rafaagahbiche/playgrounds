@@ -6,8 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using PlaygroundsGallery.DataEF;
-using PlaygroundsGallery.DataEF.Models;
-using PlaygroundsGallery.DataEF.Repositories;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Net;
@@ -21,28 +19,25 @@ using Photos.Services.Managers;
 using Photos.Infrastructure.Uploader;
 using Auth.Infrastructure.PasswordStuff;
 using Auth.Services;
-using System;
+using Serilog;
 
 namespace PlaygroundsGallery.API
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            // _isDevelopment = env.IsDevelopment();
         }
-
-        public IConfiguration Configuration { get; }
-        // private readonly bool _isDevelopment;
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // var cloudinaryAccount = Configuration.GetSection("CloudinarySettings").Get<CloudinarySettings>();
+            Log.Logger = GetLoggerConfiguration();
             var tokenSecretKey = Configuration.GetSection("AppSettings:Token").Value;
             services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
 
-            // var envFolder = _isDevelopment ? "dev" : "prod";
             services.AddAutoMapper(
                 typeof(Startup), 
                 typeof(Photos.Services.DTOs.PhotoEntityAutoMapperProfile),
@@ -55,17 +50,16 @@ namespace PlaygroundsGallery.API
                     Configuration.GetConnectionString("DefaultConnection")));
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            
             services.AddScoped<IPhotoUploader, CloudinaryPhotoUploader>();
-            services.AddScoped<IRepository<Photo>, Repository<Photo>>();
-            // services.AddScoped<IRepository<Member>, Repository<Member>>();
-            services.AddScoped<IRepository<Playground>, Repository<Playground>>();
-            services.AddScoped<IRepository<Location>, Repository<Location>>();
-            services.AddScoped<IRepository<CheckIn>, Repository<CheckIn>>();
             services.AddScoped<IPhotoManager, PhotoManager>();
             services.AddScoped<IPhotoMember, PhotoMember>();
+
             services.AddScoped<ICheckinManager, CheckinManager>();
             services.AddScoped<ICheckinMember, CheckinMember>();
-            services.AddScoped<ICheckinSchedule, CheckinSchedule>();
+            services.AddScoped<ILocationCheckinsSchedule, LocationCheckinsSchedule>();
+            services.AddScoped<IPlaygroundCheckinsSchedule, PlaygroundCheckinsSchedule>();
+            
             services.AddScoped<IPlaygroundManager, PlaygroundManager>();
             services.AddScoped<IMemberManager, MemberManager>();
             services.AddScoped<IPasswordManager, PasswordManager>();
@@ -132,6 +126,27 @@ namespace PlaygroundsGallery.API
                     defaults: new  { controller = "Fallback", action = "Index"}
                 );
             });
+        }
+
+        private ILogger GetLoggerConfiguration() 
+        {
+            var workspaceIdValue = Configuration.GetSection("AzureLogAnalytics:workspaceId")?.Value;
+            var authenticationIdValue = Configuration.GetSection("AzureLogAnalytics:authenticationId")?.Value;
+            if (!string.IsNullOrEmpty(workspaceIdValue) && !string.IsNullOrEmpty(authenticationIdValue))
+            {
+                return new LoggerConfiguration()
+                    .MinimumLevel.Debug()
+                    .WriteTo.AzureAnalytics(
+                        workspaceId: workspaceIdValue,
+                        authenticationId: authenticationIdValue)
+                    .ReadFrom.Configuration(Configuration)
+                    .CreateLogger();
+            }
+
+            return new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .ReadFrom.Configuration(Configuration)
+                .CreateLogger();     
         }
     }
 }

@@ -3,38 +3,43 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Photos.Services.DTOs;
+using PlaygroundsGallery.DataEF;
 using PlaygroundsGallery.DataEF.Models;
-using PlaygroundsGallery.DataEF.Repositories;
 
 namespace Photos.Services.Managers
 {
     public class PhotoMember: IPhotoMember
     {
-		private readonly IRepository<Photo> _photoRepository;
+        private readonly GalleryContext _context;
 		private readonly IMapper _mapper;
         private readonly ILogger<PhotoMember> _logger;
 		public PhotoMember(
-			IRepository<Photo> photoRepository, 
+            GalleryContext context,
 			IMapper mapper,
             ILogger<PhotoMember> logger)
 		{
-			_photoRepository = photoRepository;
+            this._context = context;
 			_mapper = mapper;
 			_logger = logger;
 		}
         public async Task<PhotoInsertedDto> AddPhoto(PhotoToInsertDto photoToInsertDto)
         {
-			var photoToAdd = _mapper.Map<Photo>(photoToInsertDto);
+            PhotoInsertedDto photoInsertedDto = null;
 			try
 			{
-				await _photoRepository.Add(photoToAdd);
+                var photoToAdd = _mapper.Map<Photo>(photoToInsertDto);
+				await _context.Photos.AddAsync(photoToAdd);
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    photoInsertedDto = _mapper.Map<PhotoInsertedDto>(photoToAdd);
+                }
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError(ex, "Error occurred when adding a photo entity.");
 			}
 
-			return _mapper.Map<PhotoInsertedDto>(photoToAdd);
+			return photoInsertedDto;
         }
 
 		public async Task<bool> UpdatePhoto(PhotoToUpdateDto photoToUpdateDto)
@@ -43,7 +48,9 @@ namespace Photos.Services.Managers
             try
             {
                 var photoToUpdate = _mapper.Map<Photo>(photoToUpdateDto);
-                updateSucceeded = await _photoRepository.Update(photoToUpdate);
+                photoToUpdate.Updated = DateTime.UtcNow;
+                _context.Photos.Update(photoToUpdate);
+                updateSucceeded = await _context.SaveChangesAsync() > 0;
             }
             catch (Exception ex)
             {
@@ -58,7 +65,7 @@ namespace Photos.Services.Managers
 			bool deletionSucceeded = false;
             try
             {
-                var photoToDelete = await _photoRepository.Get(photoId);
+                var photoToDelete = _context.Photos.Find(photoId);
                 if (photoToDelete == null)
                 {
                     _logger.LogError($"Delete Photo: Photo with id {photoId} was not found.");
@@ -66,7 +73,9 @@ namespace Photos.Services.Managers
                 else
                 {
                     photoToDelete.Deleted = true;
-                    deletionSucceeded = await _photoRepository.Update(photoToDelete);				
+                    photoToDelete.Updated = DateTime.UtcNow;
+                    _context.Photos.Update(photoToDelete);				
+                    deletionSucceeded = await _context.SaveChangesAsync() > 0;
                 }
             }
             catch (Exception ex)
@@ -83,7 +92,7 @@ namespace Photos.Services.Managers
             var photoPublicId = string.Empty;
             try
             {
-                var photoToDelete = await _photoRepository.Get(photoId);
+                var photoToDelete = _context.Photos.Find(photoId);
                 if (photoToDelete == null)
                 {
                     _logger.LogError($"Delete Photo physically: Photo with id {photoId} was not found.");
@@ -91,7 +100,8 @@ namespace Photos.Services.Managers
                 else
                 {
                     photoPublicId = photoToDelete.PublicId;
-                    deletionSucceeded = await _photoRepository.Remove(photoToDelete);
+                    _context.Remove(photoToDelete);
+                    deletionSucceeded = await _context.SaveChangesAsync() > 0;
                 }
             }
             catch (Exception ex)

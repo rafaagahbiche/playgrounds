@@ -9,5 +9,6 @@ namespace Playgrounds.Services
         Task<IEnumerable<LocationDto>> GetAllLocations();
         Task<IEnumerable<PlaygroundDto>> GetAllPlaygroundsByLocation(int locationId);
         Task<PlaygroundDto> GetPlaygroundById(int playgroundId);
+        Task<PlaygroundDto> GetPlaygroundByAddress(string playgroundAddress);
     }
 }

@@ -1,49 +1,91 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Entity = PlaygroundsGallery.DataEF.Models;
-using PlaygroundsGallery.DataEF.Repositories;
 using System.Collections.Generic;
-using System.Linq.Expressions;
+using PlaygroundsGallery.DataEF;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Playgrounds.Services
 {
     public class PlaygroundManager : IPlaygroundManager
     {
-        private readonly IRepository<Entity.Playground> _playgroundRepository;
-		private readonly IRepository<Entity.Location> _locationRepository;
+        private readonly GalleryContext _context;
 		private readonly IMapper _mapper;
+        private readonly ILogger<PlaygroundManager> _logger;
 
         public PlaygroundManager(
-            IRepository<Entity.Playground> playgroundRepository,
-            IRepository<Entity.Location> locationRepository,
-            IMapper mapper)
+            GalleryContext context,
+            IMapper mapper,
+            ILogger<PlaygroundManager> logger)
         {
-            this._playgroundRepository = playgroundRepository;
-            this._locationRepository = locationRepository;
+            this._context = context;
             this._mapper = mapper;
+            this._logger = logger;
         }
 
         public async Task<IEnumerable<LocationDto>> GetAllLocations()
-            => _mapper.Map<IEnumerable<LocationDto>>(await _locationRepository.GetAll());
+            => _mapper.Map<IEnumerable<LocationDto>>(await _context.Playgrounds.ToListAsync());
         
 
         public async Task<IEnumerable<PlaygroundDto>> GetAllPlaygroundsByLocation(int locationId)
         {
-            var playgrounds = await _playgroundRepository
-                    .Find(predicate: p => p.LocationId == locationId, 
-                          includeProperties: new Expression<Func<Entity.Playground, object>>[]{ (p => p.Location), (p => p.Photos) });
+            var playgrounds = Enumerable.Empty<PlaygroundDto>();
+            try 
+            {
+                var playgroundEntities = await _context.Playgrounds
+                                    .Include(p => p.Location)
+                                    .Include(p => p.Photos)
+                                    .Where(p => p.LocationId == locationId)
+                                    .ToListAsync();
+                playgrounds = _mapper.Map<IEnumerable<PlaygroundDto>>(playgroundEntities);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception while searching for playgrounds by location id.");
+            }
             
-            return _mapper.Map<IEnumerable<PlaygroundDto>>(playgrounds);
+            return playgrounds;
         }
 
         public async Task<PlaygroundDto> GetPlaygroundById(int playgroundId) 
         {
-            var playground = await _playgroundRepository.SingleOrDefault(
-                                        predicate: p => p.Id == playgroundId, 
-                                        includeProperties: new Expression<Func<Entity.Playground, object>>[]
-                                                { (p => p.Location), (p => p.Photos) });
-            return _mapper.Map<PlaygroundDto>(playground);
+            PlaygroundDto playground = null;
+            try 
+            {
+                var playgroundEntity = await _context.Playgrounds
+                                    .Include(p => p.Location)
+                                    .Include(p => p.Photos)
+                                    .SingleOrDefaultAsync(p => p.Id == playgroundId);
+                playground = _mapper.Map<PlaygroundDto>(playgroundEntity);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception while searching for playgrounds by id.");
+            }
+
+            return playground;
+        }
+
+        public async Task<PlaygroundDto> GetPlaygroundByAddress(string playgroundAddress) 
+        {
+            PlaygroundDto playground = null;
+            try 
+            {
+                var playgroundEntity = await _context.Playgrounds
+                                .Include(p => p.Location)
+                                .Include(p => p.Photos)
+                                .SingleOrDefaultAsync(p => p.Address.Equals(playgroundAddress, StringComparison.CurrentCultureIgnoreCase)); 
+                                             
+                playground = _mapper.Map<PlaygroundDto>(playgroundEntity);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception while searching for playgrounds by id.");
+            }
+
+            return playground;
         }
     }
 }

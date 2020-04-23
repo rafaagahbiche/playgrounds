@@ -1,6 +1,8 @@
 @import '../../../styles/abstracts/variables';
 
 .open-checkin-paragraph {
+    display: inline-block;
+    text-align: center;
     p {
         color: black;
         font-size: 1.2rem;

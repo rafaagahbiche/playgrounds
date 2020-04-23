@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/_services/auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CheckinsService } from 'src/app/_services/checkins.service';
-import { CheckinsTimeslots } from 'src/app/_models/CheckIn';
+import { Timeslot } from 'src/app/_models/CheckIn';
 import { TimeslotSelectionService } from 'src/app/_services/timeslot-selection.service';
 
 @Component({
@@ -12,12 +12,12 @@ import { TimeslotSelectionService } from 'src/app/_services/timeslot-selection.s
   styleUrls: ['./checkins.component.scss']
 })
 
-export class CheckinsComponent implements OnInit {
+export class PlaygroundCheckinsComponent implements OnInit {
   userName: string;
   userPhotoUrl: string;
   playgroundId: number;
   isLoggedIn: boolean;
-  todaysCheckinsTimeSlots: CheckinsTimeslots[] = new Array<CheckinsTimeslots>();
+  todaysCheckinsTimeSlots: Timeslot[] = new Array<Timeslot>();
   showCheckinForm: boolean;
   showBottomMessage: boolean = false;
   showTopMessage: boolean = false;
@@ -44,7 +44,7 @@ export class CheckinsComponent implements OnInit {
     var todaysDateStr = todaysDate.getFullYear() + '-' + (1 + todaysDate.getMonth()) + '-' + todaysDate.getDate();
     this.spinner.show('checkins-spinner');
     setTimeout(() => {
-      this.checkinsService.getCheckinsSlotsAtPlaygroundByDate(this.playgroundId, todaysDateStr).subscribe((checkinsTimeSlots: CheckinsTimeslots[]) => {
+      this.checkinsService.getCheckinsSlotsAtPlaygroundByDate(this.playgroundId, todaysDateStr).subscribe((checkinsTimeSlots: Timeslot[]) => {
         if (checkinsTimeSlots !== undefined && checkinsTimeSlots !== null) {
           this.todaysCheckinsTimeSlots = checkinsTimeSlots;
           this.timeslotSelectionService.setTimeslotSelection((new Date(this.todaysCheckinsTimeSlots[0].startsAt)).getTime().toString());

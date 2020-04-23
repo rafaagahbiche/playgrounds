@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Playground } from '../_models/Playground';
+import { PlaygroundsService } from '../_services/playgrounds.service';
 
 @Component({
   selector: 'app-playgrounds',
@@ -6,10 +8,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./playgrounds.component.scss']
 })
 export class PlaygroundsComponent implements OnInit {
-
-  constructor() { }
+  playgrounds: Playground[] = new Array<Playground>();
+  constructor(private playgroundsService: PlaygroundsService) { }
 
   ngOnInit() {
+    this.playgroundsService.getPlaygroundsByLocationId(2).subscribe((playgrounds: Playground[]) => {
+      if (playgrounds !== null && playgrounds !== undefined) {
+        this.playgrounds = playgrounds.filter(p => p.mainPhotoUrl !== null);
+      }
+    });
   }
 
 }

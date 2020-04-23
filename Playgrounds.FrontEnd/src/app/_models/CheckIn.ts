@@ -10,11 +10,16 @@ export interface CheckInToDisplay {
     checkInDate: Date;
     memberLoginName?: string;
     memberProfilePictureUrl?: string;
-    playgroundAddress?: string;
 }
 
-export interface CheckinsTimeslots {
-    checkins: CheckInToDisplay[];
+export interface Timeslot {
     startsAt: Date;
-    selected?: boolean;
+    checkins: CheckInToDisplay[];
+}
+
+export interface PlaygroundTimeslots {
+    playgroundId: number;
+    playgroundAddress?: string;
+    playgroundPhotoUrl?: string;
+    timeslots: Timeslot[];
 }

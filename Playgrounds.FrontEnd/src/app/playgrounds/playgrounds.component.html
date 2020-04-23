@@ -1,3 +1,20 @@
-<p>
-  playgrounds works!
-</p>
+<section>
+  <div class="container">
+      <div class="playgrounds-title row m-5 pt-4 justify-content-center">
+        <h1>Playgrounds in Barcelona</h1>
+      </div>
+      <div  class="row mb-2">
+          <div class="single-playground col-sm-6 col-lg-4 col-xl-3" *ngFor="let playground of playgrounds">
+            <a [routerLink]="['/playground/', playground.id]" >
+                <div class="single-playground-background-image" 
+                [ngStyle]="{'background-image': 'url(' + playground.mainPhotoUrl + ')'}"></div>
+                <div class="single-playground-text">
+                    <div class="text-left pl-1 pt-1">
+                        <span class="playground-address">{{playground.address}}</span>
+                    </div>
+                </div>
+            </a>
+          </div>
+      </div>
+  </div>
+</section>
