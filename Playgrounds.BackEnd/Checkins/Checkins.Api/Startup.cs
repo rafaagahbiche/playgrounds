@@ -5,10 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Checkins.Services;
 using PlaygroundsGallery.DataEF;
-using PlaygroundsGallery.DataEF.Repositories;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using PlaygroundsGallery.DataEF.Models;
 
 namespace Checkin.Api
 {
@@ -31,10 +29,9 @@ namespace Checkin.Api
             services.AddDbContext<GalleryContext>(
                 options => options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddScoped<ICheckinManager, CheckinManager>();
-            services.AddScoped<ICheckinMember, CheckinMember>();
-            services.AddScoped<ILocationCheckinsSchedule, LocationCheckinsSchedule>();
-            services.AddScoped<IPlaygroundCheckinsSchedule, PlaygroundCheckinsSchedule>();
+            services.AddScoped<IMemberCheckinService, MemberCheckinService>();
+            services.AddScoped<ILocationCheckinService, LocationCheckinService>();
+            services.AddScoped<IPlaygroundCheckinService, PlaygroundCheckinService>();
             services.AddCors();
         }
 

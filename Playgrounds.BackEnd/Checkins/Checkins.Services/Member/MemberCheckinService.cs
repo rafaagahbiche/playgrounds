@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -8,15 +10,15 @@ using PlaygroundsGallery.DataEF.Models;
 
 namespace Checkins.Services
 {
-    public class CheckinMember : ICheckinMember
+    public class MemberCheckinService : IMemberCheckinService
     {
         private readonly GalleryContext _context;
 		private readonly IMapper _mapper;
-        private readonly ILogger<CheckinMember> _logger;
-        public CheckinMember(
+        private readonly ILogger<MemberCheckinService> _logger;
+        public MemberCheckinService(
             GalleryContext context,
             IMapper mapper,
-            ILogger<CheckinMember> logger)
+            ILogger<MemberCheckinService> logger)
         {
             this._context = context;
             this._mapper = mapper;

@@ -25,11 +25,11 @@ namespace Playgrounds.Services
             this._logger = logger;
         }
 
-        public async Task<IEnumerable<LocationDto>> GetAllLocations()
+        public async Task<IEnumerable<LocationDto>> GetAllLocationsAsync()
             => _mapper.Map<IEnumerable<LocationDto>>(await _context.Playgrounds.ToListAsync());
         
 
-        public async Task<IEnumerable<PlaygroundDto>> GetAllPlaygroundsByLocation(int locationId)
+        public async Task<IEnumerable<PlaygroundDto>> GetAllPlaygroundsByLocationIdAsync(int locationId)
         {
             var playgrounds = Enumerable.Empty<PlaygroundDto>();
             try 
@@ -49,7 +49,7 @@ namespace Playgrounds.Services
             return playgrounds;
         }
 
-        public async Task<PlaygroundDto> GetPlaygroundById(int playgroundId) 
+        public async Task<PlaygroundDto> GetPlaygroundByIdAsync(int playgroundId) 
         {
             PlaygroundDto playground = null;
             try 
@@ -68,7 +68,7 @@ namespace Playgrounds.Services
             return playground;
         }
 
-        public async Task<PlaygroundDto> GetPlaygroundByAddress(string playgroundAddress) 
+        public async Task<PlaygroundDto> GetPlaygroundByAddressAsync(string playgroundAddress) 
         {
             PlaygroundDto playground = null;
             try 

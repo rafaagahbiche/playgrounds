@@ -2,12 +2,9 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
 using Serilog;
-using Microsoft.Extensions.Logging;
 using PlaygroundsGallery.DataEF;
 using PlaygroundsGallery.DataEF.Seed;
-using System.IO;
 using Microsoft.Extensions.Hosting;
 
 namespace PlaygroundsGallery.API

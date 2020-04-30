@@ -10,16 +10,16 @@ using PlaygroundsGallery.DataEF.Models;
 
 namespace Checkins.Services
 {
-    public class LocationCheckinsSchedule : ILocationCheckinsSchedule
+    public class LocationCheckinService : ILocationCheckinService
     {
         private readonly GalleryContext _context;
 		private readonly IMapper _mapper;
-        private readonly ILogger<LocationCheckinsSchedule> _logger;
+        private readonly ILogger<LocationCheckinService> _logger;
 
-        public LocationCheckinsSchedule(
+        public LocationCheckinService(
             GalleryContext context,
             IMapper mapper,
-            ILogger<LocationCheckinsSchedule> logger)
+            ILogger<LocationCheckinService> logger)
         {
             this._context = context;
             this._mapper = mapper;

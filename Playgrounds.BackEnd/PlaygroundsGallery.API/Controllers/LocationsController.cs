@@ -20,7 +20,7 @@ namespace PlaygroundsGallery.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllLocation(int locationId)
         {
-            return Ok(await _playgroundManager.GetAllLocations());
+            return Ok(await _playgroundManager.GetAllLocationsAsync());
         }
     }
 }

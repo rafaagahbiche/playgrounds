@@ -12,15 +12,12 @@ namespace Checkins.Api.Controllers
     [ApiController]
     public class CheckinsController: ControllerBase
     {
-        private readonly ICheckinManager _checkinManager;
-        private readonly ICheckinMember _checkinMember;
-        private readonly IPlaygroundCheckinsSchedule _checkinSchedule;
+        private readonly MemberCheckinService _checkinMember;
+        private readonly IPlaygroundCheckinService _checkinSchedule;
         public CheckinsController(
-            ICheckinManager checkinManager, 
-            ICheckinMember checkinMember,
-            IPlaygroundCheckinsSchedule checkinSchedule)
+            MemberCheckinService checkinMember,
+            IPlaygroundCheckinService checkinSchedule)
         {
-            this._checkinManager = checkinManager;
             this._checkinMember = checkinMember;
             this._checkinSchedule = checkinSchedule;
         }

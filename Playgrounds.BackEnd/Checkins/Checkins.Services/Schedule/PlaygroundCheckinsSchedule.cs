@@ -9,22 +9,22 @@ using PlaygroundsGallery.DataEF;
 
 namespace Checkins.Services
 {
-    public class PlaygroundCheckinsSchedule : IPlaygroundCheckinsSchedule
+    public class PlaygroundCheckinService : IPlaygroundCheckinService
     {
         private readonly GalleryContext _context;
 		private readonly IMapper _mapper;
-        private readonly ILogger<PlaygroundCheckinsSchedule> _logger;
+        private readonly ILogger<PlaygroundCheckinService> _logger;
         
-        public PlaygroundCheckinsSchedule(
+        public PlaygroundCheckinService(
             GalleryContext context,
             IMapper mapper,
-            ILogger<PlaygroundCheckinsSchedule> logger)
+            ILogger<PlaygroundCheckinService> logger)
         {
             this._context = context;
             this._mapper = mapper;
             this._logger = logger;
         }
-        
+
         public async Task<IEnumerable<CheckinDto>> GetCheckinsAtPlaygroundByDateAsync(int playgroundId, DateTime dateTime)
         {
             var checkinsDtos = Enumerable.Empty<CheckinDto>();
@@ -120,6 +120,28 @@ namespace Checkins.Services
             {
                 _logger.LogError(ex, $"Exception while searching for checkins by playground id: {playgroundId} between date1 : {startDateTime} and date2: {endDateTime}.");
             }
+            return checkinsDtos;
+        }
+
+        public async Task<IEnumerable<CheckinDto>> GetCheckInsByPlaygroundIdAsync(int playgroundId)
+        {
+            var checkinsDtos = Enumerable.Empty<CheckinDto>();
+            try
+            {
+                var checkinsEntities =  await _context.CheckIns
+                            .Include(ch => ch.Playground)
+                            .Include(ch => ch.Member)
+                            .ThenInclude(m => m.ProfilePictures)
+                            .OrderByDescending(ch => ch.CheckInDate)
+                            .ToListAsync();
+
+                checkinsDtos = _mapper.Map<IEnumerable<CheckinDto>>(checkinsEntities);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error occured while searching for checkins by playground id: {playgroundId}.");
+            }
+
             return checkinsDtos;
         }
     }

@@ -6,9 +6,9 @@ namespace Playgrounds.Services
 {
     public interface IPlaygroundManager
     {
-        Task<IEnumerable<LocationDto>> GetAllLocations();
-        Task<IEnumerable<PlaygroundDto>> GetAllPlaygroundsByLocation(int locationId);
-        Task<PlaygroundDto> GetPlaygroundById(int playgroundId);
-        Task<PlaygroundDto> GetPlaygroundByAddress(string playgroundAddress);
+        Task<IEnumerable<LocationDto>> GetAllLocationsAsync();
+        Task<IEnumerable<PlaygroundDto>> GetAllPlaygroundsByLocationIdAsync(int locationId);
+        Task<PlaygroundDto> GetPlaygroundByIdAsync(int playgroundId);
+        Task<PlaygroundDto> GetPlaygroundByAddressAsync(string playgroundAddress);
     }
 }

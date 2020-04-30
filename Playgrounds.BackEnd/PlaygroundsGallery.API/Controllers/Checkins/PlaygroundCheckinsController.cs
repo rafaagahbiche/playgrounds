@@ -9,12 +9,10 @@ namespace PlaygroundsGallery.API.Controllers
     [Route("api/checkins/")]
     public class PlaygroundCheckinsController: ControllerBase
     {
-        private readonly ICheckinManager _checkinManager;
-        private readonly IPlaygroundCheckinsSchedule _checkinSchedule;
+        private readonly IPlaygroundCheckinService _checkinSchedule;
 
-        public PlaygroundCheckinsController(ICheckinManager checkinManager, IPlaygroundCheckinsSchedule checkinSchedule)
+        public PlaygroundCheckinsController(IPlaygroundCheckinService checkinSchedule)
         {
-            this._checkinManager = checkinManager;
             this._checkinSchedule = checkinSchedule;
         }
 
@@ -22,7 +20,7 @@ namespace PlaygroundsGallery.API.Controllers
         [Route("playgrounds/{playgroundId}")]
         public async Task<IActionResult> CheckInsAtPlayground(int playgroundId)
         {
-            var playgroundCheckins = await this._checkinManager.GetCheckInsByPlaygroundIdAsync(playgroundId);
+            var playgroundCheckins = await this._checkinSchedule.GetCheckInsByPlaygroundIdAsync(playgroundId);
             if (playgroundCheckins != null && playgroundCheckins.Any())
             {
                 return Ok(playgroundCheckins);

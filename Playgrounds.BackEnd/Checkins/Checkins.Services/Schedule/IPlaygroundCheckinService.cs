@@ -4,10 +4,11 @@ using System.Threading.Tasks;
 
 namespace Checkins.Services
 {
-    public interface IPlaygroundCheckinsSchedule
+    public interface IPlaygroundCheckinService
     {
         Task<IEnumerable<CheckinDto>> GetCheckinsAtPlaygroundByDateAsync(int playgroundId, DateTime dateTime);
         Task<IEnumerable<CheckinDto>> GetCheckinsAtPlaygroundBetweenTwoDatesAsync(int playgroundId, DateTime startDateTime, DateTime endDateTime);
         Task<IEnumerable<Timeslot>> GetTimeSlotsAtPlaygroundByDateAsync(int playgroundId, DateTime dateTime);
+         Task<IEnumerable<CheckinDto>> GetCheckInsByPlaygroundIdAsync(int playgroundId);
     }
 }

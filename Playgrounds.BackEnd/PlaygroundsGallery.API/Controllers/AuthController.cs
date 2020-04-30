@@ -45,7 +45,7 @@ namespace PlaygroundsGallery.API.Controllers
                 var loggedInMember = await _memberManager.Login(memberToLoginDto);
                 if (loggedInMember != null)
                 {
-                    return Ok(await _memberManager.Login(memberToLoginDto));
+                    return Ok(loggedInMember);
                 }
 
                 return BadRequest("Wrong Login/Password");

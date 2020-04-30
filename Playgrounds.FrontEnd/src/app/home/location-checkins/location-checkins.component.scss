@@ -1,12 +1,11 @@
 @import 'abstracts/variables';
 
 .home-timeslots {
-    // background-color: #ffc107;
     background-color: #f0eed4;
-    height: 780px;
     .timeslots-container {
         position: relative;
         height: 100%;
+        padding-bottom: 4rem;
         &:before{
             content:"";
             background: url('../../../assets/banner_bg.png');

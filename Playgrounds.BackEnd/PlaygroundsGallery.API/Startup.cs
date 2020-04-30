@@ -32,40 +32,37 @@ namespace PlaygroundsGallery.API
             Configuration = configuration;
         }
 
-        public void ConfigureServices(IServiceCollection services)
+        public virtual void ConfigAuth(IApplicationBuilder app)
         {
-            Log.Logger = GetLoggerConfiguration();
-            var tokenSecretKey = Configuration.GetSection("AppSettings:Token").Value;
-            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+            app.UseAuthentication();
+        }
 
-            services.AddAutoMapper(
-                typeof(Startup), 
-                typeof(Photos.Services.DTOs.PhotoEntityAutoMapperProfile),
-                typeof(Playgrounds.Services.PlaygroundEntityAutoMapperProfile),
-                typeof(Auth.Services.ManagerEntityAutoMapperProfile),
-                typeof(Checkins.Services.CheckinEntityAutoMapperProfile));
-            
-            services.AddDbContext<GalleryContext>(
-                options => options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            
+        public virtual void ConfigurePhotoService(IServiceCollection services)
+        {
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+            services.AddScoped<IThirdPartyStorageManager, ThirdPartyStorageManager>();
             services.AddScoped<IPhotoUploader, CloudinaryPhotoUploader>();
             services.AddScoped<IPhotoManager, PhotoManager>();
             services.AddScoped<IPhotoMember, PhotoMember>();
+        }
 
-            services.AddScoped<ICheckinManager, CheckinManager>();
-            services.AddScoped<ICheckinMember, CheckinMember>();
-            services.AddScoped<ILocationCheckinsSchedule, LocationCheckinsSchedule>();
-            services.AddScoped<IPlaygroundCheckinsSchedule, PlaygroundCheckinsSchedule>();
-            
+        public virtual void ConfigureCheckinService(IServiceCollection services)
+        {
+            services.AddScoped<IMemberCheckinService, MemberCheckinService>();
+            services.AddScoped<ILocationCheckinService, LocationCheckinService>();
+            services.AddScoped<IPlaygroundCheckinService, PlaygroundCheckinService>();
+        }
+        public virtual void ConfigurePlaygroundService(IServiceCollection services)
+        {
             services.AddScoped<IPlaygroundManager, PlaygroundManager>();
+        }
+
+        public virtual void ConfigureAuthService(IServiceCollection services)
+        {
             services.AddScoped<IMemberManager, MemberManager>();
             services.AddScoped<IPasswordManager, PasswordManager>();
-            services.AddScoped<IThirdPartyStorageManager, ThirdPartyStorageManager>();
+            var tokenSecretKey = Configuration.GetSection("AppSettings:Token").Value;
             services.AddScoped<ITokenManager, TokenCreator>(_ => new TokenCreator(tokenSecretKey));
-            services.AddScoped<IGalleryContext, GalleryContext>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {
                     options.TokenValidationParameters = new TokenValidationParameters
@@ -77,6 +74,7 @@ namespace PlaygroundsGallery.API
                         ValidateAudience = false
                     };
                 });
+                
                 // .AddGoogle(googleOptions =>  
                 //     {  
                 //         googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];  
@@ -87,6 +85,35 @@ namespace PlaygroundsGallery.API
                 //     twitterOptions.ConsumerKey = Configuration["Authentication:Twitter:ConsumerAPIKey"];
                 //     twitterOptions.ConsumerSecret = Configuration["Authentication:Twitter:ConsumerSecret"];
                 // })
+        }
+
+        private void ConfigureDbContextService(IServiceCollection services)
+        {
+            services.AddScoped<IGalleryContext, GalleryContext>();
+            services.AddDbContext<GalleryContext>(
+                options => options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+        }
+
+        private void ConfigureAutoMapper(IServiceCollection services)
+        {
+            services.AddAutoMapper(typeof(Startup),
+                typeof(Playgrounds.Services.PlaygroundEntityAutoMapperProfile),
+                typeof(Photos.Services.DTOs.PhotoEntityAutoMapperProfile),
+                typeof(Checkins.Services.CheckinEntityAutoMapperProfile),
+                typeof(Auth.Services.ManagerEntityAutoMapperProfile));
+        }
+
+        public virtual void ConfigureServices(IServiceCollection services)
+        {
+            SetLoggerConfiguration();
+            ConfigureAutoMapper(services);
+            ConfigureDbContextService(services);
+            ConfigurePhotoService(services);
+            ConfigureAuthService(services);
+            ConfigureCheckinService(services);
+            ConfigurePlaygroundService(services);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddCors();
         }
 
@@ -115,7 +142,7 @@ namespace PlaygroundsGallery.API
                 });
             // }
 
-            app.UseAuthentication();
+            ConfigAuth(app);
             app.UseHttpsRedirection();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseDefaultFiles();
@@ -128,13 +155,13 @@ namespace PlaygroundsGallery.API
             });
         }
 
-        private ILogger GetLoggerConfiguration() 
+        private void SetLoggerConfiguration() 
         {
             var workspaceIdValue = Configuration.GetSection("AzureLogAnalytics:workspaceId")?.Value;
             var authenticationIdValue = Configuration.GetSection("AzureLogAnalytics:authenticationId")?.Value;
             if (!string.IsNullOrEmpty(workspaceIdValue) && !string.IsNullOrEmpty(authenticationIdValue))
             {
-                return new LoggerConfiguration()
+                Log.Logger = new LoggerConfiguration()
                     .MinimumLevel.Debug()
                     .WriteTo.AzureAnalytics(
                         workspaceId: workspaceIdValue,
@@ -143,7 +170,7 @@ namespace PlaygroundsGallery.API
                     .CreateLogger();
             }
 
-            return new LoggerConfiguration()
+            Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .ReadFrom.Configuration(Configuration)
                 .CreateLogger();     

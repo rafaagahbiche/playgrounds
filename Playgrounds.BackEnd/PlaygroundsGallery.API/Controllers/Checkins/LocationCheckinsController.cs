@@ -9,9 +9,9 @@ namespace PlaygroundsGallery.API.Controllers.Checkins
     [Route("api/checkins/")]
     public class LocationCheckinsController: ControllerBase
     {
-        private readonly ILocationCheckinsSchedule _checkinSchedule;
+        private readonly ILocationCheckinService _checkinSchedule;
 
-        public LocationCheckinsController(ILocationCheckinsSchedule checkinSchedule)
+        public LocationCheckinsController(ILocationCheckinService checkinSchedule)
         {
             this._checkinSchedule = checkinSchedule;
         }

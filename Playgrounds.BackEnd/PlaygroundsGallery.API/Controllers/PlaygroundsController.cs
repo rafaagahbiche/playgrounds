@@ -21,13 +21,13 @@ namespace PlaygroundsGallery.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPlaygroundsByLocation(int locationId)
         {
-            return Ok(await _playgroundManager.GetAllPlaygroundsByLocation(locationId));
+            return Ok(await _playgroundManager.GetAllPlaygroundsByLocationIdAsync(locationId));
         }
 
         [HttpGet("{playgroundId}")]
         public async Task<IActionResult> GetPlaygroundById(int playgroundId)
         {
-            var playground = await _playgroundManager.GetPlaygroundById(playgroundId);
+            var playground = await _playgroundManager.GetPlaygroundByIdAsync(playgroundId);
             if (playground != null)
             {
                 return Ok(playground);
