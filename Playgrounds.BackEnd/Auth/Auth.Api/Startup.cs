@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using PlaygroundsGallery.DataEF;
-using PlaygroundsGallery.DataEF.Repositories;
 using Auth.Services;
-using PlaygroundsGallery.DataEF.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace PlaygroundsGallery.Identity.Api
@@ -34,7 +25,6 @@ namespace PlaygroundsGallery.Identity.Api
             services.AddDbContext<GalleryContext>(
                 options => options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddScoped<IRepository<Member>, Repository<Member>>();
             services.AddScoped<IMemberManager, MemberManager>();
             services.AddScoped<IGalleryContext, GalleryContext>();
             services.AddCors();

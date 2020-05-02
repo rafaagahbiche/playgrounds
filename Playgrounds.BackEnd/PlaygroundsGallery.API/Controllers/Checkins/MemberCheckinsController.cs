@@ -11,8 +11,8 @@ namespace PlaygroundsGallery.API.Controllers
     [ApiController]
     public class MemberCheckinsController: ControllerBase
     {
-        private readonly MemberCheckinService _checkinManager;
-        public MemberCheckinsController(MemberCheckinService checkinManager)
+        private readonly IMemberCheckinService _checkinManager;
+        public MemberCheckinsController(IMemberCheckinService checkinManager)
         {
             this._checkinManager = checkinManager;
         }

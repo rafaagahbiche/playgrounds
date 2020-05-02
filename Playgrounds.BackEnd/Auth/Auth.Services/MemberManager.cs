@@ -5,7 +5,6 @@ using AutoMapper;
 using Auth.Infrastructure.Exceptions;
 using Auth.Infrastructure.PasswordStuff;
 using PlaygroundsGallery.DataEF.Models;
-using PlaygroundsGallery.DataEF.Repositories;
 using Microsoft.Extensions.Logging;
 using PlaygroundsGallery.DataEF;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +14,6 @@ namespace Auth.Services
     public partial class MemberManager : IMemberManager
     {
         private readonly GalleryContext _context;
-        // private readonly IRepository<Member> _memberRepository;
         private readonly IPasswordManager _passwordManager;
 		private readonly ITokenManager _tokenManager;
 		private readonly IMapper _mapper;       
