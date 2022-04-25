@@ -14,3 +14,8 @@ http://playgrounds.azurewebsites.net/
 * * Angular CLI: 8.3.18
 * * Node: 12.13.0      
 * * Angular: 8.2.12
+
+install dotnet core from https://dotnet.microsoft.com/en-us/download/dotnet
+
+to run the backend use command
+dotnet run

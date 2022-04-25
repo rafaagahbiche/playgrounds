@@ -17,7 +17,7 @@ export class LocationsComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.playgroundsService.getPlaygroundsByLocationId(2).subscribe((playgrounds: Playground[]) => {
+    this.playgroundsService.getPlaygroundsByLocationId(8).subscribe((playgrounds: Playground[]) => {
       if (playgrounds) {
         this.playgrounds = playgrounds.filter(p => p.mainPhotoUrl !== null);
         if (this.playgrounds.length > 4) {

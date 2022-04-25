@@ -2,6 +2,7 @@ using Checkins.Services;
 using NUnit.Framework;
 using Moq;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PlaygroundsGallery.DataEF;
@@ -14,7 +15,6 @@ namespace Checkins.Tests
 {
     public class BasicUnitTests
     {
-        private MemberCheckinService checkinMemberManager;
         private DbContextOptions<GalleryContext> _dbContextOptions;
         private Mock<IMapper> mockCheckinMapper;
 
@@ -53,7 +53,6 @@ namespace Checkins.Tests
                                         });
                                     }
                                     return checkinDtos;
-                                    
                 });
                 
                 // Act
@@ -68,6 +67,7 @@ namespace Checkins.Tests
         public async Task CheckinToPlaygroundAsync_Success()
         {
             var mockLogger = new Mock<ILogger<MemberCheckinService>>();
+            MemberCheckinService checkinMemberManager;
             using (var context = new GalleryContext(_dbContextOptions))
             {
                 context.CheckIns.AddRange(CheckinsDumbData.GetCheckinsList());
@@ -93,6 +93,56 @@ namespace Checkins.Tests
 
             var checkinToReturnDto = await checkinMemberManager.GetCheckInById(1);
             Assert.NotNull(checkinToReturnDto);
+        }
+
+         [Test]
+        public async Task CheckinsToTimeslotsAsync_Success()
+        {
+            var mockLogger = new Mock<ILogger<PlaygroundCheckinService>>();
+            PlaygroundCheckinService playgroundCheckinService;
+            mockCheckinMapper.Setup(mapper => mapper.Map<CheckinDto>(It.IsAny<CheckIn>())).Returns((CheckIn checkinEntity) => {
+                return new CheckinDto(){
+                    Id = checkinEntity.Id,
+                    MemberLoginName = "new hooper in town",
+                    CheckInDate = checkinEntity.CheckInDate
+                };
+            });
+            using (var context = new GalleryContext(_dbContextOptions))
+            {
+                context.CheckIns.Add(new CheckIn(){
+                    Id = 1,
+                    CheckInDate = DateTime.Today,
+                    Member = new Member(){
+                        Id = 33,
+                        ProfilePictures = new List<ProfilePicture>()
+                    },
+                    MemberId = 33,
+                    PlaygroundId = 2
+                });
+                context.CheckIns.Add(new CheckIn(){
+                    Id = 2,
+                    CheckInDate = DateTime.Today.AddHours(1),
+                    Member = new Member(){
+                        Id = 11,
+                        ProfilePictures = new List<ProfilePicture>()
+                    },
+                    MemberId = 11,
+                    PlaygroundId = 2
+                });
+                context.SaveChanges();
+                playgroundCheckinService = new PlaygroundCheckinService(
+                    context, 
+                    mockCheckinMapper.Object,
+                    mockLogger.Object);
+
+                // Act
+                var timeslots = await playgroundCheckinService.GetTimeSlotsAtPlaygroundByDateAsync(2, DateTime.Today);
+                
+                // Assert
+                Assert.IsNotNull(timeslots);
+                Assert.IsNotEmpty(timeslots);
+                Assert.AreEqual(2, timeslots.Count());
+            }
         }
     }
 }

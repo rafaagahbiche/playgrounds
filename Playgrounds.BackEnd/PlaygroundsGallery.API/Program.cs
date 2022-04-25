@@ -6,6 +6,7 @@ using Serilog;
 using PlaygroundsGallery.DataEF;
 using PlaygroundsGallery.DataEF.Seed;
 using Microsoft.Extensions.Hosting;
+using PlaygroundsGallery.DataEF.SeedDataSource;
 
 namespace PlaygroundsGallery.API
 {
@@ -13,75 +14,64 @@ namespace PlaygroundsGallery.API
     {
         // private static IConfiguration _config;
         private static GalleryContext _context;
-        private static bool setInitData()
-        {
-            var savechangesNeeded = false;
-            savechangesNeeded = savechangesNeeded 
-                    // || InitialSeed.SeedLocations(_context)
-                    // || InitialSeed.SeedPlaygrounds(_context)
-                    // || InitialSeed.SeedProfilePictures(_context)
-                    
-                    // Add new members with checkins to playground;
-                    // var membersSeed = new MembersSeedFromJsonData(context);
-                    // membersSeed.AddMembersFromJson("Data/Json/Barcelona/male-checkins2-members.data.json");
-                    // membersSeed.AddMembersFromJson("Data/Json/Barcelona/female-checkins2-members.data.json");
 
-                    // Set some checkins in today's schedule 
-                    || CheckinUpdate.UpdateTodayCheckins(_context);
-            return savechangesNeeded;
-        }
-
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+        public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                // .ConfigureAppConfiguration((hostingContext, config) =>
-                //     {
-                //         if (config != null) 
-                //         {
-                //             _config = config.Build();
-                //             config.AddAzureAppConfiguration(options => {
-                //                 options.ConfigureClientOptions(configOption => {
-                //                     configOption.
-                //                 })
-                //             });
-                //             // config.AddAzureAppConfiguration(_config["AzureLogAnalytics:workspaceId"]);
-                //             // config.AddAzureAppConfiguration(_config["AzureLogAnalytics:authenticationId"]);
-                //         }
-                //     })
                 .UseStartup<Startup>()
-                .UseSerilog();
+                .UseSerilog()
+                .Build();
         
         public static void Main(string[] args)
         {
             IWebHost host = null;
             try
             {
-                // var config = GetConfiguration();
-                host = CreateWebHostBuilder(args).Build();
+                host = BuildWebHost(args);
             }    
             catch (Exception ex)
             {
                 Log.Error(ex, ex.Message);
             }    
 
-            using (var scope = host.Services.CreateScope())
+            if (host != null)
             {
-                var services = scope.ServiceProvider;
-                try
+                using (var scope = host.Services.CreateScope())
                 {
-                    _context = services.GetRequiredService<GalleryContext>();
-                    _context.CurrentDatabaseMigrate();
-                    if (setInitData()) {
-                        Log.Information("data base updated at start");
-                        InitialSeed.SaveSeeds(_context);
-                    } 
+                    var services = scope.ServiceProvider;
+                    try
+                    {
+                        _context = services.GetRequiredService<GalleryContext>();
+                        _context.CurrentDatabaseMigrate();
+                        // var locationSeed = new LocationSeed();
+                        // locationSeed.Seed(_context);
+                        // var playgroundsSeed = new PlaygroundSeed();
+                        // playgroundsSeed.Seed(_context);
+                        var membersSeed = new MembersSeedFromJsonData(_context);
+                        if (!membersSeed.HaveMembersBeenSeeded())
+                        {
+                            membersSeed.AddMembersFromJson("Data/Json/Barcelona/female-checkins2-members.data.json");
+                            membersSeed.AddMembersFromJson("Data/Json/Barcelona/male-checkins2-members.data.json");
+                        }
+                        
+                        var seeder = new CheckinSeed(_context);
+                        // seeder.AddNextweekCheckinsFromJsonFile("Data/Json/Barcelona/checkins-tomorrow.json");
+                        // if (seeder.SetCheckinsByLocationDatesAsToday(2, 65))
+                        // {
+                        //     Log.Information("Barcelona checkins updated to today");
+                        // }
+                        if (seeder.SetUpcomingCheckinsByLocation(8, 280, 3))
+                        {
+                            Log.Information("Barcelona checkins updated 3 upcoming days");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error(ex, "An error occuried during Migration");
+                    }
                 }
-                catch (Exception ex)
-                {
-                    Log.Error(ex, "An error occuried during Migration");
-                }
-            }
 
-            host.Run();
+                host.Run();
+            }
         }
         
         // private static Serilog.ILogger CreateSerilogLogger(IConfiguration configuration)

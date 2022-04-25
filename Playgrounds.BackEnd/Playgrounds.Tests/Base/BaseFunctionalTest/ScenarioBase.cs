@@ -30,11 +30,13 @@ namespace Playgrounds.FunctionalTests
                 })
                 .UseKestrel()
                 .UseEnvironment("Test")
+                
                 // .UseStartup<PlaygroundsTestStartup>();
                 .UseStartup<Startup>();
 
 
             var testServer = new TestServer(hostBuilder);
+            
             // testServer.Host
             //     .MigrateDbContext<GalleryContext>((context, services) =>
             //     {

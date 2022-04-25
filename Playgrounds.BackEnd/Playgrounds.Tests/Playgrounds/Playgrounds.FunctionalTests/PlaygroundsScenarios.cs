@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Auth.Services;
 using Newtonsoft.Json;
 using Xunit;
-using Playgrounds.FunctionalTests;
 
 namespace Playgrounds.FunctionalTests
 {

@@ -30,7 +30,11 @@ export class CheckinsService {
     return this.http.get(this.checkinApiUrl + 'playgrounds/' + playgroundId + '/' + startDateTime + '/' + endDateTime);
   }
 
-  public getCheckinsSlotsAtLocationByDate(locationId: number, dateTime: string) {
+  public getTimesolsByPlaygroundAtLocationByDate(locationId: number, dateTime: string) {
+    return this.http.get(this.checkinApiUrl + 'locations/' + locationId + '/timeslots-by-playground/' + dateTime);
+  }
+
+  public getTimeslotsAtLocationByDate(locationId: number, dateTime: string) {
     return this.http.get(this.checkinApiUrl + 'locations/' + locationId + '/timeslots/' + dateTime);
   }
 

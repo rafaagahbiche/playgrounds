@@ -1,0 +1,19 @@
+.timeslots-filters {
+    width: 20%;
+}
+
+.timeslots-results {
+    min-height: 500px;
+    .single-timeslot {
+        border-bottom: 1px solid #eaeaea;
+        &:hover {
+            background-color: #f4f2f2;
+        }
+        .timeslot-start-time {
+            height: 100%;
+            h4 {
+                font-weight: 300;
+            }
+        }
+    }
+}

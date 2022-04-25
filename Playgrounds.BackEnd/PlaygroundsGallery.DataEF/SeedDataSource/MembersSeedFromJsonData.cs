@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using PlaygroundsGallery.DataEF.Models;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace PlaygroundsGallery.DataEF.Seed
@@ -10,6 +11,11 @@ namespace PlaygroundsGallery.DataEF.Seed
         public MembersSeedFromJsonData(GalleryContext context)
         {
             _context = context;
+        }
+
+        public bool HaveMembersBeenSeeded()
+        {
+            return _context.Members.Any();
         }
 
         public void AddMembersFromJson(string jsonFilePath)

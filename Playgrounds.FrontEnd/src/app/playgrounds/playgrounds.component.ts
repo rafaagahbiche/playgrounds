@@ -12,7 +12,7 @@ export class PlaygroundsComponent implements OnInit {
   constructor(private playgroundsService: PlaygroundsService) { }
 
   ngOnInit() {
-    this.playgroundsService.getPlaygroundsByLocationId(2).subscribe((playgrounds: Playground[]) => {
+    this.playgroundsService.getPlaygroundsByLocationId(8).subscribe((playgrounds: Playground[]) => {
       if (playgrounds !== null && playgrounds !== undefined) {
         this.playgrounds = playgrounds.filter(p => p.mainPhotoUrl !== null);
       }

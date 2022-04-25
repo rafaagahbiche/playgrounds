@@ -15,11 +15,13 @@ export interface CheckInToDisplay {
 export interface Timeslot {
     startsAt: Date;
     checkins: CheckInToDisplay[];
+    playgroundId?: number;
+    playgroundAddress?: string;
 }
 
 export interface PlaygroundTimeslots {
     playgroundId: number;
+    timeslots: Timeslot[];
     playgroundAddress?: string;
     playgroundPhotoUrl?: string;
-    timeslots: Timeslot[];
 }

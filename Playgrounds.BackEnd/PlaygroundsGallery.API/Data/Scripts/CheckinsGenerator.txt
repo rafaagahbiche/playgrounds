@@ -1,0 +1,9 @@
+[
+    '{{repeat(70)}}',
+      {
+        MemberId:'{{integer(1036,1077)}}',
+        PlaygroundId: '{{random(4, 5, 15,16,17)}}',
+        CheckInDate:'{{date(new Date(), new Date(2020,4,5),"YYYY-MM-dd")}}T{{integer(10,20)}}:{{random("00", 15, 30, 45)}}',
+        Created: '{{new Date().toJSON()}}'
+      }
+]

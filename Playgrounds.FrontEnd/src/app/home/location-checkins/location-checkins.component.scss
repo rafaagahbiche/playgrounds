@@ -24,12 +24,14 @@
                 margin-top: 4rem;
                 text-align: center;
                 .timeslots-prev{
+                    cursor: pointer;
                     font-size: 50px;
                     position: absolute;
                     top: 0;
                     left: -20%;
                 }
                 .timeslots-next{
+                    cursor: pointer;
                     font-size: 50px;
                     position: absolute;
                     top: 0;
@@ -52,7 +54,7 @@
         .home-playgrounds-timeslots {
             display: inline-block;
             width: 100%;
-            margin-top: 18rem;
+            margin-top: 15rem;
             .home-timeslot {
                 background-color: #fff;
                 display: inline-block;
@@ -65,11 +67,14 @@
     }
 }
 
-.btn-join {
+.btn-more {
     border-radius: 29px;
     border: 1px solid #fff;
     background: #e68610;
     color: #fff;
-    font-weight: 300;
+    font-weight: 400;
+    font-size: 18px;
+    padding: .7rem;
+    position: relative;
 }
 

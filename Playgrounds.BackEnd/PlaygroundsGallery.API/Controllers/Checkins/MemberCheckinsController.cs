@@ -25,7 +25,7 @@ namespace PlaygroundsGallery.API.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> CancelCheckinAsync([FromBody]CheckInForCreationDto checkInForCreation)
+        public async Task<IActionResult> CheckinToPlaygroundAsync([FromBody]CheckInForCreationDto checkInForCreation)
         {
             if (checkInForCreation == null)
             {

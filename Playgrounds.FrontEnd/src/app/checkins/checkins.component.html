@@ -1,0 +1,40 @@
+<section>
+  <div class="container mt-4">
+    <div class="mt-5">
+      <h3>Pickup games in Barcelona</h3>
+    </div>
+    <form [formGroup]="searchForm" (ngSubmit)="searchCheckins()">
+      <div class="timeslots-filters mt-5">
+        <div class="checkin-date-selector input-group pr-1">
+          <input
+            type="text"
+            formControlName="checkinDate"
+            bsDatepicker
+            [bsConfig]="bsConfig" 
+            class="form-control"
+            placeholder="When are you going?"
+            onfocus="this.placeholder = ''"
+            onblur="this.placeholder = 'When are you going?'"
+            onchange=""/>
+        </div>
+        <div class="mt-5">
+          <h2>{{ dateValue | date: 'dd MMM'}}</h2>
+        </div>
+      </div>
+      <ul class="timeslots-results mt-5">
+        <li class="single-timeslot p-3" *ngFor="let timeslot of checkinsTimeslotsResult">
+          <div class="timeslot-start-time float-left mr-5">
+            <h4>{{timeslot.startsAt | date: 'hh:mm a'}}</h4>
+          </div>
+          <div class="d-inline-block">
+            <h5>{{timeslot.playgroundAddress}}</h5>
+            <p>{{timeslot.checkins.length}} hoopers are playing</p>
+          </div>
+          <div class="float-right">
+            <a class="btn btn-outline-secondary btn-sm" [routerLink]="['/playground/'+ timeslot.playgroundId + '/checkins']" >View</a>
+          </div>
+        </li>
+      </ul>
+    </form>
+  </div>
+</section>

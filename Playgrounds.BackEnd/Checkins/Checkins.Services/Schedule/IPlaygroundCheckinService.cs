@@ -9,6 +9,6 @@ namespace Checkins.Services
         Task<IEnumerable<CheckinDto>> GetCheckinsAtPlaygroundByDateAsync(int playgroundId, DateTime dateTime);
         Task<IEnumerable<CheckinDto>> GetCheckinsAtPlaygroundBetweenTwoDatesAsync(int playgroundId, DateTime startDateTime, DateTime endDateTime);
         Task<IEnumerable<Timeslot>> GetTimeSlotsAtPlaygroundByDateAsync(int playgroundId, DateTime dateTime);
-         Task<IEnumerable<CheckinDto>> GetCheckInsByPlaygroundIdAsync(int playgroundId);
+        Task<IEnumerable<CheckinDto>> GetCheckInsByPlaygroundIdAsync(int playgroundId);
     }
 }

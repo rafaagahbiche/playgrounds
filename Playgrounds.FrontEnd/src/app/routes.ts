@@ -10,6 +10,7 @@ import { PlaygroundListResolver } from './_resolvers/playground-list.resolver';
 import { PhotoEditorComponent } from './member/photo-editor/photo-editor.component';
 import { PhotoEditorResolver } from './_resolvers/photo-editor.resolver';
 import { PlaygroundsComponent } from './playgrounds/playgrounds.component';
+import { CheckinsComponent } from './checkins/checkins.component';
 
 export const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -17,6 +18,7 @@ export const appRoutes: Routes = [
     { path: 'login', component: LoginComponent},
     { path: 'register', component: RegisterComponent},
     { path: 'playgrounds', component: PlaygroundsComponent},
+    { path: 'checkins', component: CheckinsComponent},
     { path: 'playground/:id',
             loadChildren: () => import('./playground/playground.module').then(m => m.PlaygroundModule),
             resolve: {playground: PlaygroundDetailResolver}

@@ -9,6 +9,8 @@ namespace Checkins.Services
         public List<CheckinDto> Checkins { get; set; }
         public DateTime StartsAt { get; set; }
 
+        public int PlaygroundId { get; set; }
+        public string PlaygroundAddress { get; set; }
         public Timeslot()
         {
             this.Checkins = new List<CheckinDto>();

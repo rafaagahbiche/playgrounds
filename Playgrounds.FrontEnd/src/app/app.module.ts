@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
 import { RouterModule } from '@angular/router';
-import { TimepickerModule, TabsModule } from 'ngx-bootstrap';
+import { BsDatepickerModule, TimepickerModule, TabsModule } from 'ngx-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { FileUploadModule } from 'ng2-file-upload';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
@@ -45,6 +45,7 @@ import { PlaygroundDetailResolver } from './_resolvers/playground-detail.resolve
 import { PlaygroundListResolver } from './_resolvers/playground-list.resolver';
 import { PhotoEditorResolver } from './_resolvers/photo-editor.resolver';
 import { PlaygroundsComponent } from './playgrounds/playgrounds.component';
+import { CheckinsComponent } from './checkins/checkins.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -68,7 +69,8 @@ export function tokenGetter() {
       PhotosManagerComponent,
       PhotoEditorComponent,
       FooterComponent,
-      PlaygroundsComponent
+      PlaygroundsComponent,
+      CheckinsComponent
    ],
    imports: [
       BrowserModule,
@@ -79,6 +81,7 @@ export function tokenGetter() {
       NgxSpinnerModule,
       FileUploadModule,
       AutocompleteLibModule,
+      BsDatepickerModule.forRoot(),
       TimepickerModule.forRoot(),
       TabsModule.forRoot(),
       RouterModule.forRoot(appRoutes),
@@ -89,8 +92,8 @@ export function tokenGetter() {
             whitelistedDomains: [environment.apiUrl],
             blacklistedRoutes: [environment.apiUrl + 'auth']
          }}
-      )
-   ],
+   )  
+],
    providers: [
       AuthService,
       PhotosService,

@@ -17,10 +17,25 @@ namespace PlaygroundsGallery.API.Controllers.Checkins
         }
 
         [HttpGet]
-        [Route("locations/{locationId}/timeslots/{dateTime}")]
-        public async Task<IActionResult> CheckinsAtLocationByDateAsync(int locationId, DateTime dateTime)
+        [Route("locations/{locationId}/timeslots-by-playground/{dateTime}")]
+        public async Task<IActionResult> GetPlaygroundTimeslotsAtLocationByDateAsync(int locationId, DateTime dateTime)
         {
             var locationCheckins = await this._checkinSchedule.GetPlaygroundTimeslotsAtLocationByDateAsync(locationId, dateTime);
+            if (locationCheckins != null && locationCheckins.Any())
+            {
+                return Ok(locationCheckins);
+            }
+            else
+            {
+                return NoContent();
+            }
+        }
+
+        [HttpGet]
+        [Route("locations/{locationId}/timeslots/{dateTime}")]
+        public async Task<IActionResult> GetTimeslotsAtLocationByDateAsync(int locationId, DateTime dateTime)
+        {
+            var locationCheckins = await this._checkinSchedule.GetTimeSlotsAtLocationByDateAsync(locationId, dateTime);
             if (locationCheckins != null && locationCheckins.Any())
             {
                 return Ok(locationCheckins);
